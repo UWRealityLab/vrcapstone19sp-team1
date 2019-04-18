@@ -1,0 +1,59 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.js"></script>
+    </head>
+    <body>
+        <h1>EasyMath</h1>
+        <h2>Type math equations below</h2>
+        <div id="math-fields-wrapper">
+            <span class="math-fields" id="math-field0"></span>
+        </div>
+        <p>LaTeX of what you typed: <span id="latex"></span></p>
+        <button type="button" name="button" onclick="addNewEquation()">Add new equation</button>
+
+        <script>
+            var mathFieldSpan = document.getElementById('math-field0');
+            var allMathFieldsArr = document.getElementsByClassName('math-fields');
+            var latexSpan = document.getElementById('latex');
+
+            var MQ = MathQuill.getInterface(2); // for backcompat
+            var mathField = MQ.MathField(mathFieldSpan, {
+                spaceBehavesLikeTab: true, // configurable
+                handlers: {
+                edit: function() { // useful event handlers
+                  latexSpan.textContent = mathField.latex(); // simple API
+                }
+            }
+            });
+
+            function addNewEquation() {
+                var numTextboxes = document.getElementsByClassName('math-fields').length;
+                var idStr = "math-field" + numTextboxes;
+                var e = document.createElement('span');
+                e.setAttribute("id", idStr);
+                e.setAttribute("class", 'math-fields')
+                var allMathFieldsArr = document.getElementsByClassName('math-fields');
+
+                var container = document.getElementById('math-fields-wrapper');
+                container.appendChild(document.createElement('br'))
+                container.appendChild(document.createElement('br'))
+                container.appendChild(e);
+
+                var currTxtbox = document.getElementById(idStr);
+
+                var MQ = MathQuill.getInterface(2);
+                var mathField = MQ.MathField(currTxtbox, {
+                    spaceBehavesLikeTab: true, // configurable
+                    handlers: {
+                    edit: function() { // useful event handlers
+                      latexSpan.textContent = mathField.latex(); // simple API
+                        }
+                    }
+                });
+            }
+
+        </script>
+    </body>
+</html>
