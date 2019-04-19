@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    </head>
+    <body>
+        <h1>EasyMath</h1>
+        <h2>Type math equations below</h2>
+        <div id="math-fields-wrapper">
+            <input class="math-fields" type="text" name="eq1"><br>
+            <input class="math-fields" type="text" name="eq2"><br>
+            <input class="math-fields" type="text" name="eq3"><br>
+        </div>
+        <button type="button" name="button" onclick="updateEquationsServer()">Graph the Equations</button>
+
+        <script>
+            // NETWORKING
+            var socket = io.connect();
+            socket.on('equations', function (data) {
+              console.log("update received from server: " + data);
+
+              // update the frontend with the new equations
+              setTextEquations(data);
+            });
+
+            var allMathFieldsArr = document.getElementsByClassName('math-fields');
+            var equations = [];
+
+            // --- HELPERS ----
+            function getTextEquations() {
+                var numEquations = allMathFieldsArr.length;
+                for (var i = 0; i < numEquations; i++) {
+                    // init
+                    var currElement = allMathFieldsArr[i];
+                    equations[i] = currElement.value;
+                }
+            }
+
+            function setTextEquations(newEquations) {
+                getTextEquations();
+                var numEquations = newEquations.length;
+                for (var i = 0; i < numEquations; i++) {
+                    // init
+                    var currElement = allMathFieldsArr[i];
+                    currElement.value = newEquations[i];
+                }
+            }
+
+            function init() {
+                // equation
+                var numEquations = allMathFieldsArr.length;
+                for (var i = 0; i < numEquations; i++) {
+                    // init
+                    var currElement = allMathFieldsArr[i];
+                    equations.push(currElement.value);
+                }
+                console.log(equations)
+            }
+
+            function updateEquationsServer() {
+                getTextEquations();
+                console.log("sent to server: " + equations);
+                socket.emit('updateEquations', equations);
+            }
+
+            // --- MAIN ----
+            init();
+
+        </script>
+    </body>
+</html>
