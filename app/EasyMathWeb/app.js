@@ -25,16 +25,28 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'));
+app.get('/a', (req, res) => res.sendFile(__dirname + '/magicleap.html'));
+
+var equationsField = [];
 
 /// --------------------------
 /// SERVER <--> CLIENT WEBSITE
 io.on('connection', function (socket) {
-    socket.on('updateEquations', handleUpdatedEquations);
+    console.log("comnmnected");
+    socket.on('sphereEqs', msg => {
+        console.log("innnn");
+        handleUpdatedEquations(msg);
+    });
+    socket.on('cylinderEqs', msg => {
+        handleUpdatedEquations(msg);
+    });
 });
 
 // callback function when equations are updated on web
 function handleUpdatedEquations(equations) {
+    console.log("getting equations...");
     console.log(equations);
+    equationsField = equations;
 }
 
 function updateEquationsOnWebsite(equations) {
@@ -42,7 +54,13 @@ function updateEquationsOnWebsite(equations) {
 }
 
 // client posts to give server the updated equations
-app.post('/updateEquations', function (req, res) {
+app.post('/sphereEqs', function (req, res) {
+    console.log("hola1");
+    console.log(res);
+});
+
+app.post('/cylinderEqs', function (req, res) {
+    console.log("hola2");
     console.log(res);
 });
 
@@ -64,7 +82,7 @@ app.post('/makeChanges', function (req, res) {
 // TODO: Tanuj and Esteban will need to implement this to convert from equation --> mesh representation
 app.get('/displayEquation', function (req, res) {
     // sends an array of mesh representations
-    res.send(["mesh representation 1", "mesh representation 2"]);
+    res.send(equationsField);
 });
 
 // catch 404 and forward to error handler

@@ -189,43 +189,43 @@
     <None Include="Assets\MagicLeap\Examples\Models\Controller\Shaders\ControllerDepthMask.shader" />
     <None Include="Assets\MagicLeap\Examples\Documentation\ImageTracking.txt" />
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>C:/Users/vrteam1/EasyMath1/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>C:/Users/vrteam1/Desktop/vrcapstone19sp-team1/app/EasyMath1/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.XR.MagicLeap">
-      <HintPath>C:/Users/vrteam1/EasyMath1/Library/ScriptAssemblies/UnityEditor.XR.MagicLeap.dll</HintPath>
+      <HintPath>C:/Users/vrteam1/Desktop/vrcapstone19sp-team1/app/EasyMath1/Library/ScriptAssemblies/UnityEditor.XR.MagicLeap.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/vrteam1/EasyMath1/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/vrteam1/Desktop/vrcapstone19sp-team1/app/EasyMath1/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>C:/Users/vrteam1/EasyMath1/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>C:/Users/vrteam1/Desktop/vrcapstone19sp-team1/app/EasyMath1/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>C:/Users/vrteam1/EasyMath1/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>C:/Users/vrteam1/Desktop/vrcapstone19sp-team1/app/EasyMath1/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>C:/Users/vrteam1/EasyMath1/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>C:/Users/vrteam1/Desktop/vrcapstone19sp-team1/app/EasyMath1/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.XR.LegacyInputHelpers">
-      <HintPath>C:/Users/vrteam1/EasyMath1/Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
+      <HintPath>C:/Users/vrteam1/Desktop/vrcapstone19sp-team1/app/EasyMath1/Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.SpatialTracking">
-      <HintPath>C:/Users/vrteam1/EasyMath1/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>
+      <HintPath>C:/Users/vrteam1/Desktop/vrcapstone19sp-team1/app/EasyMath1/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SpatialTracking">
-      <HintPath>C:/Users/vrteam1/EasyMath1/Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll</HintPath>
+      <HintPath>C:/Users/vrteam1/Desktop/vrcapstone19sp-team1/app/EasyMath1/Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/vrteam1/EasyMath1/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/vrteam1/Desktop/vrcapstone19sp-team1/app/EasyMath1/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.DataPrivacy">
-      <HintPath>C:/Users/vrteam1/EasyMath1/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
+      <HintPath>C:/Users/vrteam1/Desktop/vrcapstone19sp-team1/app/EasyMath1/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.XR.LegacyInputHelpers">
-      <HintPath>C:/Users/vrteam1/EasyMath1/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
+      <HintPath>C:/Users/vrteam1/Desktop/vrcapstone19sp-team1/app/EasyMath1/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.XR.MagicLeap">
-      <HintPath>C:/Users/vrteam1/EasyMath1/Library/ScriptAssemblies/UnityEngine.XR.MagicLeap.dll</HintPath>
+      <HintPath>C:/Users/vrteam1/Desktop/vrcapstone19sp-team1/app/EasyMath1/Library/ScriptAssemblies/UnityEngine.XR.MagicLeap.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.1.0f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -411,25 +411,25 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.1.0f1/Editor/Data/PlaybackEngines/VuforiaSupport/Managed/Runtime/Vuforia.UnityExtensions.dll</HintPath>
     </Reference>
     <Reference Include="LuminMediaPlayer">
-      <HintPath>C:/Users/vrteam1/EasyMath1/Assets/MagicLeap/Libs/LuminMediaPlayer.dll</HintPath>
+      <HintPath>C:/Users/vrteam1/Desktop/vrcapstone19sp-team1/app/EasyMath1/Assets/MagicLeap/Libs/LuminMediaPlayer.dll</HintPath>
     </Reference>
     <Reference Include="LuminUnity">
-      <HintPath>C:/Users/vrteam1/EasyMath1/Assets/MagicLeap/Libs/LuminUnity.dll</HintPath>
+      <HintPath>C:/Users/vrteam1/Desktop/vrcapstone19sp-team1/app/EasyMath1/Assets/MagicLeap/Libs/LuminUnity.dll</HintPath>
     </Reference>
     <Reference Include="MSA.Runtime">
-      <HintPath>C:/Users/vrteam1/EasyMath1/Assets/MagicLeap/Soundfield/MSA.Runtime.dll</HintPath>
+      <HintPath>C:/Users/vrteam1/Desktop/vrcapstone19sp-team1/app/EasyMath1/Assets/MagicLeap/Soundfield/MSA.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
-      <HintPath>C:/Users/vrteam1/EasyMath1/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
+      <HintPath>C:/Users/vrteam1/Desktop/vrcapstone19sp-team1/app/EasyMath1/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
-      <HintPath>C:/Users/vrteam1/EasyMath1/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/vrteam1/Desktop/vrcapstone19sp-team1/app/EasyMath1/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
-      <HintPath>C:/Users/vrteam1/EasyMath1/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
+      <HintPath>C:/Users/vrteam1/Desktop/vrcapstone19sp-team1/app/EasyMath1/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Purchasing">
-      <HintPath>C:/Users/vrteam1/EasyMath1/Library/PackageCache/com.unity.purchasing@2.0.1/UnityEngine.Purchasing.dll</HintPath>
+      <HintPath>C:/Users/vrteam1/Desktop/vrcapstone19sp-team1/app/EasyMath1/Library/PackageCache/com.unity.purchasing@2.0.1/UnityEngine.Purchasing.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.1.0f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>

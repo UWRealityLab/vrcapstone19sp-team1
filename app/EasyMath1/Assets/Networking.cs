@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 using System.Net.Http;
 using System.Timers;
 
@@ -23,12 +23,14 @@ public class Networking : MonoBehaviour
 {
     // Network Configuration
     private static readonly HttpClient client = new HttpClient();
-    private static string ip = "10.19.146.155";
+    private static string ip = "localhost";
     private static string port = "3000";
     private static string address = "http://" + ip + ":" + port;
 
     // Timer
     private Timer aTimer;
+
+    private bool once = false;
 
     // Meshes
     private ArrayList meshes = new ArrayList();
@@ -55,10 +57,12 @@ public class Networking : MonoBehaviour
 
     private async void OnTimedEvent(object source, ElapsedEventArgs e)
     {
-        string equationsString = await client.GetStringAsync(address + "/displayEquation");
-        equationsString.Remove(0);
-        equationsString.Remove(equationsString.Length - 1);
-        string[] equations = equationsString.Split(',');
+        String equationsString = await client.GetStringAsync(address + "/displayEquation");
+        Debug.Log(equationsString);
+        equationsString = equationsString.Substring(1, equationsString.Length - 1);
+        String[] equations = equationsString.Split(',');
+        Debug.Log(equations[0]);
+        GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         // TODO: Compare equations with stored equations to decide if we need to re-render
     }
 
@@ -68,10 +72,12 @@ public class Networking : MonoBehaviour
     // 2. Send the adjustments back
     private async void sendMeshes()
     {
+        // TODO: later for interactions
     }
 
     private async void sendAdustments()
     {
+        // TODO: later for interactions
     }
 
     private void OnApplicationQuit()
