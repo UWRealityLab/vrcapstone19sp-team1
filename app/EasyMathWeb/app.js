@@ -32,21 +32,93 @@ var equationsField = [];
 /// --------------------------
 /// SERVER <--> CLIENT WEBSITE
 io.on('connection', function (socket) {
-    console.log("comnmnected");
+    console.log("comnmnected" + socket.id);
     socket.on('sphereEqs', msg => {
         console.log("innnn");
-        handleUpdatedEquations(msg);
+        handleUpdatedEquations(socket, msg);
     });
     socket.on('cylinderEqs', msg => {
-        handleUpdatedEquations(msg);
+        handleUpdatedEquations(socket, msg);
     });
 });
 
 // callback function when equations are updated on web
-function handleUpdatedEquations(equations) {
+function handleUpdatedEquations(socket, equations) {
     console.log("getting equations...");
+    var type = equations[0];
+
+    if (type == 'sphere') {
+        // generate ml-model html for sphere
+        if (equations.length != 5) {
+            console.log("something went wrong with representation of sphere");
+            return;
+        }
+
+        if (!(equations[1] == equations[2] && equations[2] == equations[3])) {
+            console.log("not a valid sphere equation");
+            return;
+        }
+        r = parseFloat(equations[4]);
+        var r_squared = Math.pow(r, 2);
+        var radius = Math.sqrt(r_squared / equations[1]);
+        var radiusMLSize = convertToMLSize(radius);
+
+        var htmlObj = {
+            src: 'sphere.16.fbx',
+            style: 'width: ' + radiusMLSize + 'px; ' + 'height: ' + radiusMLSize + 'px;',
+            "z-offset": '1200px',
+            "model-scale": '1, 1, 1'
+        }
+
+        html = createHTML(htmlObj);
+        console.log(html);
+        io.sockets.emit('equationsML', html);
+    } else if (type == 'cylinder') {
+        // generate ml-model html for cylinder
+        if (equations.length != 6) {
+            console.log("something went wrong with representation of cylinder");
+            return;
+        }
+
+        if (!(equations[1] == equations[2])) {
+            console.log("not a valid cylinder equation");
+        }
+        r = parseFloat(equations[3]);
+        var r_squared = Math.pow(r, 2);
+        var radius = Math.sqrt(r_squared / equations[1]);
+        var height = parseFloat(equations[5]) - parseFloat(equations[4]);
+        var radiusMLSize = convertToMLSize(radius);
+        var heightMLSize = convertToMLSize(height);
+
+        var htmlObj = {
+            src: 'cylinder.fbx',
+            style: 'width: ' + radiusMLSize + 'px; ' + 'height: ' + heightMLSize + 'px;',
+            "z-offset": '1200px',
+            "model-scale": '1, 1, 1'
+        }
+
+        html = createHTML(htmlObj);
+        console.log(html);
+        io.sockets.emit('equationsML', html);
+    }
+
+
     console.log(equations);
     equationsField = equations;
+}
+
+function createHTML(htmlObj) {
+    var htmlStr = "";
+    for (var key in htmlObj) {
+        var value = htmlObj[key];
+        htmlStr += `${key}='${value}' `;
+    } 
+    var str = "<ml-model " + htmlStr + "> </ml-model>";
+    return str;
+}
+
+function convertToMLSize(size) {
+    return size * 100;
 }
 
 function updateEquationsOnWebsite(equations) {
