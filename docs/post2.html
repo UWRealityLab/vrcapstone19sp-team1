@@ -50,69 +50,56 @@
   </nav>
 
   <!-- Page Header -->
-  <header class="masthead" style="background-image: url('img/home-bg.jpg')">
+  <header class="masthead" style="background-image: url('img/post-bg.jpg')">
     <div class="overlay"></div>
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-          <div class="site-heading">
-            <h1>VR Capstone Team 1</h1>
-            <span class="subheading">EasyMath</span>
+          <div class="post-heading">
+            <h1>Blog Post for Week 4 (4/20-4/26)</h1>
+            <h2 class="subheading"><!-- subheading here --></h2>
+            <span class="meta">Posted by
+              <a href="#">VR Capstone Team 1</a>
+              on 4/26/19</span>
           </div>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-          <div class="post-preview">
-            <a href="post2.html">
-              <h2 class="post-title">
-                Blog Post for Week 4 (4/20-4/26)
-              </h2>
-              <h3 class="post-subtitle">
-                <!-- preview text -->
-              </h3>
-            </a>
-            <p class="post-meta">Posted by
-              <a href="#">VR Capstone Team 1</a>
-              on 4/26/19</p>
-          </div>
-          <hr>
-        <div class="post-preview">
-          <a href="post1.html">
-            <h2 class="post-title">
-              Blog Post for Week 3 (4/13-4/19)
-            </h2>
-            <h3 class="post-subtitle">
-              <!-- preview text -->
-            </h3>
-          </a>
-          <p class="post-meta">Posted by
-            <a href="#">VR Capstone Team 1</a>
-            on 4/19/19</p>
+  <!-- Post Content -->
+  <article>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <p>
+              It was productive week. We were able to convert from equations to shape for spheres and cylinders.
+        </p>
+        <p>
+              The teammates did the following work this week:
+              <ul>
+                <li>Matthew - Blog post, website, and sphere</li>
+                <li>Simon - Sphere, website</li>
+                <li>Esteban -  Cylinder, website</li>
+                <li>Tanuj - Cylinder and website</li>
+              </ul>
+          </p>
+          <p>
+               To get the sphere and cylinder shapes to show up by the equation we explored a number of ways to represent an equation on the web interface. We first started with just a single textbox. However, we thought it would be better if we added textboxes for each parameter in a sphere or cylinder equation.
+          </p>
+          <p>
+              We also created the website. The website is a nodejs application that serves both the web interface webpages as well as the page the Magic Leap goes to using the Helios browser. In exploring how to setup the website we needed to setup socket.io so that there could be a bidirectional communication pipe between the server and web page on the computer and a bidirectional communication pipe between the server and the magic leap page. These bidirectional communication pipes allow us to update in real time the equations on the web interface and the shapes on the magic leap.
+          </p>
+          <p>
+              On the Magic Leap side we explored and determined how to use the prismatic library. This library will allow us to create the 3D shapes on Magic Leap Helios browser. We learned that creating 3D shapes can be done in Javscript which many of the teammates have prior experience working in.
+          </p>
+          <p>
+              Based on our work we were able to give a short demo to TA's. We will start on interactions of the two shapes next week.
+          </p>
         </div>
-        <hr>
-        <div class="post-preview">
-          <a href="post.html">
-            <h2 class="post-title">
-              Blog Post for Week 1-2 (4/1-4/12)
-            </h2>
-            <h3 class="post-subtitle">
-              <!-- preview text -->
-            </h3>
-          </a>
-          <p class="post-meta">Posted by
-            <a href="#">VR Capstone Team 1</a>
-            on 4/11/19</p>
-        </div>
-        <hr>
       </div>
     </div>
-  </div>
+  </article>
 
   <hr>
 
