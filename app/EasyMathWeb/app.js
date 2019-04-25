@@ -66,8 +66,8 @@ function handleUpdatedEquations(socket, equations) {
         var htmlObj = {
             src: 'sphere.16.fbx',
             style: 'width: ' + radiusMLSize + 'px; ' + 'height: ' + radiusMLSize + 'px;',
-            "z-offset": '1200px',
-            "model-scale": '1, 1, 1'
+            "z-offset": '1000px',
+            "model-scale": '1, 1, 1',
         }
 
         html = createHTML(htmlObj);
@@ -93,8 +93,9 @@ function handleUpdatedEquations(socket, equations) {
         var htmlObj = {
             src: 'cylinder.fbx',
             style: 'width: ' + radiusMLSize + 'px; ' + 'height: ' + heightMLSize + 'px;',
-            "z-offset": '1200px',
-            "model-scale": '1, 1, 1'
+            "z-offset": '1000px',
+            "model-scale": '1, 1, 1',
+            color: 'red'
         }
 
         html = createHTML(htmlObj);
