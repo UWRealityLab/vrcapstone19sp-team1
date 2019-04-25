@@ -7,15 +7,22 @@
         <h1>EasyMath</h1>
         <h2>Type math equations below</h2>
         <div id="math-fields-wrapper">
-            <input class="math-fields" type="text" name="eq1"><br>
-            <input class="math-fields" type="text" name="eq2"><br>
-            <input class="math-fields" type="text" name="eq3"><br>
+            <h3>Create Sphere:</h3>
+            <input class="sphere-fields" type="text" name="x">x^2 + <input class="sphere-fields" type="text" name="y">y^2 + <input class="sphere-fields" type="text" name="z">z^2 = <input class="sphere-fields" type="text" name="r">^2
+            <br>
+            <br>
+            <button type="button" name="button" onclick="updateSphereEq()">Graph Sphere</button>
+            <br>
+            <h3>Create Cylinder:</h3>
+            <input class="cylinder-fields" type="text" name="x">x^2 + <input class="cylinder-fields" type="text" name="y">y^2 = <input class="cylinder-fields" type="text" name="z">^2 where <input class="cylinder-fields" type="text" name="r">&lt;= z &lt;= <input class="cylinder-fields" type="text" name="r">
+            <br>
+            <br>
+            <button type="button" name="button" onclick="updateCylinderEq()">Graph Cylinder</button>
         </div>
-        <button type="button" name="button" onclick="updateEquationsServer()">Graph the Equations</button>
 
         <script>
             // NETWORKING
-            var socket = io.connect();
+            var socket = io.connect('http://localhost:3000');
             socket.on('equations', function (data) {
               console.log("update received from server: " + data);
 
@@ -23,21 +30,40 @@
               setTextEquations(data);
             });
 
-            var allMathFieldsArr = document.getElementsByClassName('math-fields');
-            var equations = [];
+            var sphereFields = document.getElementsByClassName('sphere-fields');
+            var cylinderFields = document.getElementsByClassName('cylinder-fields');
+            var sphereEq = [];
+            var cylinderEq = [];
 
             // --- HELPERS ----
-            function getTextEquations() {
-                var numEquations = allMathFieldsArr.length;
-                for (var i = 0; i < numEquations; i++) {
-                    // init
-                    var currElement = allMathFieldsArr[i];
-                    equations[i] = currElement.value;
+            function getSphereEquations() {
+                var fields = sphereFields.length;
+                for (var i = 0; i < fields; i++) {
+                    // each sphere has 4 fields
+                    if (i % 4 == 0) {
+                        sphereEq.push("sphere");
+                        sphereEq.push(sphereFields[i].value);
+                    } else {
+                        sphereEq.push(sphereFields[i].value);
+                    }
+                }
+            }
+
+            function getCylinderEquations() {
+                var fields = cylinderFields.length;
+                for (var i = 0; i < fields; i++) {
+                    // each sphere has 4 fields
+                    if (i % 5 == 0) {
+                        cylinderEq.push("cylinder");
+                        cylinderEq.push(cylinderFields[i].value);
+                    } else {
+                        cylinderEq.push(cylinderFields[i].value);
+                    }
                 }
             }
 
             function setTextEquations(newEquations) {
-                getTextEquations();
+                getSphereEquations();
                 var numEquations = newEquations.length;
                 for (var i = 0; i < numEquations; i++) {
                     // init
@@ -46,26 +72,19 @@
                 }
             }
 
-            function init() {
-                // equation
-                var numEquations = allMathFieldsArr.length;
-                for (var i = 0; i < numEquations; i++) {
-                    // init
-                    var currElement = allMathFieldsArr[i];
-                    equations.push(currElement.value);
-                }
-                console.log(equations)
+            function updateSphereEq() {
+                sphereEq = [];
+                getSphereEquations();
+                console.log("sent to server: " + sphereEq);
+                socket.emit('sphereEqs', sphereEq);
             }
 
-            function updateEquationsServer() {
-                getTextEquations();
-                console.log("sent to server: " + equations);
-                socket.emit('updateEquations', equations);
+            function updateCylinderEq() {
+                cylinderEq = [];
+                getCylinderEquations();
+                console.log("sent to server: " + cylinderEq);
+                socket.emit('cylinderEqs', cylinderEq);
             }
-
-            // --- MAIN ----
-            init();
-
         </script>
     </body>
 </html>

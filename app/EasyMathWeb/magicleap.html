@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="https://unpkg.com/@magicleap/prismatic"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+</head>
+<body>
+    <div id = "shapeContainer">
+        <p>hhhhh</p>
+        <!-- <ml-model src="sphere.16.fbx"
+              style="width: 500px; height: 500px;"
+              z-offset="1200px"
+              model-scale="1, 1, 0.7">
+        </ml-model>
+        <ml-model src="cylinder.fbx"
+                style="width: 500px; height: 500px;"
+                z-offset="1200px"
+                model-scale="1, 1, 0.7"
+                color="red">
+        </ml-model> -->
+    </div>
+
+    <script>
+        var shapeC = document.getElementById("shapeContainer");
+        var socket = io.connect('http://10.158.134.74:3000');
+        console.log(socket.id);
+        socket.on('equationsML', function (data) {
+            console.log("update received from server: " + data);
+            var newDIV = document.createElement("div");
+            newDIV.innerHTML = data;
+            shapeC.appendChild(newDIV);
+        });
+
+        // io.on('connection', function (socket) {
+        //     console.log("comnmnected" + socket.id);
+        //     socket.on('equationsML', msg => {
+        //         var t = document.createElement("p");
+        //         t.innerText = "abc";
+        //         shapeC.appendChild(t);
+        //         console.log("update received from server: " + data);
+        //         var newDIV = document.createElement("div");
+        //         newDIV.innerHTML = data;
+        //         shapeC.appendChild(newDIV);
+        //     });
+        // });
+    </script>
+</body>
+</html>
