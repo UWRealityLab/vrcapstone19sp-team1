@@ -104,8 +104,17 @@
             }
 
             function updateSphereEq() {
-                sphereEq = [];
+                var sphereEq = [];
                 var success = getSphereEquations();
+
+                // what equations should look like for a sphere
+                sphereEq = {
+                    id: 1,
+                    type: 'sphere',
+                    coef: 2,
+                    position: [0, 0, 0],
+                    radius: 2
+                };
                 if (success) {
                     console.log("sent to server: " + sphereEq);
                     socket.emit('sphereEqs', sphereEq);
@@ -115,6 +124,23 @@
             function updateCylinderEq() {
                 cylinderEq = [];
                 getCylinderEquations();
+
+                // if xy -> 90, 0, 0
+                // if xz -> 0, 0, 0
+                // if yz -> 0, 0, 90
+
+                // what equations for the cylinder should look like
+                cylinderEq = {
+                    id: 1,
+                    type: 'cylinder',
+                    coef: 2,
+                    position: [0, 0],
+                    radius: 2,
+                    bottom: 0,
+                    top: 10,
+                    height: 10,
+                    rotationAxes: ['0', '0', '90deg']
+                };
                 console.log("sent to server: " + cylinderEq);
                 socket.emit('cylinderEqs', cylinderEq);
             }

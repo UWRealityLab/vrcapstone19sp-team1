@@ -3,6 +3,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="transparent-background">
     <title></title>
     <script src="https://unpkg.com/@magicleap/prismatic"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
@@ -10,18 +11,42 @@
 <body style="background-color: transparent;">
     <div id = "shapeContainer">
         <h1>Welcome to Easy Math</h1>
-        <!-- <ml-model src="sphere.16.fbx"
-              style="width: 500px; height: 500px;"
-              z-offset="1200px"
-              model-scale="1, 1, 0.7">
-        </ml-model>
-        <ml-model src="cylinder.fbx"
-                style="width: 500px; height: 500px;"
-                z-offset="1200px"
-                model-scale="1, 1, 0.7"
-                color="red">
-        </ml-model> -->
     </div>
+
+    <!-- Z Axis (blue) -->
+    <ml-model src="arrow.fbx"
+        style="width: 500px; height: 500px; position: absolute; left: 300px; top: 300px;"
+        model-scale="1, 1, 1"
+        color="blue"
+        prism-rotation="90deg 0 0">
+    </ml-model>
+
+    <!-- Y Axis (Red) -->
+    <ml-model src="arrow.fbx"
+        style="width: 500px; height: 500px; position: absolute; left: 300px; top: 300px;"
+        model-scale="1, 1, 1"
+        color="red"
+        prism-rotation="0 90deg 0">
+    </ml-model>
+
+    <!-- X Axis (Green) -->
+    <ml-model src="arrow.fbx"
+        style="width: 500px; height: 500px; position: absolute; left: 300px; top: 300px;"
+        model-scale="1, 1, 1"
+        color="green"
+        prism-rotation="0 0 90deg">
+    </ml-model>
+
+    <!-- <ml-model src="sphere.16.fbx"
+        style="width: 400px; height: 400px; position: absolute; left: 350px; top: 350px;"
+        model-scale="1, 1, 1"
+        color="yellow"
+        prism-rotation="0 0 0"
+        z-offset="150px">
+    </ml-model> -->
+
+    <ml-model src='cylinder.fbx' style='width: 1000px; height: 1000px;left: 50px;top: 408.5786437626905px;' 
+    z-offset='150px' model-scale='0.4, 0.8, 0.4' prism-rotation='90deg 0 0' color='red' > </ml-model>
 
     <script>
         var shapeC = document.getElementById("shapeContainer");

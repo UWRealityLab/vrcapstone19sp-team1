@@ -42,31 +42,34 @@ io.on('connection', function (socket) {
     });
 });
 
+var currEquations = [];
+
 // callback function when equations are updated on web
 function handleUpdatedEquations(socket, equations) {
+    currEquations.push(equations);
+
     console.log("getting equations...");
-    var type = equations[0];
+    var type = equations.type;
 
     if (type == 'sphere') {
-        // generate ml-model html for sphere
-        if (equations.length != 5) {
-            console.log("something went wrong with representation of sphere");
-            return;
-        }
-
-        if (!(equations[1] == equations[2] && equations[2] == equations[3])) {
-            console.log("not a valid sphere equation");
-            return;
-        }
-        r = parseFloat(equations[4]);
+        var r = equations.radius;
         var r_squared = Math.pow(r, 2);
-        var radius = Math.sqrt(r_squared / equations[1]);
+        var radius = Math.sqrt(r_squared / equations.coef);
         var radiusMLSize = convertToMLSize(radius);
+        var diameterMLSize = 2 * radiusMLSize;
+        var offsets = convertToMLPosSphere(radius, equations.position);
+        var leftOffset = offsets[0];
+        var topOffset = offsets[1];
+        var zOffset = offsets[2];
 
         var htmlObj = {
             src: 'sphere.16.fbx',
-            style: 'width: ' + radiusMLSize + 'px; ' + 'height: ' + radiusMLSize + 'px;',
-            "z-offset": '1000px',
+            style: 'width: ' + diameterMLSize + 'px; '
+            + 'height: ' + diameterMLSize + 'px; '
+            + 'position: absolute; '
+            + 'left: ' + leftOffset + 'px; '
+            + 'top: ' + topOffset + 'px;',
+            "z-offset": zOffset + 'px',
             "model-scale": '1, 1, 1',
         }
 
@@ -74,27 +77,28 @@ function handleUpdatedEquations(socket, equations) {
         console.log(html);
         io.sockets.emit('equationsML', html);
     } else if (type == 'cylinder') {
-        // generate ml-model html for cylinder
-        if (equations.length != 6) {
-            console.log("something went wrong with representation of cylinder");
-            return;
-        }
-
-        if (!(equations[1] == equations[2])) {
-            console.log("not a valid cylinder equation");
-        }
-        r = parseFloat(equations[3]);
+        var r = equations.radius
         var r_squared = Math.pow(r, 2);
-        var radius = Math.sqrt(r_squared / equations[1]);
-        var height = parseFloat(equations[5]) - parseFloat(equations[4]);
+        var radius = Math.sqrt(r_squared / equations.coef);
         var radiusMLSize = convertToMLSize(radius);
+        var diameterMLSize = 2 * radiusMLSize;
+        var height = equations.height;
         var heightMLSize = convertToMLSize(height);
+        var offsets = convertToMLPosCylinder(radius, equations.bottom, height, equations.position, equations.rotationAxes);
+        var leftOffset = offsets[0];
+        var topOffset = offsets[1];
+        var zOffset = offsets[2];
+        var rotationAxes = equations.rotationAxes;
 
         var htmlObj = {
             src: 'cylinder.fbx',
-            style: 'width: ' + radiusMLSize + 'px; ' + 'height: ' + heightMLSize + 'px;',
-            "z-offset": '1000px',
+            style: 'width: ' + diameterMLSize + 'px; '
+            + 'height: ' + heightMLSize + 'px;'
+            + 'left: ' + leftOffset + 'px;'
+            + 'top: ' + topOffset + 'px;',
+            "z-offset": zOffset + 'px',
             "model-scale": '1, 1, 1',
+            "prism-rotation": rotationAxes[0] + ' ' + rotationAxes[1] + ' ' + rotationAxes[2],
             color: 'red'
         }
 
@@ -120,6 +124,39 @@ function createHTML(htmlObj) {
 
 function convertToMLSize(size) {
     return size * 100;
+}
+
+function convertToMLPosSphere(radius, posArr) {
+    var result = []
+    // origin at 550px, 550px, ?px;
+    result.push(550 - convertToMLSize(radius) + convertToMLSize(posArr[0])); // x axis
+    result.push(550 - convertToMLSize(radius) + convertToMLSize(posArr[1])); // y axis
+    result.push(150 + convertToMLSize(posArr[2])); // z axis
+    return result;
+}
+
+function convertToMLPosCylinder(radius, bottom, height, posArr, rotationAxes) {
+    var result = []
+    // origin at 550px, 550px, ?px;
+    // towards us, away from us
+    // TODO: Make sure flipping away from us
+    if (rotationAxes[0] == '90deg') {
+        result.push(550 - convertToMLSize(radius) + convertToMLSize(posArr[0])); // x axis
+        result.push(550 - convertToMLSize(height) + convertToMLSize(posArr[1])); // y axis
+        result.push(150 + convertToMLSize(bottom)); // z axis
+    // sideways
+    // // TODO: Make sure flipping to the right
+    } else if (rotationAxes[2] == '90deg') {
+        result.push(550 - convertToMLSize(radius) + convertToMLSize(bottom)); // x axis
+        result.push(550 - convertToMLSize(height) + convertToMLSize(posArr[0])); // y axis
+        result.push(150 + convertToMLSize(posArr[1])); // z axis
+    // up down
+    } else {
+        result.push(550 - convertToMLSize(radius) + convertToMLSize(posArr[0])); // x axis
+        result.push(550 - convertToMLSize(height) + convertToMLSize(bottom)); // y axis
+        result.push(150 + convertToMLSize(posArr[1])); // z axis
+    }
+    return result;
 }
 
 function updateEquationsOnWebsite(equations) {
