@@ -7,7 +7,7 @@
     <title></title>
     <script src="https://unpkg.com/@magicleap/prismatic"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
-    <link rel="stylesheet" href="magicleap.css">
+    <!-- <link rel="stylesheet" href="magicleap.css"> -->
 </head>
 <body style="background-color: transparent;">
     <div id = "shapeContainer">
@@ -52,37 +52,61 @@
     <script>
         var shapeC = document.getElementById("shapeContainer");
         var socket = io.connect('http://10.158.134.74:3000');
+        var shapesMap = {};
         socket.on('equationsML', function (data) {
             console.log("update received from server: " + JSON.stringify(data));
             var container = document.createElement("div");
             container.id = data.id;
 
+            if (shapesMap[data.id] != null) {
+                resize(data, data.equations.radius * 2.0);
+            }
+
+            shapesMap[data.id] = data;
+
             var newShape = document.createElement("div");
             newShape.innerHTML = data.html;
 
             container.appendChild(newShape);
+            var newPara = document.createElement("p");
+            newPara.style.color = idToColor(data.id);
+            newPara.style.fontSize = "32px";
+            newPara.innerHTML = idToColor(data.id) + " shape radius slider: ";
 
             var newSlider = document.createElement("input");
+            newSlider.style.height = "5px";
+            newSlider.style.width = "250px";
             newSlider.type = "range";
             newSlider.min = "1";
             newSlider.max = "5";
             newSlider.value = data.equations.radius * 2.0;
             newSlider.id = "slider" + data.id;
+            newSlider.style.background = idToColor(data.id);
             newSlider.addEventListener("change", function() {
                 resize(data, newSlider.value);
             })
-
+            container.appendChild(newPara);
             container.appendChild(newSlider);
             
             shapeC.appendChild(container);
         });
+
+        function idToColor(id) {
+            color = ['orange', 'purple', 'yellow', 'red', 'green', 'black', 'brown'];
+            return color[id % color.length];
+        }
 
         function resize(data, sliderVal) {
             var container = document.getElementById(data.id);
             container.parentNode.removeChild(container);
             data.equations.radius = sliderVal / 2.0;
             socket.emit('sphereEqs', data.equations);
-        }
+        };
+
+        socket.on('deleteShape', function (id) {
+            var container = document.getElementById(id);
+            container.parentNode.removeChild(container);
+        });
 
         // Second version
 

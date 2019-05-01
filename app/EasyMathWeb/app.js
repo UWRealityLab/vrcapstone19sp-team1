@@ -40,13 +40,20 @@ io.on('connection', function (socket) {
     socket.on('cylinderEqs', msg => {
         handleUpdatedEquations(socket, msg);
     });
+    socket.on('deleteEqs', msg => {
+        handleDeleteEquations(socket, msg);
+    });
 });
 
-var currEquations = [];
+var currEquations = {};
+
+function handleDeleteEquations(socket, id) {
+    io.sockets.emit('deleteShape', id);
+}
 
 // callback function when equations are updated on web
 function handleUpdatedEquations(socket, equations) {
-    currEquations.push(equations);
+    currEquations[equations.id] = equations;
 
     console.log("getting equations...");
     var type = equations.type;
@@ -65,12 +72,13 @@ function handleUpdatedEquations(socket, equations) {
         var htmlObj = {
             src: 'sphere.16.fbx',
             style: 'width: ' + diameterMLSize + 'px; '
-            + 'height: ' + diameterMLSize + 'px; '
-            + 'position: absolute; '
-            + 'left: ' + leftOffset + 'px; '
-            + 'top: ' + topOffset + 'px;',
+                + 'height: ' + diameterMLSize + 'px; '
+                + 'position: absolute; '
+                + 'left: ' + leftOffset + 'px; '
+                + 'top: ' + topOffset + 'px;',
             "z-offset": zOffset + 'px',
             "model-scale": '1, 1, 1',
+            "color": idToColor(equations.id)
         }
 
         html = createHTML(htmlObj);
@@ -115,6 +123,11 @@ function handleUpdatedEquations(socket, equations) {
 
     console.log(equations);
     equationsField = equations;
+}
+
+function idToColor(id) {
+    color = ['orange', 'purple', 'yellow', 'red', 'green', 'black', 'brown'];
+    return color[id % color.length];
 }
 
 function createHTML(htmlObj) {
