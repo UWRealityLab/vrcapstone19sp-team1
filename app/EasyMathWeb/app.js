@@ -117,7 +117,7 @@ function createHTML(htmlObj) {
     for (var key in htmlObj) {
         var value = htmlObj[key];
         htmlStr += `${key}='${value}' `;
-    } 
+    }
     var str = "<ml-model " + htmlStr + "> </ml-model>";
     return str;
 }
@@ -145,7 +145,7 @@ function convertToMLPosCylinder(radius, bottom, height, posArr, rotationAxes) {
         result.push(550 - convertToMLSize(height) + convertToMLSize(posArr[1])); // y axis
         result.push(150 + convertToMLSize(bottom)); // z axis
     // sideways
-    // // TODO: Make sure flipping to the right
+    // TODO: Make sure flipping to the right
     } else if (rotationAxes[2] == '90deg') {
         result.push(550 - convertToMLSize(radius) + convertToMLSize(bottom)); // x axis
         result.push(550 - convertToMLSize(height) + convertToMLSize(posArr[0])); // y axis

@@ -62,8 +62,9 @@ window.onload = function() {
 // --- HELPERS ----
 function addSphereEq() {
     counter++;
+    numOfShapes++;
 
-    if (counter >= 4) {
+    if (numOfShapes >= 4) {
         alert("Sorry, maximum 3 shapes allowed");
         return;
     }
@@ -128,8 +129,9 @@ function getSphereEquations(id) {
 
 function addCylinderEq() {
     counter++;
+    numOfShapes++;
 
-    if (counter >= 4) {
+    if (numOfShapes >= 4) {
         alert("Sorry, maximum 3 shapes allowed");
         return;
     }
