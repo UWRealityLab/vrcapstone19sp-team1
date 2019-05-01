@@ -1,10 +1,10 @@
 // NETWORKING
 var socket = io.connect('http://localhost:3000');
 socket.on('equations', function (data) {
-console.log("update received from server: " + data);
+    console.log("update received from server: " + data);
 
-// update the frontend with the new equations
-setTextEquations(data);
+    // update the frontend with the new equations
+    updateEquation(data);
 });
 
 var idEquationMap = {};
@@ -61,31 +61,37 @@ window.onload = function() {
 
 // --- HELPERS ----
 function addSphereEq() {
-    counter++;
-    numOfShapes++;
-
-    if (numOfShapes >= 4) {
+    if (numOfShapes > 2) {
         alert("Sorry, maximum 3 shapes allowed");
         return;
     }
 
+    counter++;
+    numOfShapes++;
+
     var container = document.createElement("div");
-    // container.id = "" + counter;
+    container.id = "div-" + counter;
 
     container.appendChild(document.createElement("br"));
     container.appendChild(getSpan(" Equation " + counter + ": "));
     container.appendChild(getInput("sphere-field-"));
-    container.appendChild(getSpan(" x^2 + "));
+    container.appendChild(getSpan(" (x - "));
     container.appendChild(getInput("sphere-field-"));
-    container.appendChild(getSpan(" y^2 + "));
+    container.appendChild(getSpan(" )^2 + "));
     container.appendChild(getInput("sphere-field-"));
-    container.appendChild(getSpan(" z^2 = "));
+    container.appendChild(getSpan(" (y - "));
+    container.appendChild(getInput("sphere-field-"));
+    container.appendChild(getSpan(" )^2 + "));
+    container.appendChild(getInput("sphere-field-"));
+    container.appendChild(getSpan(" (z - "));
+    container.appendChild(getInput("sphere-field-"));
+    container.appendChild(getSpan(" )^2 = "));
     container.appendChild(getInput("sphere-field-"));
     container.appendChild(getSpan(" ^2 "));
     container.appendChild(document.createElement("br"));
     container.appendChild(document.createElement("br"));
     container.appendChild(getButton("sphere-field-", "Graph Sphere " + counter, updateSphereEq));
-
+    container.appendChild(getButton("sphere-field-", "Delete Sphere " + counter, deleteEq));
 
     $("sphereEquations").appendChild(container); 
 }
@@ -98,19 +104,21 @@ function updateSphereEq(id) {
 
         console.log("sent to server: " + sphereEq);
         socket.emit('sphereEqs', sphereEq);
+
+        console.log(sphereEq);
     }
 }
 
 function getSphereEquations(id) {
     var sphereFields = document.getElementsByClassName("sphere-field-" + id);
    
-    if (!(sphereFields[0].value == sphereFields[1].value &&
-        sphereFields[1].value == sphereFields[2].value && sphereFields[0].value != 0)) {
-        alert("X, Y and Z of sphere should be same");
+    if (!(sphereFields[0].value == sphereFields[2].value &&
+        sphereFields[2].value == sphereFields[4].value && sphereFields[0].value != 0)) {
+        alert("Coefficients of X, Y and Z of sphere should be same");
         return null;
     }
 
-    if (sphereFields[3].value == 0) {
+    if (sphereFields[6].value == 0) {
         alert("Sphere radius cannot be zero");
         return null;
     }
@@ -120,34 +128,39 @@ function getSphereEquations(id) {
         id: id,
         type: 'sphere',
         coef: sphereFields[0].value, // 2x^2 + 2y^2 + 2z^2
-        position: [0, 0, 0], //(x-a)^2 + (y-b)^2 +2(z-c)^2 -> [a,b,c]
-        radius: sphereFields[3].value
+        position: [sphereFields[1].value, sphereFields[3].value, sphereFields[5].value], //(x-a)^2 + (y-b)^2 +2(z-c)^2 -> [a,b,c]
+        radius: sphereFields[6].value
     };
     
     return sphereEq;
 }
 
 function addCylinderEq() {
-    counter++;
-    numOfShapes++;
-
-    if (numOfShapes >= 4) {
+    if (numOfShapes > 2) {
         alert("Sorry, maximum 3 shapes allowed");
         return;
     }
 
+    counter++;
+    numOfShapes++;
+
     var container = document.createElement("div");
+    container.id = "div-" + counter;
 
     container.appendChild(document.createElement("br"));
     container.appendChild(getSpan(" Equation " + counter + ": "));
     container.appendChild(getInput("cylinder-field-"));
-    container.appendChild(getSpan(" "));
+    container.appendChild(getSpan(" ("));
     container.appendChild(getDropDown("first-" + counter, "x", "y", "z"));
-    container.appendChild(getSpan(" ^2 + "));
+    container.appendChild(getSpan(" - "));
     container.appendChild(getInput("cylinder-field-"));
-    container.appendChild(getSpan(" "));
+    container.appendChild(getSpan(" )^2 + "));
+    container.appendChild(getInput("cylinder-field-"));
+    container.appendChild(getSpan(" ("));
     container.appendChild(getDropDown("second-" + counter, "y", "z", "x"));
-    container.appendChild(getSpan(" ^2 = "));
+    container.appendChild(getSpan(" - "));
+    container.appendChild(getInput("cylinder-field-"));
+    container.appendChild(getSpan(" )^2 = "));
     container.appendChild(getInput("cylinder-field-"));
     container.appendChild(getSpan(" ^2 where "));
     container.appendChild(getInput("cylinder-field-"));
@@ -158,20 +171,21 @@ function addCylinderEq() {
     container.appendChild(document.createElement("br"));
     container.appendChild(document.createElement("br"));
     container.appendChild(getButton("cylinder-field-", "Graph Cylinder " + counter, updateCylinderEq));
+    container.appendChild(getButton("cylinder-field-", "Delete Cylinder " + counter, deleteEq));
 
     $("cylinderEquations").appendChild(container); 
 }
 
 function updateCylinderEq(id) {
     var cylinderEq = getCylinderEquations(id);
-    
-    console.log(cylinderEq);
 
     if (cylinderEq) {
         idEquationMap[id] = cylinderEq;
 
         console.log("sent to server: " + cylinderEq);
         socket.emit('cylinderEqs', cylinderEq);
+
+        console.log(cylinderEq);
     }
 }
 
@@ -184,17 +198,20 @@ function getCylinderEquations(id) {
         return null;
     }
 
-    if (!(cylinderFields[0].value == cylinderFields[1].value && cylinderFields[0].value != 0)) {
-        alert("First two values of cylinder should be same");
+    var firstFields = $("first-" + id);
+    var secondFields = $("second-" + id);
+
+    if (!(cylinderFields[0].value == cylinderFields[2].value && cylinderFields[0].value != 0)) {
+        alert("Coefficients of " + firstFields.options[firstFields.selectedIndex].text +  " and " + secondFields.options[secondFields.selectedIndex].text + " should be same");
         return null;
     }
 
-    if (cylinderFields[2].value == 0) {
+    if (cylinderFields[4].value == 0) {
         alert("Cylinder radius cannot be zero");
         return null;
     }
 
-    if (cylinderFields[3].value >= cylinderFields[4].value) {
+    if (cylinderFields[5].value >= cylinderFields[6].value) {
         alert("Inequality has to hold");
         return null;
     }
@@ -204,11 +221,11 @@ function getCylinderEquations(id) {
         id: id,
         type: 'cylinder',
         coef: cylinderFields[0].value, // 2x^2 + 2y^2
-        position: [0, 0], // (x-a)^2+(y-b)^2 [a,b]
-        radius: cylinderFields[2].value,
-        bottom: cylinderFields[3].value, // lower bound 
-        top: cylinderFields[4].value, // higher bound
-        height: cylinderFields[4].value - cylinderFields[3].value, //  top - bottom
+        position: [cylinderFields[1].value, cylinderFields[3].value], // (x-a)^2+(y-b)^2 [a,b]
+        radius: cylinderFields[4].value,
+        bottom: cylinderFields[5].value, // lower bound 
+        top: cylinderFields[6].value, // higher bound
+        height: cylinderFields[6].value - cylinderFields[5].value, //  top - bottom
         rotationAxes: orientation
         // orientation xy, yz, xz
         // if xy || yx -> 90deg, 0, 0
@@ -244,6 +261,41 @@ function checkXYZ(id) {
     }
 }
 
-function setTextEquations(newEquations) {
-    
+function deleteEq(id) {
+    var div = $("div-" + id);
+    div.parentNode.removeChild(div);
+
+    numOfShapes--;
+
+    console.log("sent to server: " + id + " for delete");
+    socket.emit('deleteEqs', id);
+}
+
+function updateEquation(data) {
+    if (data.type == 'sphere') {
+        var sphereFields = document.getElementsByClassName("sphere-field-" + data.id);
+
+        sphereFields[0].value = data.coef;
+        sphereFields[2].value = data.coef;
+        sphereFields[4].value = data.coef;
+
+        sphereFields[1].value = data.position[0];
+        sphereFields[3].value = data.position[1];
+        sphereFields[5].value = data.position[2];
+
+        sphereFields[6].value = data.radius;
+    } else if (data.type == 'cylinder') {
+        var cylinderFields = document.getElementsByClassName("cylinder-field-" + data.id);
+
+        cylinderFields[0].value = data.coef;
+        cylinderFields[2].value = data.coef;
+
+        cylinderFields[1].value = data.position[0];
+        cylinderFields[3].value = data.position[1];
+
+        cylinderFields[4].value = data.radius;
+
+        cylinderFields[5].value = data.bottom;
+        cylinderFields[6].value = data.top;
+    }
 }
