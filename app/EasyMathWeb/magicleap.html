@@ -7,6 +7,7 @@
     <title></title>
     <script src="https://unpkg.com/@magicleap/prismatic"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    <link rel="stylesheet" href="magicleap.css">
 </head>
 <body style="background-color: transparent;">
     <div id = "shapeContainer">
@@ -37,26 +38,54 @@
         prism-rotation="0 0 90deg">
     </ml-model>
 
+    <a id="onClickSphere"></a>
+
     <!-- <ml-model src="sphere.16.fbx"
         style="width: 400px; height: 400px; position: absolute; left: 350px; top: 350px;"
         model-scale="1, 1, 1"
         color="yellow"
         prism-rotation="0 0 0"
-        z-offset="150px">
+        z-offset="150px"
+        trigger='onClickSphere'>
     </ml-model> -->
-
-   -->
 
     <script>
         var shapeC = document.getElementById("shapeContainer");
         var socket = io.connect('http://10.158.134.74:3000');
-        console.log(socket.id);
         socket.on('equationsML', function (data) {
-            console.log("update received from server: " + data);
-            var newDIV = document.createElement("div");
-            newDIV.innerHTML = data;
-            shapeC.appendChild(newDIV);
+            console.log("update received from server: " + JSON.stringify(data));
+            var container = document.createElement("div");
+            container.id = data.id;
+
+            var newShape = document.createElement("div");
+            newShape.innerHTML = data.html;
+
+            container.appendChild(newShape);
+
+            var newSlider = document.createElement("input");
+            newSlider.type = "range";
+            newSlider.min = "1";
+            newSlider.max = "5";
+            newSlider.value = data.equations.radius * 2.0;
+            newSlider.id = "slider" + data.id;
+            newSlider.addEventListener("change", function() {
+                resize(data, newSlider.value);
+            })
+
+            container.appendChild(newSlider);
+            
+            shapeC.appendChild(container);
         });
+
+        function resize(data, sliderVal) {
+            var container = document.getElementById(data.id);
+            container.parentNode.removeChild(container);
+            data.equations.radius = sliderVal / 2.0;
+            socket.emit('sphereEqs', data.equations);
+        }
+
+        // Second version
+
 
         // io.on('connection', function (socket) {
         //     console.log("comnmnected" + socket.id);

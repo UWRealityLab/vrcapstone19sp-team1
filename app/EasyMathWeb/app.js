@@ -75,7 +75,12 @@ function handleUpdatedEquations(socket, equations) {
 
         html = createHTML(htmlObj);
         console.log(html);
-        io.sockets.emit('equationsML', html);
+        io.sockets.emit('equationsML', 
+        {
+            id: equations.id,
+            html: html,
+            equations: equations
+        });
     } else if (type == 'cylinder') {
         var r = equations.radius
         var r_squared = Math.pow(r, 2);
