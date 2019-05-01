@@ -2,148 +2,22 @@
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+        <script src="index.js"></script>
     </head>
     <body>
         <h1>EasyMath</h1>
         <h2>Type math equations below</h2>
         <div id="math-fields-wrapper">
-            <h3>Create Sphere:</h3>
-            <input class="sphere-fields" type="text" name="x">x^2 + <input class="sphere-fields" type="text" name="y">y^2 + <input class="sphere-fields" type="text" name="z">z^2 = <input class="sphere-fields" type="text" name="r">^2
-            <br>
-            <br>
-            <button type="button" name="button" onclick="updateSphereEq()">Graph Sphere</button>
-            <br>
-            <h3>Create Cylinder:</h3>
-            <input class="cylinder-fields" type="text" name="x">
-                <select id="first">
-                    <option value="x">x</option>
-                    <option value="y">y</option>
-                    <option value="z">z</option>
-                </select>
-            ^ 2 + <input class="cylinder-fields" type="text" name="y">
-                <select id="second">
-                    <option value="x">y</option>
-                    <option value="y">z</option>
-                    <option value="z">x</option>
-                </select>
-                ^2 = <input class="cylinder-fields" type="text" name="z">^2 where <input class="cylinder-fields" type="text" name="r">&lt;= 
-                <select id="third">
-                    <option value="x">z</option>
-                    <option value="y">x</option>
-                    <option value="z">y</option>
-                </select>
-                     &lt;= <input class="cylinder-fields" type="text" name="r">
-            <br>
-            <br>
-            <button type="button" name="button" onclick="updateCylinderEq()">Graph Cylinder</button>
+            <h3> Sphere Equations : </h3>
+            <button type="button" name="button" id="addSphereEq">Create Sphere</button>
+            <div id="sphereEquations">
+                
+            </div>
+            <h3> Cylinder Equations : </h3>
+            <button type="button" name="button" id="addCylinderEq">Create Cylinder</button>
+            <div id="cylinderEquations">
+                
+            </div>
         </div>
-
-        <script>
-            // NETWORKING
-            var socket = io.connect('http://localhost:3000');
-            socket.on('equations', function (data) {
-              console.log("update received from server: " + data);
-
-              // update the frontend with the new equations
-              setTextEquations(data);
-            });
-
-            var sphereFields = document.getElementsByClassName('sphere-fields');
-            var cylinderFields = document.getElementsByClassName('cylinder-fields');
-            var sphereEq = [];
-            var cylinderEq = [];
-
-            // --- HELPERS ----
-            function getSphereEquations() {
-                var fields = sphereFields.length;
-                if (!(sphereFields[0].value == sphereFields[1].value &&
-                      sphereFields[1].value == sphereFields[2].value)) {
-                    alert("X, Y and Z of sphere should be same");
-                    return false;
-                }
-
-                if (sphereFields[3].value == 0) {
-                    alert("Sphere radius cannot be zero");
-                    return false;
-                }
-
-                for (var i = 0; i < fields; i++) {
-                    // each sphere has 4 fields
-                    if (i % 4 == 0) {
-                        sphereEq.push("sphere");
-                        sphereEq.push(sphereFields[i].value);
-                    } else {
-                        sphereEq.push(sphereFields[i].value);
-                    }
-                }
-
-                return true;
-            }
-
-            function getCylinderEquations() {
-                var fields = cylinderFields.length;
-                for (var i = 0; i < fields; i++) {
-                    // each sphere has 4 fields
-                    if (i % 5 == 0) {
-                        cylinderEq.push("cylinder");
-                        cylinderEq.push(cylinderFields[i].value);
-                    } else {
-                        cylinderEq.push(cylinderFields[i].value);
-                    }
-                }
-            }
-
-            function setTextEquations(newEquations) {
-                getSphereEquations();
-                var numEquations = newEquations.length;
-                for (var i = 0; i < numEquations; i++) {
-                    // init
-                    var currElement = allMathFieldsArr[i];
-                    currElement.value = newEquations[i];
-                }
-            }
-
-            function updateSphereEq() {
-                var sphereEq = [];
-                var success = getSphereEquations();
-
-                // what equations should look like for a sphere
-                sphereEq = {
-                    id: 1,
-                    type: 'sphere',
-                    coef: 2,
-                    position: [0, 0, 0],
-                    radius: 2
-                };
-                if (success) {
-                    console.log("sent to server: " + sphereEq);
-                    socket.emit('sphereEqs', sphereEq);
-                }
-            }
-
-            function updateCylinderEq() {
-                cylinderEq = [];
-                getCylinderEquations();
-
-                // if xy -> 90, 0, 0
-                // if xz -> 0, 0, 0
-                // if yz -> 0, 0, 90
-
-                // what equations for the cylinder should look like
-                cylinderEq = {
-                    id: 1,
-                    type: 'cylinder',
-                    coef: 2,
-                    position: [0, 0],
-                    radius: 2,
-                    bottom: 0,
-                    top: 10,
-                    height: 10,
-                    rotationAxes: ['0', '0', '90deg']
-                };
-                console.log("sent to server: " + cylinderEq);
-                socket.emit('cylinderEqs', cylinderEq);
-            }
-        </script>
     </body>
 </html>
