@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>VR Capstone Team 1 - EasyMath</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+  <!-- Custom styles for this template -->
+  <link href="css/clean-blog.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">VR Capstone Team 1</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="docs.html">Documents</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('img/post-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="post-heading">
+            <h1>Blog Post for Week 5 (4/27-5/3)</h1>
+            <h2 class="subheading"><!-- subheading here --></h2>
+            <span class="meta">Posted by
+              <a href="#">VR Capstone Team 1</a>
+              on 5/3/19</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Post Content -->
+  <article>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <h2>Update on code, links to relevant code added this week</h2>
+            <p>
+                There are three key components of our project.
+                <ol>
+                    <li>Server</li>
+                    <li>Webpage on the computer</li>
+                    <li>Magic Leap page</li>
+                </ol>
+
+            </p>
+
+            <h3>Server (app.js)</h3>
+            <p>
+                The server we completed the following components:
+                <ul>
+                    <li>Retain state of drawn shapes with map. We have unique id's for each shape drawn.</li>
+                    <li>We can send to the magic leap the command to delete a specific shape using an id.</li>
+                    <li>We added the ability to create shapes in different colors.</li>
+                    <li>For the sphere, we calculated the offsets and sizing and use this information to update the html which is used to plot the sphere in the magic leap helios browser. We create a consistent mapping between the units on the computer webpage and on the magic leap. We do this by scaling the units on the computer webpage by 100 (we multiply by 100). This took the majority of the time for the server changes.</li>
+                </ul>
+            </p>
+
+            <h3>Webpage on the computer (index.html and index.js)</h3>
+            <p>
+                We made the following changes to the web interface:
+                <ul>
+                    <li>Added position input boxes to position the cylinder and sphere</li>
+                    <li>
+                        We added did a significant amount of parameter checking. For example, checking all the coefficients on the sphere are equal.
+                    </li>
+                    <li>
+                        We added the ability to add or delete a shape from the web interface. This makes it clear how many equations should be plotted on the magic leap. We allow them to create more equations on the web interface with an add sphere and add cylinder button.
+                    </li>
+                    <li>
+                        We make sure that we are sending a consistent format json object to the server so the server knows what to plot.
+                    </li>
+                    <li>
+                        From the code formatting perspective, we split the index.html file into index.html and index.js to make the code more readable for future development.
+                    </li>
+                </ul>
+            </p>
+
+            <h3>Magic Leap page (magicleap.html)</h3>
+            <p>
+                We made the following changes to the magic leap page:
+                <ul>
+                    <li>We added the axes for x, y, and z which are 3 fbx files for arrows that we rotated.</li>
+                    <li>
+                        We spent 4+ hours working on understanding the dynamics of rotation, position, and rescaling of shapes in the web page. We now know that css puts a box of size height and width based on css properties. We also learned that the css uses the top left corner of the box that surrounds the shape to position. The shape with this box can be adjusted using the model-scale attribute of ml-model. We also learned how the z-axis acts very differently as it uses the z-offset attribute of ml-model instead of css to position it.
+                    </li>
+                    <li>
+                        We added the slider to resize the sphere. We make sure the magic leap page can communicate with the server in real-time to send json-objects of a defined form so that we can resize sphere in the magic leap in real-time.
+                    </li>
+                    <li>
+                        We also make sure that the slider and the sphere are the same color so that the user knows what slider corresponds to what sphere. This makes rescaling intuitive.
+                    </li>
+                </ul>
+            </p>
+
+            <h2>Update on ideas (media)</h2>
+
+            We learned that it will not be possible to move the cursor in the helios browser to the z axis therefore we will use a series of buttons and sliders to do the interactions with the shapes. Below is the video of our current progress.
+
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/peYuiZ91Ank" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+            <h2>Plan for next week</h2>
+            <p>
+                Our plan week is to finish:
+                <ol>
+                    <li>
+                        Interactions to move the sphere.
+                    </li>
+                    <li>
+                        Finish the interactions with cylinder which means understanding how to resize and position it.
+                    </li>
+                    <li>
+                        If we change on the magic leap the size of the shape it will update the equation on the web interface in real-time.
+                    </li>
+                    <li>
+                        We need to add lighting to the shapes so we can tell it is 3D.
+                    </li>
+                    <li>
+                        We are going to add a lesson plan. It will be initiated on the web interface. It will first walk the user through what a sphere look like (radius and position). Then we will give a mini test where we give them a basic sphere and then must resize and position until meets the desired formula.
+                    </li>
+                </ol>
+            </p>
+
+
+            <h2>What every member did this week and will do next week</h2>
+            <p>
+                Our team believes we work more efficiently in pairs. Therefore, we paired into the following pairs:
+                <ol>
+                    <li>
+                        Matthew and Simon
+                    </li>
+                    <li>
+                        Esteban and Tanuj
+                    </li>
+                </ol>
+            </p>
+            <p>
+                Since we are in pairs each person completed the work together. Matthew wrote blog and the team members provided the screenshots and help on content in the blog.
+            </p>
+            <p>
+                The first team (Matthew and Simon) worked on the changes to the server as described in the previous sections and within the Magic Leap changes added the axes. This next week, team 1 will implement the first three next week's tasks.
+            </p>
+            <p>
+                The second team (Esteban and Tanuj) worked on the changes to the index.html and index.js as described above. The second team will complete the last two tasks from the next week section above.
+            </p>
+            <p>
+                For the last three tasks within the Magic Leap changes we all worked in one large team to get it to work. The reason being at this point we needed to integrate a number of parts together to get it to work. Therefore, everyone needed to be there.
+            </p>
+
+
+            <h2>Blocking Issues</h2>
+            <p>
+                We have no immediate blocking issues. However, some progress was delayed throughout the week due to our inability to turn on the Magic Leaps. The magic leaps were in a weird state where they didn't seem like they were charged even though they were plugged in over night. We seem to have addressed this issue.
+            </p>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <ul class="list-inline text-center">
+            <li class="list-inline-item">
+              <a href="#">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+          </ul>
+          <p class="copyright text-muted">Copyright &copy; Your Website 2019</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/clean-blog.min.js"></script>
+
+</body>
+
+</html>
