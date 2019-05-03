@@ -110,7 +110,7 @@ function handleUpdatedEquations(socket, equations) {
             + 'left: ' + leftOffset + 'px;'
             + 'top: ' + topOffset + 'px;',
             "z-offset": zOffset + 'px',
-            "model-scale": '1, 1, 1',
+            "model-scale": '1, ' + (heightMLSize * 1.0) / diameterMLSize  + ', 1',
             "prism-rotation": rotationAxes[0] + ' ' + rotationAxes[1] + ' ' + rotationAxes[2],
             color: 'red'
         }
@@ -119,6 +119,7 @@ function handleUpdatedEquations(socket, equations) {
         console.log(html);
         io.sockets.emit('equationsML', html);
     }
+
 
 
     console.log(equations);
@@ -148,30 +149,32 @@ function convertToMLPosSphere(radius, posArr) {
     var result = []
     // origin at 550px, 550px, ?px;
     result.push(550 - convertToMLSize(radius) + convertToMLSize(posArr[0])); // x axis
-    result.push(550 - convertToMLSize(radius) + convertToMLSize(posArr[1])); // y axis
+    result.push(550 - convertToMLSize(radius) - convertToMLSize(posArr[1])); // y axis
     result.push(150 + convertToMLSize(posArr[2])); // z axis
     return result;
 }
 
+// TODO: Change model scale, XZ always same, only change Y
 function convertToMLPosCylinder(radius, bottom, height, posArr, rotationAxes) {
     var result = []
     // origin at 550px, 550px, ?px;
     // towards us, away from us
-    // TODO: Make sure flipping away from us
     if (rotationAxes[0] == '90deg') {
+        // CORRECT?
         result.push(550 - convertToMLSize(radius) + convertToMLSize(posArr[0])); // x axis
-        result.push(550 - convertToMLSize(height) + convertToMLSize(posArr[1])); // y axis
-        result.push(150 + convertToMLSize(bottom)); // z axis
+        result.push(550 - convertToMLSize(height) - convertToMLSize(posArr[1]) + convertToMLSize(height / 2)); // y axis
+        result.push(150 + convertToMLSize(bottom) + convertToMLSize(height / 2)); // z axis
     // sideways
-    // TODO: Make sure flipping to the right
     } else if (rotationAxes[2] == '90deg') {
-        result.push(550 - convertToMLSize(radius) + convertToMLSize(bottom)); // x axis
-        result.push(550 - convertToMLSize(height) + convertToMLSize(posArr[0])); // y axis
+        // CORRECT?
+        result.push(550 - convertToMLSize(radius) + convertToMLSize(bottom) + convertToMLSize(height / 2)); // x axis
+        result.push(550 - convertToMLSize(height) - convertToMLSize(posArr[0]) + convertToMLSize(height / 2)); // y axis
         result.push(150 + convertToMLSize(posArr[1])); // z axis
     // up down
     } else {
+        // CORRECT?
         result.push(550 - convertToMLSize(radius) + convertToMLSize(posArr[0])); // x axis
-        result.push(550 - convertToMLSize(height) + convertToMLSize(bottom)); // y axis
+        result.push(550 - convertToMLSize(height) - convertToMLSize(bottom)); // y axis
         result.push(150 + convertToMLSize(posArr[1])); // z axis
     }
     return result;
