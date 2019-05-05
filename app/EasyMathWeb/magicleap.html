@@ -48,14 +48,14 @@
     </ml-model> -->
 
     <!-- W = H, center -->
-    <ml-model src="sphere.16.gltf"
+    <!-- <ml-model src="sphere.16.gltf"
         style='width: 400px; height: 400px; position: absolute; left: 350px; top: 150px;',
         z-offset='150px'
         model-scale='1, 1, 1'
         prism-rotation= '0 0 0',
         color='red'
         environment-lighting='color-intensity: 1;'>
-    </ml-model>
+    </ml-model> -->
 
     <!-- W = H, XZ, (3, 3) -->
     <!-- <ml-model src="cylinder.fbx"
@@ -166,22 +166,22 @@
         color='yellow'>
     </ml-model> -->
 
-    <ml-model src="cylinder.fbx"
+    <!-- <ml-model src="cylinder.fbx"
         style='width: 1000px; height: 1000px; position: absolute; left: 50px; top: 50px;',
         z-offset='675px'
         model-scale='1, 0.25, 1'
         prism-rotation= '90deg 0 0',
         color='yellow'>
-    </ml-model>
+    </ml-model> -->
 
     <!-- W = H, center -->
-    <ml-model src="sphere.16.fbx"
+    <!-- <ml-model src="sphere.16.fbx"
         style='width: 1000px; height: 1000px; position: absolute; left: 350px; top: -550px;',
         z-offset='150px'
         model-scale='1, 1, 1'
         prism-rotation= '0 0 0',
         color='red'>
-    </ml-model>
+    </ml-model> -->
 
     <script>
         var shapeC = document.getElementById("shapeContainer");
@@ -230,7 +230,7 @@
         });
 
         function idToColor(id) {
-            color = ['orange', 'purple', 'yellow', 'red', 'green', 'black', 'brown'];
+            color = ['orange', 'purple', 'yellow', 'red', 'green', 'magenta', 'brown'];
             return color[id % color.length];
         }
 
