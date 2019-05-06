@@ -261,7 +261,7 @@
 
                     equations.position = position.map(String);
                     console.log("new position: " + equations.position);
-                    socket.emit('sphereEqs', equations)
+                    socket.emit('updateFromML', equations)
                 });
 
                 btnContainer.appendChild(currBtn);
@@ -283,7 +283,7 @@
             container.parentNode.removeChild(container);
             delete shapesMap[data.id];
             data.equations.radius = sliderVal / 2.0;
-            socket.emit('sphereEqs', data.equations);
+            socket.emit('updateFromML', data.equations);
         };
 
         socket.on('deleteShape', function (id) {
