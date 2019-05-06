@@ -7,7 +7,7 @@
     <title></title>
     <script src="https://unpkg.com/@magicleap/prismatic"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
-    <!-- <link rel="stylesheet" href="magicleap.css"> -->
+    <link rel="stylesheet" href="magicleap.css">
 </head>
 <body style="background-color: transparent;">
     <div id = "shapeContainer">
@@ -155,7 +155,7 @@
         (1000, 1000, 550 - 1000 / 2, 550 - 1000 / 2, 0.25, 1, 0.25, 550)
         (1000, 1000, 550 - 1000 / 2, 550 - 1000 / 2, 1, 0.25, 1, 550)
     -->
-    
+
     <!-- Half the height on YZ-->
     <!-- 4W = H, XY, (0, 0), bottom = 0 -->
     <!-- <ml-model src="cylinder.fbx"
@@ -185,7 +185,8 @@
 
     <script>
         var shapeC = document.getElementById("shapeContainer");
-        var socket = io.connect('http://10.158.134.74:3000');
+        var socket = io.connect('http://10.158.134.74:3000'); // PROD
+        // var socket = io.connect('localhost:3000'); // DEBUG
         var shapesMap = {};
         socket.on('equationsML', function (data) {
             console.log("update received from server: " + JSON.stringify(data));
@@ -210,7 +211,7 @@
             newPara.innerHTML = idToColor(data.id) + " shape radius slider: ";
 
 
-
+            // add slider
             var newSlider = document.createElement("input");
             newSlider.style.height = "5px";
             newSlider.style.width = "250px";
@@ -222,12 +223,55 @@
             newSlider.style.background = idToColor(data.id);
             newSlider.addEventListener("change", function() {
                 resize(data, newSlider.value);
-            })
+            });
+
+            // add move buttons to container
+            var btnContainer = createMoveBtns(data.id, data.equations, container);
+
+            // add slider, and text to container
             container.appendChild(newPara);
             container.appendChild(newSlider);
-            
+            container.appendChild(btnContainer);
+
+            // add container with slider and text to shape container
             shapeC.appendChild(container);
         });
+
+        function createMoveBtns(shapeId, equations) {
+            var buttonsText = ["-X", "+X", "-Y", "+Y", "-Z", "+Z"];
+            var color = idToColor(parseFloat(shapeId));
+            var btnContainer = document.createElement("div");
+            for (var i = 0; i < buttonsText.length; i++) {
+                var currBtn = document.createElement("button");
+                currBtn.style.background = color;
+                currBtn.style.width = '100px';
+                currBtn.style.color = 'white';
+                currBtn.id = "btn_" + shapeId + "_"+ i;
+                currBtn.innerHTML = buttonsText[i];
+                currBtn.addEventListener('click', function (e) {
+                    var position = equations.position.map(parseFloat);
+                    var i = parseInt(this.id[this.id.length - 1]);
+                    var idx = Math.floor(i / 2);
+                    var isAdd = i % 2 == 1;
+                    if (isAdd) {
+                        position[idx] += 1;
+                    } else {
+                        position[idx] -= 1;
+                    }
+
+                    equations.position = position.map(String);
+                    console.log("new position: " + equations.position);
+                    socket.emit('sphereEqs', equations)
+                });
+
+                btnContainer.appendChild(currBtn);
+                if (i % 2 == 1) {
+                    btnContainer.appendChild(document.createElement("br"));
+                }
+            }
+
+            return btnContainer;
+        }
 
         function idToColor(id) {
             color = ['orange', 'purple', 'yellow', 'red', 'green', 'magenta', 'brown'];
@@ -246,22 +290,6 @@
             var container = document.getElementById(id);
             container.parentNode.removeChild(container);
         });
-
-        // Second version
-
-
-        // io.on('connection', function (socket) {
-        //     console.log("comnmnected" + socket.id);
-        //     socket.on('equationsML', msg => {
-        //         var t = document.createElement("p");
-        //         t.innerText = "abc";
-        //         shapeC.appendChild(t);
-        //         console.log("update received from server: " + data);
-        //         var newDIV = document.createElement("div");
-        //         newDIV.innerHTML = data;
-        //         shapeC.appendChild(newDIV);
-        //     });
-        // });
     </script>
 </body>
 </html>
