@@ -34,14 +34,18 @@ var equationsField = [];
 io.on('connection', function (socket) {
     console.log("comnmnected" + socket.id);
     socket.on('sphereEqs', msg => {
-        console.log("innnn");
-        handleUpdatedEquations(socket, msg);
+        handleUpdatedEquations(socket, msg, true);
     });
     socket.on('cylinderEqs', msg => {
-        handleUpdatedEquations(socket, msg);
+        handleUpdatedEquations(socket, msg, true);
     });
     socket.on('deleteEqs', msg => {
         handleDeleteEquations(socket, msg);
+    });
+
+    socket.on('updateFromML', msg => {
+        io.sockets.emit('equations', msg);
+        handleUpdatedEquations(socket, msg, false);
     });
 });
 
@@ -52,7 +56,7 @@ function handleDeleteEquations(socket, id) {
 }
 
 // callback function when equations are updated on web
-function handleUpdatedEquations(socket, equations) {
+function handleUpdatedEquations(socket, equations, shouldEmit) {
     currEquations[equations.id] = equations;
 
     console.log("getting equations...");
@@ -83,12 +87,14 @@ function handleUpdatedEquations(socket, equations) {
 
         html = createHTML(htmlObj);
         console.log(html);
-        io.sockets.emit('equationsML', 
-        {
-            id: equations.id,
-            html: html,
-            equations: equations
-        });
+        if (shouldEmit) {
+            io.sockets.emit('equationsML',
+            {
+                id: equations.id,
+                html: html,
+                equations: equations
+            });
+        }
     } else if (type == 'cylinder') {
         console.log('CREATE CYLINDER');
         var r = equations.radius
@@ -120,12 +126,14 @@ function handleUpdatedEquations(socket, equations) {
 
         html = createHTML(htmlObj);
         console.log(html);
-        io.sockets.emit('equationsML', 
-        {
-            id: equations.id,
-            html: html,
-            equations: equations
-        });
+        if (shouldEmit) {
+            io.sockets.emit('equationsML', 
+            {
+                id: equations.id,
+                html: html,
+                equations: equations
+            });
+        }
     }
 
 
