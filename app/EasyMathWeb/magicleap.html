@@ -133,6 +133,7 @@
                 container.appendChild(p);
             }
 
+            var container = document.createElement('div');
             container.id = data.id;
 
             shapesMap[data.id] = data;
@@ -162,7 +163,7 @@
             });
 
             // add move buttons to container
-            var btnContainer = createMoveBtns(data.id, data.equations, container);
+            var btnContainer = createMoveBtns(data.id, data.equations);
 
             // add slider, and text to container
             container.appendChild(newPara);
@@ -191,6 +192,8 @@
                 currBtn.innerHTML = buttonsText[i];
                 currBtn.addEventListener('click', function (e) {
                     var position = equations.position.map(parseFloat);
+                    console.log('e ' + e);
+                    console.log('id ' + this.id);
                     var i = parseInt(this.id[this.id.length - 1]);
                     var idx = Math.floor(i / 2);
                     var isAdd = i % 2 == 1;
