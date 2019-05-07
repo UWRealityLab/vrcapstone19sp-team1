@@ -7,11 +7,42 @@
     <title></title>
     <script src="https://unpkg.com/@magicleap/prismatic"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
-    <link rel="stylesheet" href="magicleap.css">
+    <style>
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 25px;
+            background: blue;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        .slider:hover {
+            opacity: 1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            background: white;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body style="background-color: transparent;">
     <div id = "shapeContainer">
-        <h1>Welcome to Easy Math</h1>
+        
     </div>
 
     <!-- Z Axis (blue) -->
@@ -74,13 +105,13 @@
         color='yellow'>
     </ml-model> -->
 
-    <ml-model src='cylinder.fbx'
+    <!-- <ml-model src='cylinder.fbx'
         style='width: 5000px; height: 5000px; left: 300px; top: 300px;'
         z-offset='650px'
         model-scale='0.15, 0.1, 0.15'
         prism-rotation='90deg 0 0'
         color='purple' >
-    </ml-model>
+    </ml-model> -->
 
     <script>
         var shapeC = document.getElementById("shapeContainer");
@@ -88,14 +119,23 @@
         // var socket = io.connect('localhost:3000'); // DEBUG
         var shapesMap = {};
         socket.on('equationsML', function (data) {
-            console.log("update received from server: " + JSON.stringify(data));
+            console.log("update received from server on magicleap: " + JSON.stringify(data));
             // remove
             if (data.id in shapesMap) {
                 var container = document.getElementById(data.id);
                 container.parentNode.removeChild(container);
             }
+
             // add
             var container = document.createElement("div");
+
+            if (data.equations.text) {
+                var p = document.createElement("h3");
+                p.innerHTML = data.equations.text;
+                p.style.color = 'white';
+                container.appendChild(p);
+            }
+
             container.id = data.id;
 
             shapesMap[data.id] = data;
@@ -109,7 +149,6 @@
             newPara.style.fontSize = "32px";
             newPara.innerHTML = idToColor(data.id) + " shape radius slider: ";
 
-
             // add slider
             var newSlider = document.createElement("input");
             newSlider.style.height = "5px";
@@ -117,6 +156,7 @@
             newSlider.type = "range";
             newSlider.min = "1";
             newSlider.max = "5";
+            newSlider.classList.add('slider');
             newSlider.value = data.equations.radius * 2.0;
             newSlider.id = "slider" + data.id;
             newSlider.style.background = idToColor(data.id);
@@ -140,11 +180,16 @@
             var buttonsText = ["-X", "+X", "-Y", "+Y", "-Z", "+Z"];
             var color = idToColor(parseFloat(shapeId));
             var btnContainer = document.createElement("div");
+
+            btnContainer.appendChild(document.createElement("br"));
+
             for (var i = 0; i < buttonsText.length; i++) {
                 var currBtn = document.createElement("button");
                 currBtn.style.background = color;
                 currBtn.style.width = '100px';
+                currBtn.style.height = '40px';
                 currBtn.style.color = 'white';
+                currBtn.style.fontSize ='30px';
                 currBtn.id = "btn_" + shapeId + "_"+ i;
                 currBtn.innerHTML = buttonsText[i];
                 currBtn.addEventListener('click', function (e) {
@@ -173,7 +218,7 @@
         }
 
         function idToColor(id) {
-            color = ['orange', 'purple', 'yellow', 'red', 'green', 'magenta', 'brown'];
+            color = ['orange', 'purple', 'red', 'green', 'magenta', 'brown'];
             return color[id % color.length];
         }
 

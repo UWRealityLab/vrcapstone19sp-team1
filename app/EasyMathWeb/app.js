@@ -39,13 +39,18 @@ io.on('connection', function (socket) {
     socket.on('cylinderEqs', msg => {
         handleUpdatedEquations(socket, msg, true);
     });
+
     socket.on('deleteEqs', msg => {
         handleDeleteEquations(socket, msg);
     });
 
+    socket.on('deleteAllEqs', msg => {
+        handleDeleteAllEquations(socket, msg);
+    });
+
     socket.on('updateFromML', msg => {
         io.sockets.emit('equations', msg);
-        handleUpdatedEquations(socket, msg, false);
+        handleUpdatedEquations(socket, msg, true);
     });
 });
 
@@ -53,6 +58,12 @@ var currEquations = {};
 
 function handleDeleteEquations(socket, id) {
     io.sockets.emit('deleteShape', id);
+}
+
+function handleDeleteAllEquations(socket, msg) {
+    for (var key in currEquations){
+        io.sockets.emit('deleteShape', key);
+    } 
 }
 
 // callback function when equations are updated on web
@@ -143,7 +154,7 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
 }
 
 function idToColor(id) {
-    color = ['orange', 'purple', 'yellow', 'red', 'green', 'black', 'brown'];
+    color = ['orange', 'purple', 'red', 'green', 'magenta', 'brown'];
     return color[id % color.length];
 }
 

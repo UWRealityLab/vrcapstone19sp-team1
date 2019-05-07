@@ -1,7 +1,7 @@
 // NETWORKING
 var socket = io.connect('http://localhost:3000');
 socket.on('equations', function (data) {
-    console.log("update received from server: " + data);
+    console.log("update received from server: " + JSON.stringify(data));
 
     // update the frontend with the new equations
     updateEquation(data);
@@ -57,6 +57,7 @@ function getButton(name, value, handler) {
 window.onload = function() {
     $("addSphereEq").onclick = addSphereEq;
     $("addCylinderEq").onclick = addCylinderEq;
+    socket.emit('deleteAllEqs', "");
 }
 
 // --- HELPERS ----
@@ -91,6 +92,7 @@ function addSphereEq() {
     container.appendChild(document.createElement("br"));
     container.appendChild(document.createElement("br"));
     container.appendChild(getButton("sphere-field-", "Graph Sphere " + counter, updateSphereEq));
+    container.appendChild(getSpan(" "));
     container.appendChild(getButton("sphere-field-", "Delete Sphere " + counter, deleteEq));
 
     $("sphereEquations").appendChild(container); 
@@ -211,7 +213,7 @@ function getCylinderEquations(id) {
         return null;
     }
 
-    if (cylinderFields[5].value >= cylinderFields[6].value) {
+    if (parseInt(cylinderFields[5].value) >= parseInt(cylinderFields[6].value)) {
         alert("Inequality has to hold");
         return null;
     }

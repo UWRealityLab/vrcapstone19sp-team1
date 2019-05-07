@@ -100,6 +100,7 @@ function updateSphereEq() {
             coef: 1,
             position: [0, 0, 0],
             radius: Math.sqrt(values[0].value),
+            text: "Sphere Tutorial: Step 2",
         };
 
         console.log("sent to server: " + sphereEq);
@@ -124,6 +125,7 @@ function updateSphereEq() {
             coef: 1,
             position: [values[0].value, values[1].value, values[2].value],
             radius: values[3].value,
+            text: "Sphere Tutorial: Step 3",
         };
 
         console.log("sent to server: " + sphereEq);
@@ -148,6 +150,7 @@ function updateSphereEq() {
             coef: 1,
             position: [values[0].value, values[1].value, values[2].value],
             radius: values[3].value,
+            text: "Sphere Tutorial: Step 5",
         };
 
         console.log("sent to server: " + sphereEq);
@@ -164,6 +167,7 @@ function startStep4() {
         coef: 1,
         position: [0, 0, 0],
         radius: 1,
+        text: "Sphere Tutorial: Step 4",
     };
 
     console.log("sent to server: " + sphereEq);
@@ -182,7 +186,7 @@ function updateEquation(data) {
 
         sphereFields[3].value = data.radius;
 
-        if (sphereFields[0].value == 2 && sphereFields[1].value == 1 && sphereFields[2].value == 3 && sphereFields[2].value == 4) {
+        if (sphereFields[0].value == 2 && sphereFields[1].value == 1 && sphereFields[2].value == 3 && sphereFields[2].value == 2) {
             alert("You got it right");
         }
     }
@@ -323,4 +327,6 @@ window.onload = function() {
     $("next").onclick = nextStep;
     $("prev").onclick = prevStep;
     $("prev").disabled = true;
+
+    socket.emit('deleteAllEqs', "");
 }
