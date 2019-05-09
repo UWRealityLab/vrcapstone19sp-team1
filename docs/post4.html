@@ -110,12 +110,10 @@
             <p>
                 We made the following changes to the magic leap page:
                 <ul>
-                  <li>
-                    We improved our interface (sliders and buttons) which allows the user to interact with the shape.
-                  </li>
-                  <li>
-                    Displaying which step the user is on for the sphere study plan.
-                  </li>
+                  <li>Added the feature to plot the cylinder from the web and to appear on the magic leap. There were a lot of cases to cover. The cylinder can have three different orientations. The cylinder can go in the x, y, and z directions. X direction, the center of the cylinder’s base will be on the Y, Z plane. Y direction, the center of the cylinder’s base will be on the X, Z plane. Z direction, the center of the cylinder’s base on the X, Y plane. The complexity explodes when we have to plot it on the magic leap with respect to our coordinate system, which took more than 8 hours to figure out. This was because unlike the sphere, where we have the same width and height at all times, the cylinder can stretch in radius or height. This was a huge problem because the cylinder itself has an aspect ratio. For example, if we had width=100 and height=200, and we make the width 200, then height would be forced to be 400. So, we had to play around with the model-scale, from the prismatic library. Above this, we had to make sure that the cylinder sizing scale was the same as the sphere sizing scale, that is, a radius 5 sphere is the same size as a radius 5 cylinder.</li>
+                  <li>Added the feature to move the sphere and the cylinder on the magic leap in the X, Y, and Z directions and have the updated equation appear on the web. This was a lot more complicated for the cylinder was a lot more complicated because the cylinder can be in different orientations. For example, if the cylinder in the Y direction, that meant changing X, Z would change the center of the cylinder’s base and changing Y would shift the entire cylinder in the Y direction. Now, if the cylinder was in the X direction, that meant changing Y, Z would change the center of the cylinder’s base and changing X would shift the entire cylinder in the X direction.</li>
+                  <li>We improved our interface (sliders and buttons) which allows the user to interact with the shape.</li>
+                  <li>Displaying which step the user is on for the sphere study plan.</li>
                 </ul>
             </p>
 
@@ -153,14 +151,11 @@
                 Since we are in pairs each person completed the work together. Simon and Tanuj wrote blog and the team members provided the screenshots and help on content in the blog.
             </p>
             <p>
-                The first team (Matthew and Simon) worked on the changes to the Magic leap page as described in the previous sections and first _ points of
-                server. This next week, team 1 will implement the first two next week's tasks.
+                The first team (Matthew and Simon) worked on the changes to the Magic leap page as described in the previous sections. This next week, team 1 will implement the first two next week's tasks.
             </p>
             <p>
-                The second team (Esteban and Tanuj) worked on the changes to the index.html and index.js as described above and the last two points of
-                the server. The second team will complete the last two tasks from the next week section above.
+                The second team (Esteban and Tanuj) worked on the changes to the index.html and index.js as described above and the server. The second team will complete the last two tasks from the next week section above.
             </p>
-
 
             <h2>Blocking Issues</h2>
             <p>
