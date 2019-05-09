@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>VR Capstone Team 1 - EasyMath</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+  <!-- Custom styles for this template -->
+  <link href="css/clean-blog.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">VR Capstone Team 1</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="docs.html">Documents</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('img/post-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="post-heading">
+            <h1>Blog Post for Week 5 (4/27-5/3)</h1>
+            <h2 class="subheading"><!-- subheading here --></h2>
+            <span class="meta">Posted by
+              <a href="#">VR Capstone Team 1</a>
+              on 5/3/19</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Post Content -->
+  <article>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <h2>Update on code, links to relevant code added this week</h2>
+            <p>
+                There are three key components of our project.
+                <ol>
+                    <li>Server</li>
+                    <li>Webpage on the computer</li>
+                    <li>Magic Leap page</li>
+                </ol>
+
+            </p>
+
+            <h3>Server (app.js)</h3>
+            <p>
+                On the server we completed the following components:
+                <ul>
+                    <li> Receive the updates from magic leap whenever the users interacts with the page and forward that information to the webpage so that
+                    the updated values of the shape can be shown to the user on the webpage.</li>
+                    <li>We can send the magic leap a command to delete all the shapes while switching between playground and lesson plan</li>
+                </ul>
+            </p>
+
+            <h3>Webpage on the computer (index.html and index.js)</h3>
+            <p>
+                We made the following changes to the web interface:
+                <ul>
+                    <li>One of the biggest addition we made this week was the sphere plan. We added five steps to the
+                    sphere plan. User can navigate between these steps.</li>
+                    <li>We also added exercises to the study plan so students can measure how much they learned and we notify the
+                    students when they complete the exercise successfully.</li>
+                    <li>We update the equation values on the webpage in real time when ever it receives an update from the server for a
+                    specific shape.</li>
+                </ul>
+            </p>
+
+            <h3>Magic Leap page (magicleap.html)</h3>
+            <p>
+                We made the following changes to the magic leap page:
+                <ul>
+                  <li>
+                    We improved our interface (sliders and buttons) which allows the user to interact with the shape.
+                  </li>
+                  <li>
+                    Displaying which step the user is on for the sphere study plan.
+                  </li>
+                </ul>
+            </p>
+
+            <h2>Demo</h2>
+
+            <p>Below is the video of our current progress.</p>
+
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/Yqxxz27G3rw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+            <h2>Plan for next week</h2>
+            <p>
+                Our plan for next week is to finish:
+                <ol>
+                    <li>Ability to plot the next shape on our list i.e. cone and capabilities to interact with it.</li>
+                    <li>We need to add lighting to the shapes so we can tell it is 3D.</li>
+                    <li>Add a study plan for the cylinder.</li>
+                    <li>Allow the users to enter the cone equation and display the update value it receives from the server.</li>
+                </ol>
+            </p>
+
+
+            <h2>What every member did this week and will do next week</h2>
+            <p>
+                Our team believes we work more efficiently in pairs. Therefore, we paired into the following pairs:
+                <ol>
+                    <li>
+                        Matthew and Simon
+                    </li>
+                    <li>
+                        Esteban and Tanuj
+                    </li>
+                </ol>
+            </p>
+            <p>
+                Since we are in pairs each person completed the work together. Simon and Tanuj wrote blog and the team members provided the screenshots and help on content in the blog.
+            </p>
+            <p>
+                The first team (Matthew and Simon) worked on the changes to the Magic leap page as described in the previous sections and first _ points of
+                server. This next week, team 1 will implement the first two next week's tasks.
+            </p>
+            <p>
+                The second team (Esteban and Tanuj) worked on the changes to the index.html and index.js as described above and the last two points of
+                the server. The second team will complete the last two tasks from the next week section above.
+            </p>
+
+
+            <h2>Blocking Issues</h2>
+            <p>
+                We have no immediate blocking issues.
+            </p>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <ul class="list-inline text-center">
+            <li class="list-inline-item">
+              <a href="#">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+          </ul>
+          <p class="copyright text-muted">Copyright &copy; Your Website 2019</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/clean-blog.min.js"></script>
+
+</body>
+
+</html>
