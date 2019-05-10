@@ -42,8 +42,17 @@
 </head>
 <body style="background-color: transparent;">
     <div id = "shapeContainer">
-        
+
+        <ml-model src="cone.fbx"
+            style="width: 500px; height: 500px; position: absolute; left: 300px; top: 300px;"
+            model-scale="1, 1, 1"
+            color="blue"
+            prism-rotation="90deg 0 0">
+        </ml-model>
+
     </div>
+
+    <!-- ***************** AXES ***************** -->
 
     <!-- Z Axis (blue) -->
     <ml-model src="arrow.fbx"
@@ -69,49 +78,6 @@
         prism-rotation="0 0 90deg">
     </ml-model>
 
-    <!-- W = H, center -->
-    <!-- <ml-model src="sphere.16.fbx"
-        style='width: 400px; height: 400px; position: absolute; left: -500px; top: 350px;',
-        z-offset='150px'
-        model-scale='1, 1, 1'
-        prism-rotation= '0 0 0',
-        color='red'>
-    </ml-model> -->
-
-    <!-- XZ -->
-    <!-- <ml-model src="cylinder.fbx"
-        style='width: 500px; height: 500px; position: absolute; left: 300px; top: 237.5px;',
-        z-offset='150px'
-        model-scale='1, 0.25, 1'
-        prism-rotation= '0 0 0',
-        color='yellow'>
-    </ml-model> -->
-
-    <!-- YZ -->
-    <!-- <ml-model src="cylinder.fbx"
-        style='width: 500px; height: 500px; position: absolute; left: 362.5px; top: 300px;',
-        z-offset='150px'
-        model-scale='0.15, 0.25, 0.15'
-        prism-rotation= '0 0 90deg',
-        color='yellow'>
-    </ml-model> -->
-
-    <!-- XY -->
-    <!-- <ml-model src="cylinder.fbx"
-        style='width: 500px; height: 500px; position: absolute; left: 300px; top: 300px;',
-        z-offset='212.5px'
-        model-scale='0.5, 0.25, 0.5'
-        prism-rotation= '90deg 0 0',
-        color='yellow'>
-    </ml-model> -->
-
-    <!-- <ml-model src='cylinder.fbx'
-        style='width: 5000px; height: 5000px; left: 300px; top: 300px;'
-        z-offset='650px'
-        model-scale='0.15, 0.1, 0.15'
-        prism-rotation='90deg 0 0'
-        color='purple' >
-    </ml-model> -->
 
     <script>
         var shapeC = document.getElementById("shapeContainer");

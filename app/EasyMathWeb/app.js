@@ -63,7 +63,7 @@ function handleDeleteEquations(socket, id) {
 function handleDeleteAllEquations(socket, msg) {
     for (var key in currEquations){
         io.sockets.emit('deleteShape', key);
-    } 
+    }
 }
 
 // callback function when equations are updated on web
@@ -107,7 +107,6 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
             });
         }
     } else if (type == 'cylinder') {
-        console.log('CREATE CYLINDER');
         var r = equations.radius
         var r_squared = Math.pow(r, 2);
         var radius = Math.sqrt(r_squared / equations.coef);
@@ -138,7 +137,87 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
         html = createHTML(htmlObj);
         console.log(html);
         if (shouldEmit) {
-            io.sockets.emit('equationsML', 
+            io.sockets.emit('equationsML',
+            {
+                id: equations.id,
+                html: html,
+                equations: equations
+            });
+        }
+    } else if (type == 'ellipsoid') {
+        // TODO: test if correct
+        var r = equations.radius;
+        var r_squared = Math.pow(r, 2);
+        var radius = Math.sqrt(r_squared / equations.coef);
+        var radiusMLSize = convertToMLSize(radius);
+        var diameterMLSize = 2 * radiusMLSize;
+        var offsets = convertToMLPosSphere(radius, equations.position);
+        var leftOffset = offsets[0];
+        var topOffset = offsets[1];
+        var zOffset = offsets[2];
+
+        // equations.denoms = [a, b, c]
+        // (a, b, c) = model-scale
+        // (1, 1, 1) = (1, 1, 1)
+        // (2, 1, 1) = (1, 0.5, 0.5)
+        // (1, 2, 1) = (0.5, 1, 0.5)
+        // (1, 1, 0.5) = (1, 1, 0.5)
+        // (2, 2, 1) = (1, 1, 0.5)
+        var modelScales = modelScaleFromDenomElipsoid(equations.denoms).toString()
+
+        var htmlObj = {
+            src: 'sphere.16.fbx',
+            style: 'width: ' + diameterMLSize + 'px; '
+                + 'height: ' + diameterMLSize + 'px; '
+                + 'position: absolute; '
+                + 'left: ' + leftOffset + 'px; '
+                + 'top: ' + topOffset + 'px;',
+            "z-offset": zOffset + 'px',
+            "model-scale": modelScales[1:modelScales.length - 1],
+            "color": idToColor(equations.id)
+        }
+
+        html = createHTML(htmlObj);
+        console.log(html);
+        if (shouldEmit) {
+            io.sockets.emit('equationsML',
+            {
+                id: equations.id,
+                html: html,
+                equations: equations
+            });
+        }
+    } else if (type == 'cone') {
+        // TODO: test if correct
+        var r = equations.radius
+        var r_squared = Math.pow(r, 2);
+        var radius = Math.sqrt(r_squared / equations.coef);
+        var height = equations.height;
+        var offsetsAndRatios = convertToMLPosCylinder(radius, equations.bottom, height, equations.position, equations.rotationAxes);
+        var leftOffset = offsetsAndRatios[0];
+        var topOffset = offsetsAndRatios[1];
+        var zOffset = offsetsAndRatios[2];
+        var radiusRatio = offsetsAndRatios[3];
+        var heightRatio = offsetsAndRatios[4];
+        var rotationAxes = equations.rotationAxes;
+
+        var htmlObj = {
+            src: 'cone.fbx',
+            style: 'width: ' + 5000 + 'px; '
+            + 'height: ' + 5000 + 'px; '
+            + 'position: absolute; '
+            + 'left: ' + leftOffset + 'px; '
+            + 'top: ' + topOffset + 'px;',
+            "z-offset": zOffset + 'px',
+            "model-scale": radiusRatio + ', ' + heightRatio + ', ' + radiusRatio,
+            "prism-rotation": rotationAxes[0] + ' ' + rotationAxes[1] + ' ' + rotationAxes[2],
+            color: idToColor(equations.id)
+        }
+
+        html = createHTML(htmlObj);
+        console.log(html);
+        if (shouldEmit) {
+            io.sockets.emit('equationsML',
             {
                 id: equations.id,
                 html: html,
@@ -151,6 +230,12 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
 
     console.log(equations);
     equationsField = equations;
+}
+
+function modelScaleFromDenomElipsoid(denoms) {
+    max = Math.max(denoms);
+    result = denoms.map(x => x / max);
+    return result;
 }
 
 function idToColor(id) {
