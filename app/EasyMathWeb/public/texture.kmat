@@ -1,0 +1,14 @@
+{
+  "global": {
+    "shaderName": "DiffuseNormalSpecular",
+    "albedo": "texture.png",
+    "normal": "texture.png",
+    "color": [1, 1, 1, 1],
+    "materials": [
+    	{
+      		"name": "SampleMaterial",
+      		"opaque": true
+	 	}
+    ]
+  }
+}

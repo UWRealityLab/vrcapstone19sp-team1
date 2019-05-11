@@ -186,7 +186,7 @@ function updateEquation(data) {
 
         sphereFields[3].value = data.radius;
 
-        if (sphereFields[0].value == 2 && sphereFields[1].value == 1 && sphereFields[2].value == 3 && sphereFields[2].value == 2) {
+        if (data.position[0] == 2 && data.position[1] == 1 && data.position[2] == 3 && data.radius == 2) {
             alert("You got it right");
         }
     }

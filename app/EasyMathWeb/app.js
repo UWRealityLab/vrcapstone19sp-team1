@@ -123,8 +123,8 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
 
         var htmlObj = {
             src: 'cylinder.fbx',
-            style: 'width: ' + 5000 + 'px; '
-            + 'height: ' + 5000 + 'px; '
+            style: 'width: ' + 500 + 'px; '
+            + 'height: ' + 500 + 'px; '
             + 'position: absolute; '
             + 'left: ' + leftOffset + 'px; '
             + 'top: ' + topOffset + 'px;',
@@ -173,7 +173,7 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
                 + 'left: ' + leftOffset + 'px; '
                 + 'top: ' + topOffset + 'px;',
             "z-offset": zOffset + 'px',
-            "model-scale": modelScales[1:modelScales.length - 1],
+            "model-scale": '1, 1, 1',
             "color": idToColor(equations.id)
         }
 
@@ -203,8 +203,8 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
 
         var htmlObj = {
             src: 'cone.fbx',
-            style: 'width: ' + 5000 + 'px; '
-            + 'height: ' + 5000 + 'px; '
+            style: 'width: ' + 500 + 'px; '
+            + 'height: ' + 500 + 'px; '
             + 'position: absolute; '
             + 'left: ' + leftOffset + 'px; '
             + 'top: ' + topOffset + 'px;',
@@ -254,7 +254,7 @@ function createHTML(htmlObj) {
 }
 
 function convertToMLSize(size) {
-    return size * 100;
+    return size * 50;
 }
 
 function convertToMLPosSphere(radius, posArr) {
@@ -266,28 +266,37 @@ function convertToMLPosSphere(radius, posArr) {
     return result;
 }
 
+function convertToMLPosEllipsoid(a, b, c, posArr) {
+    var result = []
+    // origin at 550px, 550px, ?px;
+    result.push(550 - convertToMLSize(a) + convertToMLSize(posArr[0])); // x axis
+    result.push(550 - convertToMLSize(b) - convertToMLSize(posArr[1])); // y axis
+    result.push(150 + convertToMLSize(posArr[2])); // z axis
+    return result;
+}
+
 // TODO: Change model scale, XZ always same, only change Y
 function convertToMLPosCylinder(radius, bottom, height, posArr, rotationAxes) {
-    var diameterRatio = convertToMLSize(radius) * 2.0 / 5000;
-    var heightRatio = convertToMLSize(height) * 1.0 / 5000;
+    var diameterRatio = convertToMLSize(radius) * 2.0 / 500;
+    var heightRatio = convertToMLSize(height) * 1.0 / 500;
     var result = []
     // towards us, away from us
     if (rotationAxes[0] == '90deg') {
         // CORRECT?
-        result.push(550 - 2500 + convertToMLSize(posArr[0])); // x axis
-        result.push(550 - convertToMLSize(posArr[1]) - 2500); // y axis
-        result.push(150 + convertToMLSize(bottom) + 5000 * heightRatio / 2); // z axis
+        result.push(550 - 250 + convertToMLSize(posArr[0])); // x axis
+        result.push(550 - convertToMLSize(posArr[1]) - 250); // y axis
+        result.push(150 + convertToMLSize(bottom) + 500 * heightRatio / 2); // z axis
     // sideways
     } else if (rotationAxes[2] == '90deg') {
         // CORRECT?
-        result.push(550 - 2500 + convertToMLSize(bottom) + 5000 * heightRatio / 2); // x axis
-        result.push(550 - convertToMLSize(posArr[0]) - 2500); // y axis
+        result.push(550 - 250 + convertToMLSize(bottom) + 500 * heightRatio / 2); // x axis
+        result.push(550 - convertToMLSize(posArr[0]) - 250); // y axis
         result.push(150 + convertToMLSize(posArr[1])); // z axis
     // up down
     } else {
         // CORRECT?
-        result.push(550 - 2500 + convertToMLSize(posArr[0])); // x axis
-        result.push(550 - convertToMLSize(bottom) - 2500 - 5000 * heightRatio / 2); // y axis
+        result.push(550 - 250 + convertToMLSize(posArr[0])); // x axis
+        result.push(550 - convertToMLSize(bottom) - 250 - 500 * heightRatio / 2); // y axis
         result.push(150 + convertToMLSize(posArr[1])); // z axis
     }
     result.push(diameterRatio);

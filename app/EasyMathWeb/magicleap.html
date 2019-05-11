@@ -46,8 +46,10 @@
         <ml-model src="cone.fbx"
             style="width: 500px; height: 500px; position: absolute; left: 300px; top: 300px;"
             model-scale="1, 1, 1"
-            color="blue"
-            prism-rotation="90deg 0 0">
+            prism-rotation="90deg 0 0"
+            materials="
+                textures:
+                    texture.png;">
         </ml-model>
 
     </div>
@@ -78,6 +80,21 @@
         prism-rotation="0 0 90deg">
     </ml-model>
 
+    <ml-model src="cone.fbx"
+        style='width: 500px; height: 500px; position: absolute; left: 300px; top: 225px;',
+        z-offset='150px'
+        model-scale='0.2, 0.3, 0.2'
+        prism-rotation= '0 0 0',
+        color='yellow'>
+    </ml-model>
+
+    <!-- A = 1, B = 2, C = 3 -->
+    <!-- <ml-model src="sphere.16.fbx"
+        style='width: 500px; height: 500px; position: absolute; left: 475px; top: 500px;',
+        z-offset='150px'
+        model-scale='0.3, 0.2, 0.1'
+        color='yellow'>
+    </ml-model> -->
 
     <script>
         var shapeC = document.getElementById("shapeContainer");
@@ -92,15 +109,15 @@
                 container.parentNode.removeChild(container);
             }
 
+            var container = document.createElement('div');
+            container.id = data.id;
+
             if (data.equations.text) {
                 var p = document.createElement("h3");
                 p.innerHTML = data.equations.text;
                 p.style.color = 'white';
                 container.appendChild(p);
             }
-
-            var container = document.createElement('div');
-            container.id = data.id;
 
             shapesMap[data.id] = data;
 
@@ -140,6 +157,14 @@
             shapeC.appendChild(container);
         });
 
+        function eventListener(btn, func) {
+            var buttonsText = ["-X", "+X", "-Y", "+Y", "-Z", "+Z"];
+            eqs = func();
+            btn.addEventListener('click', function (e) {
+                socket.emit('updateFromML', eq)
+            });
+        }
+
         function createMoveBtns(shapeId, equations) {
             var buttonsText = ["-X", "+X", "-Y", "+Y", "-Z", "+Z"];
             var color = idToColor(parseFloat(shapeId));
@@ -156,23 +181,88 @@
                 currBtn.style.fontSize ='30px';
                 currBtn.id = "btn_" + shapeId + "_"+ i;
                 currBtn.innerHTML = buttonsText[i];
-                currBtn.addEventListener('click', function (e) {
-                    var position = equations.position.map(parseFloat);
-                    console.log('e ' + e);
-                    console.log('id ' + this.id);
-                    var i = parseInt(this.id[this.id.length - 1]);
-                    var idx = Math.floor(i / 2);
-                    var isAdd = i % 2 == 1;
-                    if (isAdd) {
-                        position[idx] += 1;
-                    } else {
-                        position[idx] -= 1;
-                    }
+                if (equations.type == 'sphere') {
+                    currBtn.addEventListener('click', function (e) {
+                        var position = equations.position.map(parseFloat);
+                        var i = parseInt(this.id[this.id.length - 1]);
+                        var idx = Math.floor(i / 2);
+                        var isAdd = i % 2 == 1;
+                        if (isAdd) {
+                            position[idx] += 1;
+                        } else {
+                            position[idx] -= 1;
+                        }
 
-                    equations.position = position.map(String);
-                    console.log("new position: " + equations.position);
-                    socket.emit('updateFromML', equations)
-                });
+                        console.log(position);
+
+                        equations.position = position.map(String);
+                        console.log("new position: " + equations.position);
+                        socket.emit('updateFromML', equations)
+                    });
+                } else if (equations.type == 'cylinder') {
+                    currBtn.addEventListener('click', function (e) {
+                        var position = equations.position.map(parseFloat);
+                        var rotationAxes = equations.rotationAxes;
+                        // towards us, away from us Z, XY
+                        var i = parseInt(this.id[this.id.length - 1]);
+                        var idx = Math.floor(i / 2);
+                        var isAdd = i % 2 == 1;
+                        if (rotationAxes[0] == '90deg') {
+                            if (idx == 2) {
+                                var diff = -1;
+                                if (isAdd) {
+                                    diff = 1;
+                                }
+                                equations.bottom = parseFloat(equations.bottom) + diff;
+                                equations.top = parseFloat(equations.top) + diff;
+                            } else {
+                                if (isAdd) {
+                                    position[idx] += 1;
+                                } else {
+                                    position[idx] -= 1;
+                                }
+                            }
+                        // sideways X, YZ
+                        } else if (rotationAxes[2] == '90deg') {
+                            if (idx == 0) {
+                                var diff = -1;
+                                if (isAdd) {
+                                    diff = 1;
+                                }
+                                equations.bottom = parseFloat(equations.bottom) + diff;
+                                equations.top = parseFloat(equations.top) + diff;
+                            } else {
+                                if (isAdd) {
+                                    position[idx] += 1;
+                                } else {
+                                    position[idx] -= 1;
+                                }
+                            }
+                        // up down Y, XZ
+                        } else {
+                            if (idx == 1) {
+                                var diff = -1;
+                                if (isAdd) {
+                                    diff = 1;
+                                }
+                                equations.bottom = parseFloat(equations.bottom) + diff;
+                                equations.top = parseFloat(equations.top) + diff;
+                            } else {
+                                if (isAdd) {
+                                    position[idx] += 1;
+                                } else {
+                                    position[idx] -= 1;
+                                }
+                            }
+                        }
+
+                        console.log(position);
+
+                        equations.position = position.map(String);
+                        console.log("new position: " + equations.position);
+                        socket.emit('updateFromML', equations)
+                    });
+                }
 
                 btnContainer.appendChild(currBtn);
                 if (i % 2 == 1) {
