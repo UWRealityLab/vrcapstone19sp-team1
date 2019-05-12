@@ -1,0 +1,46 @@
+<html>
+        <head>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+            <script src="plotter.js"></script>
+            <link rel="stylesheet" href="plotter.css">
+        </head>
+        <body>
+            <div id="header">
+                <a href="index.html"><img src="logo.png" alt="logo"></a>
+                <h1>EasyMath</h1>
+            </div>    
+            <h2>Plotter : Type math equations below</h2>
+            <div id="math-fields-wrapper">
+                <div class="equations">
+                    <h3> Sphere Equation : (x - a)^2 + (y - b)^2 + (z - c)^2 = r^2 </h3>
+                    <button type="button" class="create" id="addSphereEq">Create Sphere</button>
+                    <div id="sphereEquations">
+                        
+                    </div>
+                </div>
+                <div class="equations">
+                    <h3> Cylinder Equation : (x - a)^2 + (y - b)^2 = r^2 where m < z < n </h3>
+                    <button type="button" class="create" id="addCylinderEq">Create Cylinder</button>
+                    <div id="cylinderEquations">
+                        
+                    </div>
+                </div>
+                <div class="equations">
+                    <h3> Cone Equation : (x - a)^2 + (y - b)^2 = r^2 / c^2 where m < z < n</h3>
+                    <button type="button" class="create" id="addConeEq">Create Cone</button>
+                    <div id="coneEquations">
+                            
+                    </div>
+                </div>
+                <div class="equations">
+                    <h3> Ellipsoid Equation : (x - a)^2 / u^2 + (y - b)^2 / v^2 + (z - c)^2 / w^2 = r^2</h3>
+                    <button type="button" class="create" id="addEllipsoidEq">Create Ellipsoid</button>
+                    <div id="ellipsoidEquations">
+                            
+                    </div>
+                </div>
+            </div>
+        </body>
+    </html>
+    

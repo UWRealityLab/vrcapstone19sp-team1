@@ -7,16 +7,19 @@ socket.on('equations', function (data) {
     updateEquation(data);
 });
 
+// --- Global Fields ---
 var idEquationMap = {};
 var counter = 0;
 var numOfShapes = 0;
 
+// --- HELPERS ----
 function $(id) {
     return document.getElementById(id);
 }
 
 function getInput(type) {
     var equation = document.createElement("input");
+    equation.style.width = "30px";
     equation.classList.add(type + counter);
     return equation;
 }
@@ -51,16 +54,32 @@ function getButton(name, value, handler) {
     button.addEventListener('click', function() {
         handler(button.value);
     })
+    button.classList.add("buttons");
     return button;
 }
 
 window.onload = function() {
     $("addSphereEq").onclick = addSphereEq;
     $("addCylinderEq").onclick = addCylinderEq;
+    $("addConeEq").onclick = addConeEq;
+    $("addEllipsoidEq").onclick = addEllipsoidEq;
     socket.emit('deleteAllEqs', "");
 }
 
-// --- HELPERS ----
+function deleteEq(id) {
+    var div = $("div-" + id);
+    div.parentNode.removeChild(div);
+
+    numOfShapes--;
+
+    console.log("sent to server: " + id + " for delete");
+    socket.emit('deleteEqs', id);
+}
+
+
+// -----------------------------------------------------------
+// ------------------- Sphere Methods ------------------------
+// -----------------------------------------------------------
 function addSphereEq() {
     if (numOfShapes > 2) {
         alert("Sorry, maximum 3 shapes allowed");
@@ -137,6 +156,10 @@ function getSphereEquations(id) {
     return sphereEq;
 }
 
+// -----------------------------------------------------------
+// ------------------ Cylinder Methods -----------------------
+// -----------------------------------------------------------
+
 function addCylinderEq() {
     if (numOfShapes > 2) {
         alert("Sorry, maximum 3 shapes allowed");
@@ -173,6 +196,7 @@ function addCylinderEq() {
     container.appendChild(document.createElement("br"));
     container.appendChild(document.createElement("br"));
     container.appendChild(getButton("cylinder-field-", "Graph Cylinder " + counter, updateCylinderEq));
+    container.appendChild(getSpan(" "));
     container.appendChild(getButton("cylinder-field-", "Delete Cylinder " + counter, deleteEq));
 
     $("cylinderEquations").appendChild(container); 
@@ -217,7 +241,6 @@ function getCylinderEquations(id) {
         alert("Inequality has to hold");
         return null;
     }
-
     // what equations for the cylinder should look like
     var cylinderEq = {
         id: id,
@@ -238,6 +261,216 @@ function getCylinderEquations(id) {
     return cylinderEq;
 }
 
+// -----------------------------------------------------------
+// -------------------- Cone Methods -------------------------
+// -----------------------------------------------------------
+
+function addConeEq() {
+    if (numOfShapes > 2) {
+        alert("Sorry, maximum 3 shapes allowed");
+        return;
+    }
+
+    counter++;
+    numOfShapes++;
+
+    var container = document.createElement("div");
+    container.id = "div-" + counter;
+
+    container.appendChild(document.createElement("br"));
+    container.appendChild(getSpan(" Equation " + counter + ": "));
+    container.appendChild(getInput("cone-field-"));
+    container.appendChild(getSpan(" ("));
+    container.appendChild(getDropDown("first-" + counter, "x", "y", "z"));
+    container.appendChild(getSpan(" - "));
+    container.appendChild(getInput("cone-field-"));
+    container.appendChild(getSpan(" )^2 + "));
+    container.appendChild(getInput("cone-field-"));
+    container.appendChild(getSpan(" ("));
+    container.appendChild(getDropDown("second-" + counter, "y", "z", "x"));
+    container.appendChild(getSpan(" - "));
+    container.appendChild(getInput("cone-field-"));
+    container.appendChild(getSpan(" )^2 = "));
+    container.appendChild(getInput("cone-field-"));
+    container.appendChild(getSpan(" ^ 2 / "));
+    container.appendChild(getInput("cone-field-"));
+    container.appendChild(getSpan(" ^ 2 where "));
+    container.appendChild(getInput("cone-field-"));
+    container.appendChild(getSpan(" < "));
+    container.appendChild(getDropDown("third-" + counter, "z", "x", "y"));
+    container.appendChild(getSpan(" < "));
+    container.appendChild(getInput("cone-field-"));
+    container.appendChild(document.createElement("br"));
+    container.appendChild(document.createElement("br"));
+    container.appendChild(getButton("cone-field-", "Graph Cone " + counter, updateConeEq));
+    container.appendChild(getSpan(" "));
+    container.appendChild(getButton("cone-field-", "Delete Cone " + counter, deleteEq));
+
+    $("coneEquations").appendChild(container); 
+}
+
+function updateConeEq(id) {
+    var coneEq = getConeEquations(id);
+
+    if (coneEq) {
+        idEquationMap[id] = coneEq;
+
+        console.log("sent to server: " + coneEq);
+        socket.emit('coneEqs', coneEq);
+
+        console.log(coneEq);
+    }
+}
+
+function getConeEquations(id) {
+    var coneFields = document.getElementsByClassName("cone-field-" + id);
+   
+    var orientation = checkXYZ(id);
+    if (!orientation) {
+        alert("X, Y and Z should be selected exactly once");
+        return null;
+    }
+
+    var firstFields = $("first-" + id);
+    var secondFields = $("second-" + id);
+
+    if (!(coneFields[0].value == coneFields[2].value && coneFields[0].value != 0)) {
+        alert("Coefficients of " + firstFields.options[firstFields.selectedIndex].text +  " and " + secondFields.options[secondFields.selectedIndex].text + " should be same");
+        return null;
+    }
+
+    if (coneFields[4].value == 0) {
+        alert("Cone radius cannot be zero");
+        return null;
+    }
+
+    if (coneFields[5].value == 0) {
+        alert("C cannot be zero");
+        return null;
+    }
+
+    if (parseInt(cylinderFields[6].value) >= parseInt(cylinderFields[7].value)) {
+        alert("Inequality has to hold");
+        return null;
+    }
+
+    var r = parseInt(cylinderFields[7].value) - parseInt(cylinderFields[6].value);
+
+    // what equations for the cylinder should look like
+    var coneEq = {
+        id: id,
+        type: 'cone',
+        coef: coneFields[0].value,
+        position: [coneFields[1].value, coneFields[3].value],
+        radius: coneFields[4].value,
+        bottom: coneFields[6].value, // lower bound 
+        top: coneFields[7].value, // higher bound
+        height: coneFields[7].value - coneFields[6].value, //  top - bottom
+        rotationAxes: orientation
+        // orientation xy, yz, xz
+        // if xy || yx -> 90deg, 0, 0
+        // if xz -> 0, 0, 0
+        // if yz || zy -> 0, 0, 90deg
+    };
+
+    return cylinderEq;
+}
+
+// -----------------------------------------------------------
+// ------------------ Ellipsoid Methods ----------------------
+// -----------------------------------------------------------
+function addEllipsoidEq() {
+    if (numOfShapes > 2) {
+        alert("Sorry, maximum 3 shapes allowed");
+        return;
+    }
+
+    counter++;
+    numOfShapes++;
+
+    var container = document.createElement("div");
+    container.id = "div-" + counter;
+
+    container.appendChild(document.createElement("br"));
+    container.appendChild(getSpan(" Equation " + counter + ": "));
+    container.appendChild(getInput("ellipsoid-field-"));
+    container.appendChild(getSpan(" (x - "));
+    container.appendChild(getInput("ellipsoid-field-"));
+    container.appendChild(getSpan(" )^2 / "));
+    container.appendChild(getInput("ellipsoid-field-"));
+    container.appendChild(getSpan(" ^ 2 + "));
+    container.appendChild(getInput("ellipsoid-field-"));
+    container.appendChild(getSpan(" (y - "));
+    container.appendChild(getInput("ellipsoid-field-"));
+    container.appendChild(getSpan(" )^2 / "));
+    container.appendChild(getInput("ellipsoid-field-"));
+    container.appendChild(getSpan(" ^ 2 + "));
+    container.appendChild(getInput("ellipsoid-field-"));
+    container.appendChild(getSpan(" (z - "));
+    container.appendChild(getInput("ellipsoid-field-"));
+    container.appendChild(getSpan(" )^2 / "));
+    container.appendChild(getInput("ellipsoid-field-"));
+    container.appendChild(getSpan(" ^ 2 = "));
+    container.appendChild(getInput("ellipsoid-field-"));
+    container.appendChild(getSpan(" ^2 "));
+    container.appendChild(document.createElement("br"));
+    container.appendChild(document.createElement("br"));
+    container.appendChild(getButton("ellipsoid-field-", "Graph Ellipsoid " + counter, updateEllipsoidEq));
+    container.appendChild(getSpan(" "));
+    container.appendChild(getButton("ellipsoid-field-", "Delete Ellipsoid " + counter, deleteEq));
+
+    $("ellipsoidEquations").appendChild(container); 
+}
+
+function updateEllipsoidEq(id) {
+    var ellipsoidEq = getEllipsoidEquations(id);
+
+    if (ellipsoidEq) {
+        idEquationMap[id] = ellipsoidEq;
+
+        console.log("sent to server: " + ellipsoidEq);
+        socket.emit('ellipsoidEqs', ellipsoidEq);
+
+        console.log(ellipsoidEq);
+    }
+}
+
+function getEllipsoidEquations(id) {
+    var ellipsoidFields = document.getElementsByClassName("ellipsoid-field-" + id);
+
+    if (!(ellipsoidFields[0].value == ellipsoidFields[3].value &&
+        ellipsoidFields[3].value == ellipsoidFields[6].value && 
+        ellipsoidFields[0].value != 0)) {
+        alert("Coefficients of X, Y and Z of ellipsoid should be same");
+        return null;
+    }
+
+    if (ellipsoidFields[9].value == 0) {
+        alert("Ellipsoid radius cannot be zero");
+        return null;
+    }
+
+    if (ellipsoidFields[2].value == 0 ||
+        ellipsoidFields[5].value == 0 || 
+        ellipsoidFields[8].value == 0) {
+        alert("Denominators of X, Y and Z cannot be zero");
+        return null;
+    }
+
+    // what equations should look like for a sphere
+    var ellipsoidEq = {
+        id: id,
+        type: 'ellipsoid',
+        coef: ellipsoidFields[0].value,
+        position: [ellipsoidFields[1].value, ellipsoidFields[4].value, ellipsoidFields[7].value],
+        radius: sphereFields[9].value,
+        denoms: [ellipsoidFields[2].value, ellipsoidFields[5].value, ellipsoidFields[8].value],
+    };
+    
+    return ellipsoidEq;
+}
+
+// --- Parameter Checking Helper method
 function checkXYZ(id) {
     var actual = [];
 
@@ -263,16 +496,7 @@ function checkXYZ(id) {
     }
 }
 
-function deleteEq(id) {
-    var div = $("div-" + id);
-    div.parentNode.removeChild(div);
-
-    numOfShapes--;
-
-    console.log("sent to server: " + id + " for delete");
-    socket.emit('deleteEqs', id);
-}
-
+// Update Equations using server update
 function updateEquation(data) {
     if (data.type == 'sphere') {
         var sphereFields = document.getElementsByClassName("sphere-field-" + data.id);
@@ -299,5 +523,36 @@ function updateEquation(data) {
 
         cylinderFields[5].value = data.bottom;
         cylinderFields[6].value = data.top;
+    } else if (data.type == 'cone') {
+        var coneFields = document.getElementsByClassName("cone-field-" + data.id);
+
+        coneFields[0].value = data.coef;
+        coneFields[2].value = data.coef;
+
+        coneFields[1].value = data.position[0];
+        coneFields[3].value = data.position[1];
+
+        coneFields[4].value = data.radius;
+
+        coneFields[5].value = parseInt(data.radius) / (parseInt(data.top) - parseInt(data.bottom));
+
+        coneFields[6].value = data.bottom;
+        coneFields[7].value = data.top;
+    } else if (data.type == 'ellipsoid') {
+        var ellipsoidFields = document.getElementsByClassName("ellipsoid-field-" + data.id);
+
+        ellipsoidFields[0].value = data.coef;
+        ellipsoidFields[3].value = data.coef;
+        ellipsoidFields[6].value = data.coef;
+
+        ellipsoidFields[1].value = data.position[0];
+        ellipsoidFields[4].value = data.position[1];
+        ellipsoidFields[7].value = data.position[2];
+
+        ellipsoidFields[2].value = data.denoms[0];
+        ellipsoidFields[5].value = data.denoms[1];
+        ellipsoidFields[8].value = data.denoms[2];
+
+        ellipsoidFields[9].value = data.radius;
     }
 }

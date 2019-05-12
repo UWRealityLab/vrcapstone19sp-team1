@@ -279,10 +279,12 @@ function nextStep() {
 
     if (currStepNum == 5) {
         $("next").disabled = true;
+        $("next").classList.add("disable");
     }
 
     if (currStepNum > 1) {
         $("prev").disabled = false;
+        $("prev").classList.remove("disable");
     }
 }
 
@@ -303,10 +305,12 @@ function prevStep() {
 
     if (currStepNum == 1) {
         $("prev").disabled = true;
+        $("prev").classList.add("disable");
     }
 
     if (currStepNum < 5) {
         $("next").disabled = false;
+        $("next").classList.remove("disable");
     }
 }
 
@@ -327,6 +331,7 @@ window.onload = function() {
     $("next").onclick = nextStep;
     $("prev").onclick = prevStep;
     $("prev").disabled = true;
+    $("prev").classList.add("disable");
 
     socket.emit('deleteAllEqs', "");
 }

@@ -3,24 +3,27 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
         <script src="index.js"></script>
+        <link rel="stylesheet" href="index.css">
     </head>
     <body>
-        <h1>EasyMath</h1>
-        <h2>Type math equations below</h2>
-        <div id="math-fields-wrapper">
-            <h3> Sphere Equations : (x - a)^2 + (y - b)^2 + (z - c)^2 = r^2 </h3>
-            <button type="button" name="button" id="addSphereEq">Create Sphere</button>
-            <div id="sphereEquations">
-                
-            </div>
-            <h3> Cylinder Equations : (x - a)^2 + (y - b)^2 = r^2 where m < z < n </h3>
-            <button type="button" name="button" id="addCylinderEq">Create Cylinder</button>
-            <div id="cylinderEquations">
-                
-            </div>
+        <div id="header">
+            <img src="logo.png" alt="logo">
+            <h1>EasyMath</h1>
         </div>
-        <h2>EasyMath Tutorials!</h2>
-        <button type="button" name="button" onclick="window.location.href = 'lessonPlanSphere.html';">Sphere Tutorial</button>
-        <button type="button" name="button" disabled="true" onclick="window.location.href = 'lessonPlanCylinder.html';">Cylinder Tutorial</button>
+        <div id="wrapper">
+            <button type="button" id="plotterButton" onclick="window.location.href = 'plotter.html';">Plotter</button>
+            <br>
+            <button type="button" class="tutorial" onclick="window.location.href = 'lessonPlanFirst.html';">Sphere & Cylinder Tutorial</button>
+            <button type="button" class="tutorial disable" disabled="true" onclick="window.location.href = 'lessonPlanSecond.html';">Cone & Ellipsoid Tutorial</button>
+        </div>
+        <div id="footer">
+            <p>Developed by -</p>
+            <ul>
+                <li>Esteban Posada</li>
+                <li>Matthew Chun</li>
+                <li>Simon San</li>
+                <li>Tanuj Jhawar</li>
+            </ul>
+        </div>
     </body>
 </html>

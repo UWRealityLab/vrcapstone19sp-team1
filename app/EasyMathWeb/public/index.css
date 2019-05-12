@@ -1,0 +1,68 @@
+body {
+    background-color: #288AF8;
+    font-family: 'Times New Roman', Times, serif;
+    color: white;
+}
+
+#header {
+    text-align: center;
+    width: 100%;
+}
+
+img {
+    width: 13%;
+    height: 13%;
+}
+
+h1 {
+    font-family: 'Courier New', Courier, monospace;
+    color: white;
+    font-size: 50px;
+}
+
+#footer {
+    border: 2px solid white;
+    margin: 5px;
+    padding: 7px;
+    bottom: 0;
+    position:absolute;
+}
+
+button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+    position: center;
+}
+    
+button:hover {
+    background-color: white; 
+    color: black; 
+    border: 2px solid #4CAF50;
+}
+
+#plotterButton {
+    width: 50%;
+}
+
+.tutorial {
+    width: 24.5%;
+}
+
+#wrapper {
+    text-align: center;
+    width: 100%;
+}
+
+.disable {
+    background-color: #FF3F47;
+}

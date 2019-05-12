@@ -1,9 +1,3 @@
-#stepContainer {
-    border: 2px solid white;
-    margin: 5px;
-    padding: 7px;
-}
-
 body {
     background-color: #288AF8;
     font-family: 'Times New Roman', Times, serif;
@@ -27,7 +21,27 @@ h1 {
     font-size: 50px;
 }
 
-button {
+.equations {
+    border: 2px solid white;
+    margin: 5px;
+    padding: 7px;
+}
+
+.create {
+    border-radius: 4px;
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.buttons {
     border-radius: 4px;
     background-color: #F2F828;
     border: none;
@@ -41,21 +55,6 @@ button {
     cursor: pointer;
 }
 
-.step-button {
-    border-radius: 4px;
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-}
-
-.disable {
+select {
     background-color: #FF3F47;
 }
-

@@ -39,6 +39,12 @@ io.on('connection', function (socket) {
     socket.on('cylinderEqs', msg => {
         handleUpdatedEquations(socket, msg, true);
     });
+    socket.on('coneEqs', msg => {
+        handleUpdatedEquations(socket, msg, true);
+    });
+    socket.on('ellipsoidEqs', msg => {
+        handleUpdatedEquations(socket, msg, true);
+    });
 
     socket.on('deleteEqs', msg => {
         handleDeleteEquations(socket, msg);
@@ -188,7 +194,6 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
             });
         }
     } else if (type == 'cone') {
-        // TODO: test if correct
         var r = equations.radius
         var r_squared = Math.pow(r, 2);
         var radius = Math.sqrt(r_squared / equations.coef);
@@ -303,6 +308,8 @@ function convertToMLPosCylinder(radius, bottom, height, posArr, rotationAxes) {
     result.push(heightRatio);
     return result;
 }
+
+// TODO: CONE c = r / h
 
 function updateEquationsOnWebsite(equations) {
     socket.emit('equations', equations);
