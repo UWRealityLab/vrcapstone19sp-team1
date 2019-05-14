@@ -91,7 +91,7 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
         var zOffset = offsets[2];
 
         var htmlObj = {
-            src: 'sphere.16.fbx',
+            src: 'sphere1.glb',
             style: 'width: ' + diameterMLSize + 'px; '
                 + 'height: ' + diameterMLSize + 'px; '
                 + 'position: absolute; '
@@ -128,7 +128,7 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
         console.log(offsetsAndRatios);
 
         var htmlObj = {
-            src: 'cylinder.fbx',
+            src: 'cylinder.glb',
             style: 'width: ' + 500 + 'px; '
             + 'height: ' + 500 + 'px; '
             + 'position: absolute; '
@@ -152,15 +152,11 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
         }
     } else if (type == 'ellipsoid') {
         // TODO: test if correct
-        var r = equations.radius;
-        var r_squared = Math.pow(r, 2);
-        var radius = Math.sqrt(r_squared / equations.coef);
-        var radiusMLSize = convertToMLSize(radius);
-        var diameterMLSize = 2 * radiusMLSize;
-        var offsets = convertToMLPosSphere(radius, equations.position);
-        var leftOffset = offsets[0];
-        var topOffset = offsets[1];
-        var zOffset = offsets[2];
+        var denoms = equations.denoms;
+        var offsetsAndRatios = convertToMLPosEllipsoid(denoms[0], denoms[1], denoms[2], equations.position);
+        var leftOffset = offsetsAndRatios[0];
+        var topOffset = offsetsAndRatios[1];
+        var zOffset = offsetsAndRatios[2];
 
         // equations.denoms = [a, b, c]
         // (a, b, c) = model-scale
@@ -169,17 +165,19 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
         // (1, 2, 1) = (0.5, 1, 0.5)
         // (1, 1, 0.5) = (1, 1, 0.5)
         // (2, 2, 1) = (1, 1, 0.5)
-        var modelScales = modelScaleFromDenomElipsoid(equations.denoms).toString()
+        var aRatio = offsetsAndRatios[3];
+        var bRatio = offsetsAndRatios[4];
+        var cRatio = offsetsAndRatios[5];
 
         var htmlObj = {
-            src: 'sphere.16.fbx',
-            style: 'width: ' + diameterMLSize + 'px; '
-                + 'height: ' + diameterMLSize + 'px; '
+            src: 'sphere1.glb',
+            style: 'width: ' + 500 + 'px; '
+                + 'height: ' + 500 + 'px; '
                 + 'position: absolute; '
                 + 'left: ' + leftOffset + 'px; '
                 + 'top: ' + topOffset + 'px;',
             "z-offset": zOffset + 'px',
-            "model-scale": '1, 1, 1',
+            "model-scale": aRatio + ', ' + bRatio + ', ' + cRatio,
             "color": idToColor(equations.id)
         }
 
@@ -205,9 +203,13 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
         var radiusRatio = offsetsAndRatios[3];
         var heightRatio = offsetsAndRatios[4];
         var rotationAxes = equations.rotationAxes;
+        
+        if (rotationAxes[2] == '90deg') {
+            rotationAxes[2] = '270deg';
+        }
 
         var htmlObj = {
-            src: 'cone.fbx',
+            src: 'cone.glb',
             style: 'width: ' + 500 + 'px; '
             + 'height: ' + 500 + 'px; '
             + 'position: absolute; '
@@ -238,8 +240,11 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
 }
 
 function modelScaleFromDenomElipsoid(denoms) {
-    max = Math.max(denoms);
-    result = denoms.map(x => x / max);
+    denomsInts = [parseInt(denoms[0]), parseInt(denoms[1]), parseInt(denoms[2])]
+    max = Math.max.apply(Math, denomsInts);
+    console.log(max);
+    result = [denomsInts[0] / max, denomsInts[1] / max, denomsInts[2] / max];
+    console.log(result);
     return result;
 }
 
@@ -273,10 +278,28 @@ function convertToMLPosSphere(radius, posArr) {
 
 function convertToMLPosEllipsoid(a, b, c, posArr) {
     var result = []
+    var aRatio = convertToMLSize(a) * 2.0 / 500;
+    var bRatio = convertToMLSize(b) * 2.0 / 500;
+    var cRatio = convertToMLSize(c) * 2.0 / 500;
     // origin at 550px, 550px, ?px;
-    result.push(550 - convertToMLSize(a) + convertToMLSize(posArr[0])); // x axis
-    result.push(550 - convertToMLSize(b) - convertToMLSize(posArr[1])); // y axis
+
+    // result.push(550 + 500 * aRatio / 4 + convertToMLSize(posArr[0])); // x axis
+    // result.push(550 - 500 * bRatio / 4 - convertToMLSize(posArr[1])); // y axis
+
+    // result.push(550 - 500 * aRatio / 2 + convertToMLSize(posArr[0])); // x axis
+    // result.push(550 - 500 * bRatio / 2 - convertToMLSize(posArr[1])); // y axis
+
+    // result.push(550 / 2 - 500 * aRatio / 2 + convertToMLSize(posArr[0])); // x axis
+    // result.push(550 / 2 - 500 * bRatio / 2 - convertToMLSize(posArr[1])); // y axis
+
+    result.push(550 - (250 * aRatio - 250) - convertToMLSize(a) + convertToMLSize(posArr[0])); // x axis
+    result.push(550 - (250 * bRatio - 250) - convertToMLSize(b) - convertToMLSize(posArr[1])); // y axis
+
+
     result.push(150 + convertToMLSize(posArr[2])); // z axis
+    result.push(aRatio);
+    result.push(bRatio);
+    result.push(cRatio);
     return result;
 }
 

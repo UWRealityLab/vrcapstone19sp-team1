@@ -322,6 +322,7 @@ function updateConeEq(id) {
     }
 }
 
+// PLEASE CHECK HEIGHT
 function getConeEquations(id) {
     var coneFields = document.getElementsByClassName("cone-field-" + id);
    
@@ -349,12 +350,12 @@ function getConeEquations(id) {
         return null;
     }
 
-    if (parseInt(cylinderFields[6].value) >= parseInt(cylinderFields[7].value)) {
+    if (parseInt(coneFields[6].value) >= parseInt(coneFields[7].value)) {
         alert("Inequality has to hold");
         return null;
     }
 
-    var r = parseInt(cylinderFields[7].value) - parseInt(cylinderFields[6].value);
+    var r = parseInt(coneFields[7].value) - parseInt(coneFields[6].value);
 
     // what equations for the cylinder should look like
     var coneEq = {
@@ -373,7 +374,7 @@ function getConeEquations(id) {
         // if yz || zy -> 0, 0, 90deg
     };
 
-    return cylinderEq;
+    return coneEq;
 }
 
 // -----------------------------------------------------------
@@ -463,7 +464,7 @@ function getEllipsoidEquations(id) {
         type: 'ellipsoid',
         coef: ellipsoidFields[0].value,
         position: [ellipsoidFields[1].value, ellipsoidFields[4].value, ellipsoidFields[7].value],
-        radius: sphereFields[9].value,
+        radius: ellipsoidFields[9].value,
         denoms: [ellipsoidFields[2].value, ellipsoidFields[5].value, ellipsoidFields[8].value],
     };
     
