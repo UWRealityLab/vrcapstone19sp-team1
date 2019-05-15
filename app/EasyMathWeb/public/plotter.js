@@ -27,6 +27,7 @@ function getInput(type) {
 function getSpan(value) {
     var span = document.createElement("span");
     span.innerHTML = value;
+    span.classList.add("eqClass");
     return span;
 }
 

@@ -2,6 +2,7 @@ body {
     background-color: #288AF8;
     font-family: 'Times New Roman', Times, serif;
     color: white;
+    font-size: 20px;
 }
 
 #header {
@@ -57,4 +58,10 @@ h1 {
 
 select {
     background-color: #FF3F47;
+}
+
+.eqClass {
+    font-family: Cambria;
+    color: #FF8686;
+    font-size: 20px;
 }
