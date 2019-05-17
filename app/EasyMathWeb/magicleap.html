@@ -7,7 +7,7 @@
     <title></title>
     <script src="https://unpkg.com/@magicleap/prismatic"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
-    <style>
+    <!-- <style>
         .slider {
             -webkit-appearance: none;
             width: 100%;
@@ -38,7 +38,8 @@
             background: white;
             cursor: pointer;
         }
-    </style>
+    </style> -->
+    <link rel="stylesheet" href="magicleap.css">
 </head>
 <body style="background-color: transparent;">
     <div id = "shapeContainer">
@@ -97,8 +98,8 @@
 
     <script>
         var shapeC = document.getElementById("shapeContainer");
-        var socket = io.connect('http://10.158.134.74:3000'); // PROD
-        // var socket = io.connect('localhost:3000'); // DEBUG
+        // var socket = io.connect('http://10.158.134.74:3000'); // PROD
+        var socket = io.connect('localhost:3000'); // DEBUG
         var shapesMap = {};
         socket.on('equationsML', function (data) {
             console.log("update received from server on magicleap: " + JSON.stringify(data));
@@ -169,15 +170,19 @@
             var color = idToColor(parseFloat(shapeId));
             var btnContainer = document.createElement("div");
 
+            var newPara = document.createElement("p");
+            newPara.style.color = idToColor(equations.id);
+            newPara.style.fontSize = "32px";
+            newPara.innerHTML = idToColor(equations.id) + " shape position buttons: ";
+
+            btnContainer.appendChild(newPara);
+
             btnContainer.appendChild(document.createElement("br"));
 
             for (var i = 0; i < buttonsText.length; i++) {
                 var currBtn = document.createElement("button");
                 currBtn.style.background = color;
-                currBtn.style.width = '100px';
-                currBtn.style.height = '40px';
-                currBtn.style.color = 'white';
-                currBtn.style.fontSize ='30px';
+                currBtn.classList.add("plus-minus-buttons");
                 currBtn.id = "btn_" + shapeId + "_"+ i;
                 currBtn.innerHTML = buttonsText[i];
                 if (equations.type == 'sphere') {
@@ -264,6 +269,17 @@
                 }
 
                 btnContainer.appendChild(currBtn);
+
+                if (i % 2 == 0) {
+                    var position = equations.position.map(parseFloat);
+                    var idx = Math.floor(i / 2);
+
+                    var input = document.createElement("input");
+                    input.classList.add("plus-minus-inputs");
+                    input.value = position[idx];
+                    btnContainer.appendChild(input);
+                }
+
                 if (i % 2 == 1) {
                     btnContainer.appendChild(document.createElement("br"));
                 }

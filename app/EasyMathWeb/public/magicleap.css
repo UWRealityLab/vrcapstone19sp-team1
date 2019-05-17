@@ -1,0 +1,20 @@
+.plus-minus-buttons {
+    border-radius: 4px;
+    border: none;
+    color: black;
+    padding: 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.plus-minus-inputs {
+    width : 28px;
+    height : 28px;
+    font-size: 18px;
+}
+  
+  
