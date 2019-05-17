@@ -117,7 +117,7 @@ function addSphereEq() {
     container.appendChild(getSpan(" "));
     container.appendChild(getButton("sphere-field-", "Delete Sphere " + counter, deleteEq));
 
-    $("sphereEquations").appendChild(container); 
+    $("sphereEquations").appendChild(container);
 }
 
 function updateSphereEq(id) {
@@ -135,7 +135,7 @@ function updateSphereEq(id) {
 
 function getSphereEquations(id) {
     var sphereFields = document.getElementsByClassName("sphere-field-" + id);
-   
+
     if (!(sphereFields[0].value == sphereFields[2].value &&
         sphereFields[2].value == sphereFields[4].value && sphereFields[0].value != 0)) {
         alert("Coefficients of X, Y and Z of sphere should be same");
@@ -155,7 +155,7 @@ function getSphereEquations(id) {
         position: [sphereFields[1].value, sphereFields[3].value, sphereFields[5].value], //(x-a)^2 + (y-b)^2 +2(z-c)^2 -> [a,b,c]
         radius: sphereFields[6].value
     };
-    
+
     return sphereEq;
 }
 
@@ -202,7 +202,7 @@ function addCylinderEq() {
     container.appendChild(getSpan(" "));
     container.appendChild(getButton("cylinder-field-", "Delete Cylinder " + counter, deleteEq));
 
-    $("cylinderEquations").appendChild(container); 
+    $("cylinderEquations").appendChild(container);
 }
 
 function updateCylinderEq(id) {
@@ -220,7 +220,7 @@ function updateCylinderEq(id) {
 
 function getCylinderEquations(id) {
     var cylinderFields = document.getElementsByClassName("cylinder-field-" + id);
-   
+
     var orientation = checkXYZ(id);
     if (!orientation) {
         alert("X, Y and Z should be selected exactly once");
@@ -229,11 +229,18 @@ function getCylinderEquations(id) {
 
     var firstFields = $("first-" + id);
     var secondFields = $("second-" + id);
+    var thirdFields = $("third-" + id);
 
     if (!(cylinderFields[0].value == cylinderFields[2].value && cylinderFields[0].value != 0)) {
         alert("Coefficients of " + firstFields.options[firstFields.selectedIndex].text +  " and " + secondFields.options[secondFields.selectedIndex].text + " should be same");
         return null;
     }
+
+    var order = [
+        firstFields.options[firstFields.selectedIndex].text,
+        secondFields.options[secondFields.selectedIndex].text,
+        thirdFields.options[thirdFields.selectedIndex].text
+    ];
 
     if (cylinderFields[4].value == 0) {
         alert("Cylinder radius cannot be zero");
@@ -251,10 +258,11 @@ function getCylinderEquations(id) {
         coef: cylinderFields[0].value, // 2x^2 + 2y^2
         position: [cylinderFields[1].value, cylinderFields[3].value], // (x-a)^2+(y-b)^2 [a,b]
         radius: cylinderFields[4].value,
-        bottom: cylinderFields[5].value, // lower bound 
+        bottom: cylinderFields[5].value, // lower bound
         top: cylinderFields[6].value, // higher bound
         height: cylinderFields[6].value - cylinderFields[5].value, //  top - bottom
-        rotationAxes: orientation
+        rotationAxes: orientation,
+        order: order
         // orientation xy, yz, xz
         // if xy || yx -> 90deg, 0, 0
         // if xz -> 0, 0, 0
@@ -309,7 +317,7 @@ function addConeEq() {
     container.appendChild(getSpan(" "));
     container.appendChild(getButton("cone-field-", "Delete Cone " + counter, deleteEq));
 
-    $("coneEquations").appendChild(container); 
+    $("coneEquations").appendChild(container);
 }
 
 function updateConeEq(id) {
@@ -328,7 +336,7 @@ function updateConeEq(id) {
 // PLEASE CHECK HEIGHT
 function getConeEquations(id) {
     var coneFields = document.getElementsByClassName("cone-field-" + id);
-   
+
     var orientation = checkXYZ(id);
     if (!orientation) {
         alert("X, Y and Z should be selected exactly once");
@@ -337,11 +345,18 @@ function getConeEquations(id) {
 
     var firstFields = $("first-" + id);
     var secondFields = $("second-" + id);
+    var thirdFields = $("third-" + id);
 
     if (!(coneFields[0].value == coneFields[2].value && coneFields[0].value != 0)) {
         alert("Coefficients of " + firstFields.options[firstFields.selectedIndex].text +  " and " + secondFields.options[secondFields.selectedIndex].text + " should be same");
         return null;
     }
+
+    var order = [
+        firstFields.options[firstFields.selectedIndex].text,
+        secondFields.options[secondFields.selectedIndex].text,
+        thirdFields.options[thirdFields.selectedIndex].text
+    ];
 
     if (coneFields[4].value == 0) {
         alert("Cone radius cannot be zero");
@@ -367,10 +382,11 @@ function getConeEquations(id) {
         coef: coneFields[0].value,
         position: [coneFields[1].value, coneFields[3].value],
         radius: coneFields[4].value,
-        bottom: coneFields[6].value, // lower bound 
+        bottom: coneFields[6].value, // lower bound
         top: coneFields[7].value, // higher bound
         height: coneFields[7].value - coneFields[6].value, //  top - bottom
-        rotationAxes: orientation
+        rotationAxes: orientation,
+        order: order
         // orientation xy, yz, xz
         // if xy || yx -> 90deg, 0, 0
         // if xz -> 0, 0, 0
@@ -423,7 +439,7 @@ function addEllipsoidEq() {
     container.appendChild(getSpan(" "));
     container.appendChild(getButton("ellipsoid-field-", "Delete Ellipsoid " + counter, deleteEq));
 
-    $("ellipsoidEquations").appendChild(container); 
+    $("ellipsoidEquations").appendChild(container);
 }
 
 function updateEllipsoidEq(id) {
@@ -443,7 +459,7 @@ function getEllipsoidEquations(id) {
     var ellipsoidFields = document.getElementsByClassName("ellipsoid-field-" + id);
 
     if (!(ellipsoidFields[0].value == ellipsoidFields[3].value &&
-        ellipsoidFields[3].value == ellipsoidFields[6].value && 
+        ellipsoidFields[3].value == ellipsoidFields[6].value &&
         ellipsoidFields[0].value != 0)) {
         alert("Coefficients of X, Y and Z of ellipsoid should be same");
         return null;
@@ -455,7 +471,7 @@ function getEllipsoidEquations(id) {
     }
 
     if (ellipsoidFields[2].value == 0 ||
-        ellipsoidFields[5].value == 0 || 
+        ellipsoidFields[5].value == 0 ||
         ellipsoidFields[8].value == 0) {
         alert("Denominators of X, Y and Z cannot be zero");
         return null;
@@ -470,7 +486,7 @@ function getEllipsoidEquations(id) {
         radius: ellipsoidFields[9].value,
         denoms: [ellipsoidFields[2].value, ellipsoidFields[5].value, ellipsoidFields[8].value],
     };
-    
+
     return ellipsoidEq;
 }
 
