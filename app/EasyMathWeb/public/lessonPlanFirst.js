@@ -20,6 +20,8 @@ function getList(bullets) {
 function getInput(id) {
     var equation = document.createElement("input");
     equation.style.width = "30px";
+    equation.style.height = "34px";
+    equation.style.fontSize = "24px";
     equation.classList.add(id);
     return equation;
 }

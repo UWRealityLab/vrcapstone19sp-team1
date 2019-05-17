@@ -249,7 +249,7 @@ function modelScaleFromDenomElipsoid(denoms) {
 }
 
 function idToColor(id) {
-    color = ['orange', 'purple', 'red', 'green', 'magenta', 'brown'];
+    color = ['orange', 'lightblue', 'red', 'green', 'yellow', 'blue'];
     return color[id % color.length];
 }
 
@@ -278,6 +278,9 @@ function convertToMLPosSphere(radius, posArr) {
 
 function convertToMLPosEllipsoid(a, b, c, posArr) {
     var result = []
+    console.log('a ' + a);
+    console.log('b ' + b);
+    console.log('c ' + c);
     var aRatio = convertToMLSize(a) * 2.0 / 500;
     var bRatio = convertToMLSize(b) * 2.0 / 500;
     var cRatio = convertToMLSize(c) * 2.0 / 500;
@@ -292,10 +295,8 @@ function convertToMLPosEllipsoid(a, b, c, posArr) {
     // result.push(550 / 2 - 500 * aRatio / 2 + convertToMLSize(posArr[0])); // x axis
     // result.push(550 / 2 - 500 * bRatio / 2 - convertToMLSize(posArr[1])); // y axis
 
-    result.push(550 - (250 * aRatio - 250) - convertToMLSize(a) + convertToMLSize(posArr[0])); // x axis
-    result.push(550 - (250 * bRatio - 250) - convertToMLSize(b) - convertToMLSize(posArr[1])); // y axis
-
-
+    result.push(550 - (250 - convertToMLSize(a)) - convertToMLSize(a) + convertToMLSize(posArr[0])); // x axis
+    result.push(550 - (250 - convertToMLSize(b)) - convertToMLSize(b) - convertToMLSize(posArr[1])); // y axis
     result.push(150 + convertToMLSize(posArr[2])); // z axis
     result.push(aRatio);
     result.push(bRatio);

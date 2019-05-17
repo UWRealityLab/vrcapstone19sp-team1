@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>VR Capstone Team 1 - EasyMath</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+  <!-- Custom styles for this template -->
+  <link href="css/clean-blog.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">VR Capstone Team 1</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="docs.html">Documents</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('img/post-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="post-heading">
+            <h1>Blog Post for Week 7 (5/11-5/17)</h1>
+            <h2 class="subheading"><!-- subheading here --></h2>
+            <span class="meta">Posted by
+              <a href="#">VR Capstone Team 1</a>
+              on 5/17/19</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Post Content -->
+  <article>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <h2>Update on code, links to relevant code added this week</h2>
+            <p>
+                There are three key components of our project.
+                <ol>
+                    <li>Server</li>
+                    <li>Webpage on the computer</li>
+                    <li>Magic Leap page</li>
+                </ol>
+
+            </p>
+
+            <h3>Server (app.js)</h3>
+            <p>
+                On the server we completed the following components:
+                <ul>
+                    <li>
+                        We added support for cone. To do this we first need to find the shape to link to in the source of the ml-model. Since we later added lighting we eventually switched to glb files. This glb file for cone was created using blender (more detail of how the final glb files are create can be found in the bullet for lighting in this section). Positioning the cone was found to be close but definitely not the same as the cylinder. Therefore understanding how to convert the equation to the cone required a lot of trial and error to discover the right mappings of values.
+                    </li>
+                    <li>
+                        We added the support for ellipsoid. To this we use the sphere glb file which contains lighting (more detail of how the final glb files are create can be found in the bullet for lighting in this section). We can use the sphere glb file because an ellipsoid is a stretched out sphere in the x, y, or z directions. The most difficult thing we found with the ellipsoid was understanding the mapping of equation parameters to model-scale parameters within the ml-model. We have understood and finished this mapping. We also worked on the positioning of ellipsoid which is different that any other shapes than we have used because it can be elongated in x, y, and z at the same time. 
+                    </li>
+                    <li>
+                        One of the largest contributions this week was adding "lighting" or more specifically texture. To do this we needed to create the shape in blender and add texture within blender. Then we export it as a fbx file. Then using a online converter, we convert it to a glb file. Then we open this glb file with 3D viewer and enable the texture. Then we switch our fbx files in the source of the ml model with this glb file. We do this for all our shapes: cone, sphere, and cylinder.
+                    </li>
+                </ul>
+            </p>
+
+            <h3>Webpage on the computer (index.html and index.js)</h3>
+            <p>
+                We made the following changes to the web interface:
+                <ul>
+                    <li>Spent a significant amount of time improving the UI of the web interface. One of the points of feedback we got last week was to improve the interface to make EasyMath feel more like a real app. That is why we spent such a significant amount of time on this point. More specifically, we improved the css styling to make the EasyMath web interface look more professional. We did the same for all the pages of the lesson plan as well.</li>
+                    <li>Added the cylinder to the lesson plan with the sphere.</li>
+                    <li>Added the ability to create and delete ellipsoids and cones equations.</li>
+                </ul>
+            </p>
+
+            <h3>Magic Leap page (magicleap.html)</h3>
+            <p>
+                We made the following changes to the magic leap page:
+                <ul>
+                    <li>
+                        We switched from fbx to glb files so that textures are embedded within the file that is linked to in the source of the ml-model tag.
+                    </li>
+                    <li>We tested to ensure that our current code within magicleap.html supports the creation and deletion of ellipsoid and cone.</li>
+                </ul>
+            </p>
+
+            <h2>Demo</h2>
+
+            <p>Below is the video of our current progress.</p>
+
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/8nfHSvuzMmc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+            <h2>Plan for next week</h2>
+            <p>
+                Our plan for next week is to finish:
+                <ol>
+                    <li>Ability to interact with the cones and elipsoids. This means moving and resizing the cone and ellipsoid on the Magic Leap.</li>
+                    <li>Fix cylinder bug, if rotate the cylinder then can't move in z direction. This is a bug we discovered recently and will work hard to fix this week.</li>
+
+                    <li>A brand new lesson plan for the cone</li>
+                    <li>Improve the magicleap UI so it has more necessary information about current state, like current radius of the shapes.</li>
+                    <li>Increase the font size on the web interface and change the font color.</li>
+                </ol>
+            </p>
+
+
+            <h2>What every member did this week and will do next week</h2>
+            <p>
+                Our team believes we work more efficiently in pairs. Therefore, we paired into the following pairs:
+                <ol>
+                    <li>
+                        Matthew and Simon
+                    </li>
+                    <li>
+                        Esteban and Tanuj
+                    </li>
+                </ol>
+            </p>
+            <p>
+                Since we are in pairs each person completed the work together. Matthew wrote the blog. Simon, Esteban, and Tanuj provided content to the blog as well.
+            </p>
+            <p>
+                The first team (Matthew and Simon) worked on the changes to the Magic leap page as described in the previous sections. The first team also made all the changes to indicated in the app.js section above. This next week, team 1 will implement the first two next week's tasks.
+            </p>
+            <p>
+                The second team (Esteban and Tanuj) worked on the changes to the index.html and index.js as described above and the parts of the server to ensure their index changes don't break anything on the server side. The second team will complete the last three tasks from the next week section above.
+            </p>
+            <p>
+                Both teams worked together to film the demo video.
+            </p>
+
+            <h2>Blocking Issues</h2>
+            <p>
+                We have no immediate blocking issues.
+            </p>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <ul class="list-inline text-center">
+            <li class="list-inline-item">
+              <a href="#">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+          </ul>
+          <p class="copyright text-muted">Copyright &copy; Your Website 2019</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/clean-blog.min.js"></script>
+
+</body>
+
+</html>
