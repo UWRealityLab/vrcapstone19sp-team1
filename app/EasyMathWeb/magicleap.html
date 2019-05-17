@@ -98,8 +98,8 @@
 
     <script>
         var shapeC = document.getElementById("shapeContainer");
-        // var socket = io.connect('http://10.158.134.74:3000'); // PROD
-        var socket = io.connect('localhost:3000'); // DEBUG
+        var socket = io.connect('http://10.158.134.74:3000'); // PROD
+        // var socket = io.connect('localhost:3000'); // DEBUG
         var shapesMap = {};
         socket.on('equationsML', function (data) {
             console.log("update received from server on magicleap: " + JSON.stringify(data));
@@ -261,6 +261,64 @@
                         console.log("new position: " + equations.position);
                         socket.emit('updateFromML', equations)
                     });
+                } else if (equations.type == 'cone') {
+                    currBtn.addEventListener('click', function (e) {
+                        var position = convertToThreePoints(equations.position.map(parseFloat), equations.bottom, equations.order);
+                        var rotationAxes = equations.rotationAxes;
+                        // towards us, away from us Z, XY
+                        var i = parseInt(this.id[this.id.length - 1]);
+                        var idx = Math.floor(i / 2);
+                        var isAdd = i % 2 == 1;
+                        if (rotationAxes[0] == '90deg') {
+                            if (idx == 2) {
+                                var diff = -1;
+                                if (isAdd) {
+                                    diff = 1;
+                                }
+                                position[idx] += diff;
+                            } else {
+                                if (isAdd) {
+                                    position[idx] += 1;
+                                } else {
+                                    position[idx] -= 1;
+                                }
+                            }
+                        // sideways X, YZ
+                        } else if (rotationAxes[2] == '90deg') {
+                            if (idx == 0) {
+                                var diff = -1;
+                                if (isAdd) {
+                                    diff = 1;
+                                }
+                                position[idx] += diff;
+                            } else {
+                                if (isAdd) {
+                                    position[idx] += 1;
+                                } else {
+                                    position[idx] -= 1;
+                                }
+                            }
+                        // up down Y, XZ
+                        } else {
+                            if (idx == 1) {
+                                var diff = -1;
+                                if (isAdd) {
+                                    diff = 1;
+                                }
+                                position[idx] += diff;
+                            } else {
+                                if (isAdd) {
+                                    position[idx] += 1;
+                                } else {
+                                    position[idx] -= 1;
+                                }
+                            }
+                        }
+
+                        convertToPoints(equations, position, equations.order);
+                        console.log("new position: " + equations.position);
+                        socket.emit('updateFromML', equations)
+                    });
                 }
 
                 btnContainer.appendChild(currBtn);
@@ -269,9 +327,11 @@
                     var position = equations.position.map(parseFloat);
                     var idx = Math.floor(i / 2);
 
+                    position = convertToThreePoints(position, equations.bottom, equations.order);
+
                     var input = document.createElement("input");
                     input.classList.add("plus-minus-inputs");
-                    input.value = idx >= position.length ? equations.bottom : position[idx];
+                    input.value = position[idx];
                     btnContainer.appendChild(input);
                 }
 
@@ -303,6 +363,8 @@
 
         function convertToThreePoints(position, bottom, order) {
             var result = [0, 0, 0];
+            position = position.map(parseFloat);
+            bottom = parseFloat(bottom);
 
             for (var i = 0; i < order.length; i++) {
                 if (order[i] == 'x') {
@@ -318,31 +380,33 @@
         }
 
         function convertToPoints(equations, position, order) {
+            position = position.map(parseFloat);
             var position2D = [];
             if (order[2] == 'x') {
-                equations.bottom = position[0];
+                equations.bottom = "" + position[0];
                 if (order[0] == 'y') {
                     position2D = [position[1], position[2]];
                 } else {
                     position2D = [position[2], position[1]];
                 }
             } else if (order[2] == 'y') {
-                equations.bottom = position[1];
+                equations.bottom = "" + position[1];
                 if (order[0] == 'x') {
                     position2D = [position[0], position[2]];
                 } else {
                     position2D = [position[2], position[0]];
                 }
             } else if (order[2] == 'z') {
-                equations.bottom = position[2];
+                equations.bottom = "" + position[2];
                 if (order[0] == 'x') {
                     position2D = [position[0], position[1]];
                 } else {
                     position2D = [position[1], position[0]];
                 }
             }
-            equations.top = equations.bottom + equations.height;
-            equations.position = position2D;
+            equations.top = parseFloat(equations.bottom) + parseFloat(equations.height);
+            equations.top = "" + equations.top;
+            equations.position = ["" + position2D[0], "" + position2D[1]];
         
         }
     </script>
