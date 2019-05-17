@@ -520,6 +520,11 @@ function updateEquation(data) {
         cylinderFields[0].value = data.coef;
         cylinderFields[2].value = data.coef;
 
+        // Can be
+        // XY, YX
+        // XZ, ZX
+        // YZ, ZY
+        
         cylinderFields[1].value = data.position[0];
         cylinderFields[3].value = data.position[1];
 
