@@ -316,8 +316,7 @@ function convertToMLPosCylinder(radius, bottom, height, posArr, rotationAxes) {
         result.push(550 - convertToMLSize(posArr[1]) - 250); // y axis
         result.push(150 + convertToMLSize(bottom) + 500 * heightRatio / 2); // z axis
     // sideways
-    } else if (rotationAxes[2] == '90deg') {
-        // CORRECT?
+    } else if (rotationAxes[2] == '90deg' || rotationAxes[2] == '270deg') {
         result.push(550 - 250 + convertToMLSize(bottom) + 500 * heightRatio / 2); // x axis
         result.push(550 - convertToMLSize(posArr[0]) - 250); // y axis
         result.push(150 + convertToMLSize(posArr[1])); // z axis
