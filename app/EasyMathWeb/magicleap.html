@@ -149,19 +149,24 @@
             var btnContainer = createMoveBtns(data.id, data.equations);
 
             // add slider, and text to container
-            container.appendChild(newPara);
-            container.appendChild(newSlider);
+            
+            if (data.equations.type != 'ellipsoid') {
+                container.appendChild(newPara);
+                container.appendChild(newSlider);
+            }
             container.appendChild(btnContainer);
 
             if (['cone', 'cylinder'].includes(data.equations.type)) {
                 // add height slider
-                var heightSlider = createHeightSlider(data)
-                container.appendChild(heightSlider)
+                var heightSliderComponents = createHeightSlider(data);
+                for (var i = 0; i < heightSliderComponents.length; i++) {
+                    container.appendChild(heightSliderComponents[i]);
+                }
             }
 
             if (['ellipsoid'].includes(data.equations.type)) {
-                // add 3 radius sliders
-                radiusSliders = createEllipsoidRadiusSliders(data);
+                // add 3 radius sliders w/ 3 corresponding text fields
+                var radiusSliders = createEllipsoidRadiusSliders(data);
                 for (var i = 0; i < radiusSliders.length; i++) {
                     container.appendChild(radiusSliders[i]);
                 }
@@ -185,13 +190,20 @@
             delete shapesMap[data.id];
             var denoms = data.equations.denoms;
             for (var i = 0; i < deltaDenoms.length; i++) {
-                denoms[i] += deltaDenoms[i];
+                denoms[i] = parseFloat(denoms[i]) + parseFloat(""+deltaDenoms[i]);
             }
             data.equations.denoms = denoms;
             socket.emit('updateFromML', data.equations);
         }
 
         function createEllipsoidRadiusSliders(data) {
+            var denoms = data.equations.denoms.map(parseFloat);
+            // x para
+            var xPara = document.createElement("p");
+            xPara.style.color = idToColor(data.id);
+            xPara.style.fontSize = "32px";
+            xPara.innerHTML = idToColor(data.id) + " shape radius x slider: ";
+
             // x axis slider
             var xSlider = document.createElement("input");
             xSlider.style.height = "5px";
@@ -200,12 +212,19 @@
             xSlider.min = "1";
             xSlider.max = "5";
             xSlider.classList.add('slider');
-            xSlider.value = data.equations.height * 2.0;
+            xSlider.value = denoms[0];
             xSlider.id = "sliderRX" + data.id;
             xSlider.style.background = idToColor(data.id);
             xSlider.addEventListener("change", function() {
-                resizeRadiusEllipsoid(data, [xSlider.value, 0, 0]);
+                var deltaX = parseFloat(xSlider.value) - denoms[0];
+                resizeRadiusEllipsoid(data, [deltaX, 0, 0]);
             });
+
+            // y para
+            var yPara = document.createElement("p");
+            yPara.style.color = idToColor(data.id);
+            yPara.style.fontSize = "32px";
+            yPara.innerHTML = idToColor(data.id) + " shape radius y slider: ";
 
             // y axis slider
             var ySlider = document.createElement("input");
@@ -215,12 +234,19 @@
             ySlider.min = "1";
             ySlider.max = "5";
             ySlider.classList.add('slider');
-            ySlider.value = data.equations.height * 2.0;
+            ySlider.value = denoms[1];
             ySlider.id = "sliderRY" + data.id;
             ySlider.style.background = idToColor(data.id);
             ySlider.addEventListener("change", function() {
-                resizeRadiusEllipsoid(data, [0, ySlider.value, 0]);
+                var deltaY = parseFloat(ySlider.value) - denoms[1];
+                resizeRadiusEllipsoid(data, [0, deltaY, 0]);
             });
+
+            // z para
+            var zPara = document.createElement("p");
+            zPara.style.color = idToColor(data.id);
+            zPara.style.fontSize = "32px";
+            zPara.innerHTML = idToColor(data.id) + " shape radius z slider: ";
 
             // z axis slider
             var zSlider = document.createElement("input");
@@ -230,15 +256,24 @@
             zSlider.min = "1";
             zSlider.max = "5";
             zSlider.classList.add('slider');
-            zSlider.value = data.equations.height * 2.0;
+            zSlider.value = denoms[2];
             zSlider.id = "sliderRZ" + data.id;
             zSlider.style.background = idToColor(data.id);
             zSlider.addEventListener("change", function() {
-                resizeRadiusEllipsoid(data, [0, 0, zSlider.value]);
+                var deltaZ = parseFloat(zSlider.value) - denoms[2];
+                resizeRadiusEllipsoid(data, [0, 0, deltaZ]);
             });
+
+            return [xPara, xSlider, yPara, ySlider, zPara, zSlider];
         }
 
         function createHeightSlider(data) {
+            // add para
+            var para = document.createElement("p");
+            para.style.color = idToColor(data.id);
+            para.style.fontSize = "32px";
+            para.innerHTML = idToColor(data.id) + " shape height slider: ";
+
             // add slider
             var newSlider = document.createElement("input");
             newSlider.style.height = "5px";
@@ -253,7 +288,7 @@
             newSlider.addEventListener("change", function() {
                 resizeHeight(data, newSlider.value);
             });
-            return newSlider
+            return [para, newSlider];
         }
 
         function createMoveBtns(shapeId, equations) {
@@ -418,7 +453,9 @@
                     var position = equations.position.map(parseFloat);
                     var idx = Math.floor(i / 2);
 
-                    position = convertToThreePoints(position, equations.bottom, equations.order);
+                    if (['cone', 'cylinder'].includes(equations.type)) {
+                        position = convertToThreePoints(position, equations.bottom, equations.order);
+                    }
 
                     var input = document.createElement("input");
                     input.classList.add("plus-minus-inputs");
@@ -452,7 +489,7 @@
             container.parentNode.removeChild(container);
             delete shapesMap[data.id];
             data.equations.height = sliderVal / 2.0;
-            data.equations.top = data.equations.bottom + data.equations.height
+            data.equations.top = parseFloat(data.equations.bottom) + parseFloat(data.equations.height)
             socket.emit('updateFromML', data.equations);
         };
 
