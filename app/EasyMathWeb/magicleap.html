@@ -153,6 +153,20 @@
             container.appendChild(newSlider);
             container.appendChild(btnContainer);
 
+            if (['cone', 'cylinder'].includes(data.equations.type)) {
+                // add height slider
+                var heightSlider = createHeightSlider(data)
+                container.appendChild(heightSlider)
+            }
+
+            if (['ellipsoid'].includes(data.equations.type)) {
+                // add 3 radius sliders
+                radiusSliders = createEllipsoidRadiusSliders(data);
+                for (var i = 0; i < radiusSliders.length; i++) {
+                    container.appendChild(radiusSliders[i]);
+                }
+            }
+
             // add container with slider and text to shape container
             shapeC.appendChild(container);
         });
@@ -163,6 +177,83 @@
             btn.addEventListener('click', function (e) {
                 socket.emit('updateFromML', eq)
             });
+        }
+
+        function resizeRadiusEllipsoid(data, deltaDenoms) {
+            var container = document.getElementById(data.id);
+            container.parentNode.removeChild(container);
+            delete shapesMap[data.id];
+            var denoms = data.equations.denoms;
+            for (var i = 0; i < deltaDenoms.length; i++) {
+                denoms[i] += deltaDenoms[i];
+            }
+            data.equations.denoms = denoms;
+            socket.emit('updateFromML', data.equations);
+        }
+
+        function createEllipsoidRadiusSliders(data) {
+            // x axis slider
+            var xSlider = document.createElement("input");
+            xSlider.style.height = "5px";
+            xSlider.style.width = "250px";
+            xSlider.type = "range";
+            xSlider.min = "1";
+            xSlider.max = "5";
+            xSlider.classList.add('slider');
+            xSlider.value = data.equations.height * 2.0;
+            xSlider.id = "sliderRX" + data.id;
+            xSlider.style.background = idToColor(data.id);
+            xSlider.addEventListener("change", function() {
+                resizeRadiusEllipsoid(data, [xSlider.value, 0, 0]);
+            });
+
+            // y axis slider
+            var ySlider = document.createElement("input");
+            ySlider.style.height = "5px";
+            ySlider.style.width = "250px";
+            ySlider.type = "range";
+            ySlider.min = "1";
+            ySlider.max = "5";
+            ySlider.classList.add('slider');
+            ySlider.value = data.equations.height * 2.0;
+            ySlider.id = "sliderRY" + data.id;
+            ySlider.style.background = idToColor(data.id);
+            ySlider.addEventListener("change", function() {
+                resizeRadiusEllipsoid(data, [0, ySlider.value, 0]);
+            });
+
+            // z axis slider
+            var zSlider = document.createElement("input");
+            zSlider.style.height = "5px";
+            zSlider.style.width = "250px";
+            zSlider.type = "range";
+            zSlider.min = "1";
+            zSlider.max = "5";
+            zSlider.classList.add('slider');
+            zSlider.value = data.equations.height * 2.0;
+            zSlider.id = "sliderRZ" + data.id;
+            zSlider.style.background = idToColor(data.id);
+            zSlider.addEventListener("change", function() {
+                resizeRadiusEllipsoid(data, [0, 0, zSlider.value]);
+            });
+        }
+
+        function createHeightSlider(data) {
+            // add slider
+            var newSlider = document.createElement("input");
+            newSlider.style.height = "5px";
+            newSlider.style.width = "250px";
+            newSlider.type = "range";
+            newSlider.min = "1";
+            newSlider.max = "5";
+            newSlider.classList.add('slider');
+            newSlider.value = data.equations.height * 2.0;
+            newSlider.id = "sliderH" + data.id;
+            newSlider.style.background = idToColor(data.id);
+            newSlider.addEventListener("change", function() {
+                resizeHeight(data, newSlider.value);
+            });
+            return newSlider
         }
 
         function createMoveBtns(shapeId, equations) {
@@ -185,7 +276,7 @@
                 currBtn.classList.add("plus-minus-buttons");
                 currBtn.id = "btn_" + shapeId + "_"+ i;
                 currBtn.innerHTML = buttonsText[i];
-                if (equations.type == 'sphere') {
+                if (['sphere', 'ellipsoid'].includes(equations.type)) {
                     currBtn.addEventListener('click', function (e) {
                         var position = equations.position.map(parseFloat);
                         var i = parseInt(this.id[this.id.length - 1]);
@@ -261,7 +352,7 @@
                         console.log("new position: " + equations.position);
                         socket.emit('updateFromML', equations)
                     });
-                } else if (equations.type == 'cone') {
+                } else if (['cone', 'cylinder'].includes(equations.type)) {
                     currBtn.addEventListener('click', function (e) {
                         var position = convertToThreePoints(equations.position.map(parseFloat), equations.bottom, equations.order);
                         var rotationAxes = equations.rotationAxes;
@@ -356,6 +447,15 @@
             socket.emit('updateFromML', data.equations);
         };
 
+        function resizeHeight(data, sliderVal) {
+            var container = document.getElementById(data.id);
+            container.parentNode.removeChild(container);
+            delete shapesMap[data.id];
+            data.equations.height = sliderVal / 2.0;
+            data.equations.top = data.equations.bottom + data.equations.height
+            socket.emit('updateFromML', data.equations);
+        };
+
         socket.on('deleteShape', function (id) {
             var container = document.getElementById(id);
             container.parentNode.removeChild(container);
@@ -407,7 +507,7 @@
             equations.top = parseFloat(equations.bottom) + parseFloat(equations.height);
             equations.top = "" + equations.top;
             equations.position = ["" + position2D[0], "" + position2D[1]];
-        
+
         }
     </script>
 </body>
