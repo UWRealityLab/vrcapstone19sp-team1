@@ -148,13 +148,13 @@
             // add move buttons to container
             var btnContainer = createMoveBtns(data.id, data.equations);
 
+            container.appendChild(btnContainer);
+
             // add slider, and text to container
-            
             if (data.equations.type != 'ellipsoid') {
                 container.appendChild(newPara);
                 container.appendChild(newSlider);
             }
-            container.appendChild(btnContainer);
 
             if (['cone', 'cylinder'].includes(data.equations.type)) {
                 // add height slider
@@ -210,7 +210,7 @@
             xSlider.style.width = "250px";
             xSlider.type = "range";
             xSlider.min = "1";
-            xSlider.max = "5";
+            xSlider.max = "10";
             xSlider.classList.add('slider');
             xSlider.value = denoms[0];
             xSlider.id = "sliderRX" + data.id;
@@ -232,7 +232,7 @@
             ySlider.style.width = "250px";
             ySlider.type = "range";
             ySlider.min = "1";
-            ySlider.max = "5";
+            ySlider.max = "10";
             ySlider.classList.add('slider');
             ySlider.value = denoms[1];
             ySlider.id = "sliderRY" + data.id;
@@ -254,7 +254,7 @@
             zSlider.style.width = "250px";
             zSlider.type = "range";
             zSlider.min = "1";
-            zSlider.max = "5";
+            zSlider.max = "10";
             zSlider.classList.add('slider');
             zSlider.value = denoms[2];
             zSlider.id = "sliderRZ" + data.id;
@@ -280,9 +280,9 @@
             newSlider.style.width = "250px";
             newSlider.type = "range";
             newSlider.min = "1";
-            newSlider.max = "5";
+            newSlider.max = "10";
             newSlider.classList.add('slider');
-            newSlider.value = data.equations.height * 2.0;
+            newSlider.value = data.equations.height;
             newSlider.id = "sliderH" + data.id;
             newSlider.style.background = idToColor(data.id);
             newSlider.addEventListener("change", function() {
@@ -488,7 +488,7 @@
             var container = document.getElementById(data.id);
             container.parentNode.removeChild(container);
             delete shapesMap[data.id];
-            data.equations.height = sliderVal / 2.0;
+            data.equations.height = sliderVal;
             data.equations.top = parseFloat(data.equations.bottom) + parseFloat(data.equations.height)
             socket.emit('updateFromML', data.equations);
         };
