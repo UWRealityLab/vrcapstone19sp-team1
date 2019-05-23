@@ -56,11 +56,11 @@
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="post-heading">
-            <h1>Blog Post for Week 7 (5/11-5/17)</h1>
+            <h1>Blog Post for Week 7 (5/18-5/24)</h1>
             <h2 class="subheading"><!-- subheading here --></h2>
             <span class="meta">Posted by
               <a href="#">VR Capstone Team 1</a>
-              on 5/17/19</span>
+              on 5/24/19</span>
           </div>
         </div>
       </div>
@@ -88,7 +88,7 @@
                 On the server we completed the following components:
                 <ul>
                     <li>
-                        Finished testing the positioning and resizing on the backend the cone and ellipsoid.
+                        Finished testing the positioning and resizing on the backend for the cone and the ellipsoid.
                     </li>
                     <li>
                         We fixed a lingering cylinder bug where the height wasn't adjustable if the cylinder was rotated. This required refactoring significant code and took a while to fix and ensure it is correct now.
@@ -103,9 +103,10 @@
             <p>
                 We made the following changes to the web interface:
                 <ul>
-                    <li>Spent a significant amount of time improving the UI of the web interface. One of the points of feedback we got last week was to improve the interface to make EasyMath feel more like a real app. That is why we spent such a significant amount of time on this point. More specifically, we improved the css styling to make the EasyMath web interface look more professional. We did the same for all the pages of the lesson plan as well.</li>
-                    <li>Added the cylinder to the lesson plan with the sphere.</li>
-                    <li>Added the ability to create and delete ellipsoids and cones equations.</li>
+                    <li>Added the cone lesson plan.</li>
+                    <li>For cone, we can plot it on different orientations. Before we did not make sure that the updates sent from the server updates the right variables based on the orientation. So with orientation, we also send the server the order of the variables and when the server
+                    sends us the update, we use the order of the variables to update the right values.</li>
+                    <li>Based on last week's feedback, tried better combinations of colors so the equations and values are more visible.</li>
                 </ul>
             </p>
 
@@ -114,12 +115,17 @@
                 We made the following changes to the magic leap page:
                 <ul>
                     <li>
-                        Added interactions for the cone. This means that the user can use sliders to increase the height and radius of the cone. Also we added more professional features to allow the user to see current state of the various variables like radius, height, and position.
+                        Added interactions for the cone. This means that the user can use sliders to increase the height and radius of the cone.
+                    </li>
+                    <li>
+                      We added more professional features to allow the user to see current state of the various variables like radius, height, and position so the user doesn't need to keep looking at the computer screen for updated values.
                     </li>
                     <li>
                         Added interactions for the ellipsoid. This means that the user can use sliders to increase the radius on the x, y, and z axis. We also make sure to remove the radius slider used for the sphere. We also like the ellipsoid add the state to the magicleap page so they can see what the current radius and position are.
                     </li>
-                    <li>We tested to ensure that our current code within magicleap.html supports the creation and deletion of ellipsoid and cone.</li>
+                    <li>
+                      We tested to ensure that our current code within magicleap.html supports the creation and deletion of ellipsoid and cone.
+                    </li>
                 </ul>
             </p>
 
@@ -127,18 +133,15 @@
 
             <p>Below is the video of our current progress.</p>
 
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/8nfHSvuzMmc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/LcSu0fdWLmk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
             <h2>Plan for next week</h2>
             <p>
                 Our plan for next week is to finish:
                 <ol>
-                    <li>Fix the problem where the ellipsoid is cutoff</li>
+                    <li>Fix the problem where the ellipsoid is cutoff and move origin axis so its not covering the window.</li>
                     <li>Test the backend and magic leap page.</li>
-                    <li>
-                        Prepare for the demo by creating the math quiz and the survey at the end of the demo.
-                    </li>
-
+                    <li>Prepare for the demo by creating the math quiz and the survey at the end of the demo.</li>
                     <li>Add animations to indicate on the index page that the equation was updated on the magic leap</li>
                     <li>Testing the magic leap page and index page</li>
                     <li>Lesson plan for the ellpisoid.</li>
