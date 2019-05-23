@@ -19,7 +19,7 @@ function $(id) {
 
 function getInput(type) {
     var equation = document.createElement("input");
-    equation.style.width = "30px";
+    equation.style.width = "40px";
     equation.style.height = "34px";
     equation.style.fontSize = "24px";
     equation.classList.add(type + counter);
@@ -373,7 +373,15 @@ function getConeEquations(id) {
         return null;
     }
 
-    var r = parseInt(coneFields[7].value) - parseInt(coneFields[6].value);
+    var h1 = parseInt(coneFields[7].value) - parseInt(coneFields[6].value);
+    var h2 = parseInt(coneFields[4].value) / parseInt(coneFields[5].value);
+    console.log(h1);
+    console.log(h2);
+
+    if (h1 != h2) {
+        alert("m - n height should be same as r / c height");
+        return null;
+    }
 
     // what equations for the cylinder should look like
     var coneEq = {
