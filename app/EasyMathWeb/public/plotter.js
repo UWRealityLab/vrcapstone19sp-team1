@@ -42,6 +42,9 @@ function getOption(value) {
 
 function getDropDown(id, first, second, third) {
     var dropDown = document.createElement("select");
+    dropDown.style.width = "40px";
+    dropDown.style.height = "34px";
+    dropDown.style.fontSize = "24px";
     dropDown.appendChild(getOption(first));
     dropDown.appendChild(getOption(second));
     dropDown.appendChild(getOption(third));
@@ -97,15 +100,12 @@ function addSphereEq() {
 
     container.appendChild(document.createElement("br"));
     container.appendChild(getSpan(" Equation " + counter + ": "));
-    container.appendChild(getInput("sphere-field-"));
     container.appendChild(getSpan(" (x - "));
     container.appendChild(getInput("sphere-field-"));
     container.appendChild(getSpan(" )^2 + "));
-    container.appendChild(getInput("sphere-field-"));
     container.appendChild(getSpan(" (y - "));
     container.appendChild(getInput("sphere-field-"));
     container.appendChild(getSpan(" )^2 + "));
-    container.appendChild(getInput("sphere-field-"));
     container.appendChild(getSpan(" (z - "));
     container.appendChild(getInput("sphere-field-"));
     container.appendChild(getSpan(" )^2 = "));
@@ -136,14 +136,13 @@ function updateSphereEq(id) {
 function getSphereEquations(id) {
     var sphereFields = document.getElementsByClassName("sphere-field-" + id);
 
-    if (!(sphereFields[0].value == sphereFields[2].value &&
-        sphereFields[2].value == sphereFields[4].value && sphereFields[0].value != 0)) {
-        alert("Coefficients of X, Y and Z of sphere should be same");
+    if (sphereFields[3].value == 0) {
+        alert("Sphere radius cannot be zero");
         return null;
     }
 
-    if (sphereFields[6].value == 0) {
-        alert("Sphere radius cannot be zero");
+    if (sphereFields[3].value > 5) {
+        alert("Maximum radius allowed is 5");
         return null;
     }
 
@@ -151,9 +150,9 @@ function getSphereEquations(id) {
     var sphereEq = {
         id: id,
         type: 'sphere',
-        coef: sphereFields[0].value, // 2x^2 + 2y^2 + 2z^2
-        position: [sphereFields[1].value, sphereFields[3].value, sphereFields[5].value], //(x-a)^2 + (y-b)^2 +2(z-c)^2 -> [a,b,c]
-        radius: sphereFields[6].value
+        coef: "1",
+        position: [sphereFields[0].value, sphereFields[1].value, sphereFields[2].value], //(x-a)^2 + (y-b)^2 +2(z-c)^2 -> [a,b,c]
+        radius: sphereFields[3].value
     };
 
     return sphereEq;
@@ -177,13 +176,11 @@ function addCylinderEq() {
 
     container.appendChild(document.createElement("br"));
     container.appendChild(getSpan(" Equation " + counter + ": "));
-    container.appendChild(getInput("cylinder-field-"));
     container.appendChild(getSpan(" ("));
     container.appendChild(getDropDown("first-" + counter, "x", "y", "z"));
     container.appendChild(getSpan(" - "));
     container.appendChild(getInput("cylinder-field-"));
     container.appendChild(getSpan(" )^2 + "));
-    container.appendChild(getInput("cylinder-field-"));
     container.appendChild(getSpan(" ("));
     container.appendChild(getDropDown("second-" + counter, "y", "z", "x"));
     container.appendChild(getSpan(" - "));
@@ -231,36 +228,47 @@ function getCylinderEquations(id) {
     var secondFields = $("second-" + id);
     var thirdFields = $("third-" + id);
 
-    if (!(cylinderFields[0].value == cylinderFields[2].value && cylinderFields[0].value != 0)) {
-        alert("Coefficients of " + firstFields.options[firstFields.selectedIndex].text +  " and " + secondFields.options[secondFields.selectedIndex].text + " should be same");
-        return null;
-    }
-
     var order = [
         firstFields.options[firstFields.selectedIndex].text,
         secondFields.options[secondFields.selectedIndex].text,
         thirdFields.options[thirdFields.selectedIndex].text
     ];
 
-    if (cylinderFields[4].value == 0) {
+    if (cylinderFields[2].value == 0) {
         alert("Cylinder radius cannot be zero");
         return null;
     }
 
-    if (parseInt(cylinderFields[5].value) >= parseInt(cylinderFields[6].value)) {
-        alert("Inequality has to hold");
+    if (cylinderFields[2].value > 5) {
+        alert("Maximum radius allowed is 5");
         return null;
     }
+
+    if (cylinderFields[4].value == 0 && cylinderFields[3].value == 0) {
+        alert("Inequality m < z < n has to hold");
+        return null;
+    }
+
+    if (parseInt(cylinderFields[3].value) >= parseInt(cylinderFields[4].value)) {
+        alert("Inequality m < z < n has to hold");
+        return null;
+    }
+
+    if (parseInt(cylinderFields[4].value) - parseInt(cylinderFields[3].value) > 5) {
+        alert("Maximum height allowed is 5");
+        return null;
+    }
+
     // what equations for the cylinder should look like
     var cylinderEq = {
         id: id,
         type: 'cylinder',
-        coef: cylinderFields[0].value, // 2x^2 + 2y^2
-        position: [cylinderFields[1].value, cylinderFields[3].value], // (x-a)^2+(y-b)^2 [a,b]
-        radius: cylinderFields[4].value,
-        bottom: cylinderFields[5].value, // lower bound
-        top: cylinderFields[6].value, // higher bound
-        height: cylinderFields[6].value - cylinderFields[5].value, //  top - bottom
+        coef: "1",
+        position: [cylinderFields[0].value, cylinderFields[1].value], // (x-a)^2+(y-b)^2 [a,b]
+        radius: cylinderFields[2].value,
+        bottom: cylinderFields[3].value, // lower bound
+        top: cylinderFields[4].value, // higher bound
+        height: cylinderFields[4].value - cylinderFields[3].value, //  top - bottom
         rotationAxes: orientation,
         order: order
         // orientation xy, yz, xz
@@ -290,13 +298,11 @@ function addConeEq() {
 
     container.appendChild(document.createElement("br"));
     container.appendChild(getSpan(" Equation " + counter + ": "));
-    container.appendChild(getInput("cone-field-"));
     container.appendChild(getSpan(" ("));
     container.appendChild(getDropDown("first-" + counter, "x", "y", "z"));
     container.appendChild(getSpan(" - "));
     container.appendChild(getInput("cone-field-"));
     container.appendChild(getSpan(" )^2 + "));
-    container.appendChild(getInput("cone-field-"));
     container.appendChild(getSpan(" ("));
     container.appendChild(getDropDown("second-" + counter, "y", "z", "x"));
     container.appendChild(getSpan(" - "));
@@ -347,39 +353,47 @@ function getConeEquations(id) {
     var secondFields = $("second-" + id);
     var thirdFields = $("third-" + id);
 
-    if (!(coneFields[0].value == coneFields[2].value && coneFields[0].value != 0)) {
-        alert("Coefficients of " + firstFields.options[firstFields.selectedIndex].text +  " and " + secondFields.options[secondFields.selectedIndex].text + " should be same");
-        return null;
-    }
-
     var order = [
         firstFields.options[firstFields.selectedIndex].text,
         secondFields.options[secondFields.selectedIndex].text,
         thirdFields.options[thirdFields.selectedIndex].text
     ];
 
-    if (coneFields[4].value == 0) {
+    if (coneFields[2].value == 0) {
         alert("Cone radius cannot be zero");
         return null;
     }
 
-    if (coneFields[5].value == 0) {
+    if (coneFields[2].value > 5) {
+        alert("Maximum radius allowed is 5");
+        return null;
+    }
+
+    if (coneFields[3].value == 0) {
         alert("C cannot be zero");
         return null;
     }
 
-    if (parseInt(coneFields[6].value) >= parseInt(coneFields[7].value)) {
-        alert("Inequality has to hold");
+    if (parseInt(coneFields[4].value) >= parseInt(coneFields[5].value)) {
+        alert("Inequality m < z < n has to hold");
         return null;
     }
 
-    var h1 = parseInt(coneFields[7].value) - parseInt(coneFields[6].value);
-    var h2 = parseInt(coneFields[4].value) / parseInt(coneFields[5].value);
-    console.log(h1);
-    console.log(h2);
+    if (coneFields[4].value == 0 && coneFields[5].value == 0) {
+        alert("Inequality m < z < n has to hold");
+        return null;
+    }
+
+    var h1 = parseInt(coneFields[5].value) - parseInt(coneFields[4].value);
+    var h2 = parseFloat(coneFields[2].value) / parseFloat(coneFields[3].value);
 
     if (h1 != h2) {
         alert("m - n height should be same as r / c height");
+        return null;
+    }
+
+    if (h1 > 5) {
+        alert("Maximum height allowed is 5");
         return null;
     }
 
@@ -387,12 +401,12 @@ function getConeEquations(id) {
     var coneEq = {
         id: id,
         type: 'cone',
-        coef: coneFields[0].value,
-        position: [coneFields[1].value, coneFields[3].value],
-        radius: coneFields[4].value,
-        bottom: coneFields[6].value, // lower bound
-        top: coneFields[7].value, // higher bound
-        height: coneFields[7].value - coneFields[6].value, //  top - bottom
+        coef: "1",
+        position: [coneFields[0].value, coneFields[1].value],
+        radius: coneFields[2].value,
+        bottom: coneFields[4].value, // lower bound
+        top: coneFields[5].value, // higher bound
+        height: coneFields[5].value - coneFields[4].value, //  top - bottom
         rotationAxes: orientation,
         order: order
         // orientation xy, yz, xz
@@ -421,26 +435,21 @@ function addEllipsoidEq() {
 
     container.appendChild(document.createElement("br"));
     container.appendChild(getSpan(" Equation " + counter + ": "));
-    container.appendChild(getInput("ellipsoid-field-"));
     container.appendChild(getSpan(" (x - "));
     container.appendChild(getInput("ellipsoid-field-"));
     container.appendChild(getSpan(" )^2 / "));
     container.appendChild(getInput("ellipsoid-field-"));
     container.appendChild(getSpan(" ^ 2 + "));
-    container.appendChild(getInput("ellipsoid-field-"));
     container.appendChild(getSpan(" (y - "));
     container.appendChild(getInput("ellipsoid-field-"));
     container.appendChild(getSpan(" )^2 / "));
     container.appendChild(getInput("ellipsoid-field-"));
     container.appendChild(getSpan(" ^ 2 + "));
-    container.appendChild(getInput("ellipsoid-field-"));
     container.appendChild(getSpan(" (z - "));
     container.appendChild(getInput("ellipsoid-field-"));
     container.appendChild(getSpan(" )^2 / "));
     container.appendChild(getInput("ellipsoid-field-"));
-    container.appendChild(getSpan(" ^ 2 = "));
-    container.appendChild(getInput("ellipsoid-field-"));
-    container.appendChild(getSpan(" ^2 "));
+    container.appendChild(getSpan(" ^ 2 = 1"));
     container.appendChild(document.createElement("br"));
     container.appendChild(document.createElement("br"));
     container.appendChild(getButton("ellipsoid-field-", "Graph Ellipsoid " + counter, updateEllipsoidEq));
@@ -466,33 +475,29 @@ function updateEllipsoidEq(id) {
 function getEllipsoidEquations(id) {
     var ellipsoidFields = document.getElementsByClassName("ellipsoid-field-" + id);
 
-    if (!(ellipsoidFields[0].value == ellipsoidFields[3].value &&
-        ellipsoidFields[3].value == ellipsoidFields[6].value &&
-        ellipsoidFields[0].value != 0)) {
-        alert("Coefficients of X, Y and Z of ellipsoid should be same");
-        return null;
-    }
-
-    if (ellipsoidFields[9].value == 0) {
-        alert("Ellipsoid radius cannot be zero");
-        return null;
-    }
-
-    if (ellipsoidFields[2].value == 0 ||
-        ellipsoidFields[5].value == 0 ||
-        ellipsoidFields[8].value == 0) {
+    if (ellipsoidFields[1].value == 0 ||
+        ellipsoidFields[3].value == 0 ||
+        ellipsoidFields[5].value == 0) {
         alert("Denominators of X, Y and Z cannot be zero");
         return null;
     }
+
+    if (ellipsoidFields[1].value > 5 ||
+        ellipsoidFields[3].value > 5 ||
+        ellipsoidFields[5].value > 5) {
+        alert("Maximum radius allowed is 5");
+        return null;
+    }
+
 
     // what equations should look like for a sphere
     var ellipsoidEq = {
         id: id,
         type: 'ellipsoid',
-        coef: ellipsoidFields[0].value,
-        position: [ellipsoidFields[1].value, ellipsoidFields[4].value, ellipsoidFields[7].value],
-        radius: ellipsoidFields[9].value,
-        denoms: [ellipsoidFields[2].value, ellipsoidFields[5].value, ellipsoidFields[8].value],
+        coef: "1",
+        position: [ellipsoidFields[0].value, ellipsoidFields[2].value, ellipsoidFields[4].value],
+        radius: 1,
+        denoms: [ellipsoidFields[1].value, ellipsoidFields[3].value, ellipsoidFields[5].value],
     };
 
     return ellipsoidEq;
@@ -529,63 +534,52 @@ function updateEquation(data) {
     if (data.type == 'sphere') {
         var sphereFields = document.getElementsByClassName("sphere-field-" + data.id);
 
-        sphereFields[0].value = data.coef;
-        sphereFields[2].value = data.coef;
-        sphereFields[4].value = data.coef;
+        sphereFields[0].value = data.position[0];
+        sphereFields[1].value = data.position[1];
+        sphereFields[2].value = data.position[2];
 
-        sphereFields[1].value = data.position[0];
-        sphereFields[3].value = data.position[1];
-        sphereFields[5].value = data.position[2];
-
-        sphereFields[6].value = data.radius;
+        sphereFields[3].value = data.radius;
     } else if (data.type == 'cylinder') {
         var cylinderFields = document.getElementsByClassName("cylinder-field-" + data.id);
 
-        cylinderFields[0].value = data.coef;
-        cylinderFields[2].value = data.coef;
+        cylinderFields[0].value = data.position[0];
+        cylinderFields[1].value = data.position[1];
 
-        // Can be
-        // XY, YX
-        // XZ, ZX
-        // YZ, ZY
-        
-        cylinderFields[1].value = data.position[0];
-        cylinderFields[3].value = data.position[1];
+        cylinderFields[2].value = data.radius;
 
-        cylinderFields[4].value = data.radius;
+        cylinderFields[3].value = data.bottom;
+        cylinderFields[4].value = data.top;
 
-        cylinderFields[5].value = data.bottom;
-        cylinderFields[6].value = data.top;
+        // Test this
+        $("first-" + data.id).value = data.order[0];
+        $("second-" + data.id).value = data.order[1];
+        $("third-" + data.id).value = data.order[2];
     } else if (data.type == 'cone') {
         var coneFields = document.getElementsByClassName("cone-field-" + data.id);
 
-        coneFields[0].value = data.coef;
-        coneFields[2].value = data.coef;
+        coneFields[0].value = data.position[0];
+        coneFields[1].value = data.position[1];
 
-        coneFields[1].value = data.position[0];
-        coneFields[3].value = data.position[1];
+        coneFields[2].value = data.radius;
 
-        coneFields[4].value = data.radius;
+        coneFields[3].value = parseInt(data.radius) / (parseInt(data.top) - parseInt(data.bottom));
 
-        coneFields[5].value = parseInt(data.radius) / (parseInt(data.top) - parseInt(data.bottom));
+        coneFields[4].value = data.bottom;
+        coneFields[5].value = data.top;
 
-        coneFields[6].value = data.bottom;
-        coneFields[7].value = data.top;
+        // Test this
+        $("first-" + data.id).value = data.order[0];
+        $("second-" + data.id).value = data.order[1];
+        $("third-" + data.id).value = data.order[2];
     } else if (data.type == 'ellipsoid') {
         var ellipsoidFields = document.getElementsByClassName("ellipsoid-field-" + data.id);
 
-        ellipsoidFields[0].value = data.coef;
-        ellipsoidFields[3].value = data.coef;
-        ellipsoidFields[6].value = data.coef;
+        ellipsoidFields[0].value = data.position[0];
+        ellipsoidFields[2].value = data.position[1];
+        ellipsoidFields[4].value = data.position[2];
 
-        ellipsoidFields[1].value = data.position[0];
-        ellipsoidFields[4].value = data.position[1];
-        ellipsoidFields[7].value = data.position[2];
-
-        ellipsoidFields[2].value = data.denoms[0];
-        ellipsoidFields[5].value = data.denoms[1];
-        ellipsoidFields[8].value = data.denoms[2];
-
-        ellipsoidFields[9].value = data.radius;
+        ellipsoidFields[1].value = data.denoms[0];
+        ellipsoidFields[3].value = data.denoms[1];
+        ellipsoidFields[5].value = data.denoms[2];
     }
 }

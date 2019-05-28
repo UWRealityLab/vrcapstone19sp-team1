@@ -120,8 +120,8 @@ function updateSphereEq() {
         var sphereEq = {
             id: 2,
             type: 'sphere',
-            coef: 1,
-            position: [0, 0, 0],
+            coef: "1",
+            position: ["0", "0", "0"],
             radius: Math.sqrt(values[0].value),
             text: "Sphere Tutorial: Step 2",
         };
@@ -145,7 +145,7 @@ function updateSphereEq() {
         var sphereEq = {
             id: 3,
             type: 'sphere',
-            coef: 1,
+            coef: "1",
             position: [values[0].value, values[1].value, values[2].value],
             radius: values[3].value,
             text: "Sphere Tutorial: Step 3",

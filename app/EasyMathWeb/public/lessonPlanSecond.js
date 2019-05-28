@@ -121,12 +121,12 @@ function updateConeEq() {
         var coneEq = {
             id: 2,
             type: 'cone',
-            coef: 1,
-            position: [0, 0],
-            radius: 2,
-            bottom: 1, // lower bound
-            top: 5, // higher bound
-            height: (4 / parseInt(values[0].value)), //  top - bottom
+            coef: "1",
+            position: ["0", "0"],
+            radius: "2",
+            bottom: "1", // lower bound
+            top: "5", // higher bound
+            height: 2 / parseFloat(values[0].value), //  top - bottom
             rotationAxes: ['90deg', '0', '0'],
             order: ["x", "y", "z"]
         };
@@ -136,7 +136,7 @@ function updateConeEq() {
 
         console.log(coneEq);
 
-        if (values[0].value == 1) {
+        if (values[0].value == 0.5) {
             alert("You got it right");
         }
     } else if (currStepNum == 4) {
@@ -157,7 +157,7 @@ function updateConeEq() {
         }
 
         var h1 = parseInt(values[5].value) - parseInt(values[4].value);
-        var h2 = parseInt(values[2].value) / parseInt(values[3].value);
+        var h2 = parseFloat(values[2].value) / parseFloat(values[3].value);
 
         if (h1 != h2) {
             alert("m - n height should be same as r / c height");
@@ -167,7 +167,7 @@ function updateConeEq() {
         var coneEq = {
             id: 4,
             type: 'cone',
-            coef: 1,
+            coef: "1",
             position: [values[0].value, values[1].value],
             radius: values[2].value,
             bottom: values[4].value, // lower bound
@@ -188,11 +188,11 @@ function startStep3() {
     var coneEq = {
         id: 3,
         type: 'cone',
-        coef: 1,
-        position: [0, 0],
-        radius: 1,
-        bottom: 1, // lower bound
-        top: 2, // higher bound
+        coef: "1",
+        position: ["0", "0"],
+        radius: "1",
+        bottom: "1", // lower bound
+        top: "2", // higher bound
         height: 1, //  top - bottom
         rotationAxes: ['90deg', '0', '0'],
         order: ["x", "y", "z"],
