@@ -86,7 +86,7 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
         var radiusMLSize = convertToMLSize(radius);
         var diameterMLSize = 2 * radiusMLSize;
         var offsets = convertToMLPosSphere(radius, equations.position);
-        var leftOffset = offsets[0];
+        var leftOffset = offsets[0] + 700;
         var topOffset = offsets[1];
         var zOffset = offsets[2];
 
@@ -118,7 +118,7 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
         var radius = Math.sqrt(r_squared / equations.coef);
         var height = equations.height;
         var offsetsAndRatios = convertToMLPosCylinder(radius, equations.bottom, height, equations.position, equations.rotationAxes);
-        var leftOffset = offsetsAndRatios[0];
+        var leftOffset = offsetsAndRatios[0] + 700;
         var topOffset = offsetsAndRatios[1];
         var zOffset = offsetsAndRatios[2];
         var radiusRatio = offsetsAndRatios[3];
@@ -154,7 +154,7 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
         // TODO: test if correct
         var denoms = equations.denoms;
         var offsetsAndRatios = convertToMLPosEllipsoid(denoms[0], denoms[1], denoms[2], equations.position);
-        var leftOffset = offsetsAndRatios[0];
+        var leftOffset = offsetsAndRatios[0] + 700;
         var topOffset = offsetsAndRatios[1];
         var zOffset = offsetsAndRatios[2];
 
@@ -197,7 +197,7 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
         var radius = Math.sqrt(r_squared / equations.coef);
         var height = equations.height;
         var offsetsAndRatios = convertToMLPosCylinder(radius, equations.bottom, height, equations.position, equations.rotationAxes);
-        var leftOffset = offsetsAndRatios[0];
+        var leftOffset = offsetsAndRatios[0] + 700;
         var topOffset = offsetsAndRatios[1];
         var zOffset = offsetsAndRatios[2];
         var radiusRatio = offsetsAndRatios[3];
@@ -249,7 +249,7 @@ function modelScaleFromDenomElipsoid(denoms) {
 }
 
 function idToColor(id) {
-    color = ['orange', 'lightblue', 'red', 'green', 'yellow', 'blue'];
+    color = ['palegreen', 'cyan', 'yellow'];
     return color[id % color.length];
 }
 
@@ -388,7 +388,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3000;
 // app.listen(port, () => console.log("App running on port " + port))
 
 server.listen(port, function(){

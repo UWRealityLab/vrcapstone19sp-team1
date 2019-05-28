@@ -59,7 +59,7 @@
 
     <!-- Z Axis (blue) -->
     <ml-model src="arrow.fbx"
-        style="width: 500px; height: 500px; position: absolute; left: 300px; top: 300px;"
+        style="width: 500px; height: 500px; position: absolute; left: 1000px; top: 300px;"
         model-scale="1, 1, 1"
         color="blue"
         prism-rotation="90deg 0 0">
@@ -67,7 +67,7 @@
 
     <!-- Y Axis (Red) -->
     <ml-model src="arrow.fbx"
-        style="width: 500px; height: 500px; position: absolute; left: 300px; top: 300px;"
+        style="width: 500px; height: 500px; position: absolute; left: 1000px; top: 300px;"
         model-scale="1, 1, 1"
         color="red"
         prism-rotation="0 90deg 0">
@@ -75,9 +75,16 @@
 
     <!-- X Axis (Green) -->
     <ml-model src="arrow.fbx"
-        style="width: 500px; height: 500px; position: absolute; left: 300px; top: 300px;"
+        style="width: 500px; height: 500px; position: absolute; left: 1000px; top: 300px;"
         model-scale="1, 1, 1"
         color="green"
+        prism-rotation="0 0 90deg">
+    </ml-model>
+
+    <ml-model src="tick.fbx"
+        style="width: 75px; height: 75px; position: absolute; left: 1000px; top: 300px;"
+        model-scale="1, 1, 1"
+        color="white"
         prism-rotation="0 0 90deg">
     </ml-model>
 
@@ -161,9 +168,9 @@
             if (data.equations.type != 'ellipsoid') {
                 container.appendChild(newPara);
                 container.appendChild(radiusDisplay);
-                container.appendChild(addSpan("0.5", idToColor(data.id)));
+                container.appendChild(addSpan("1", idToColor(data.id)));
                 container.appendChild(newSlider);
-                container.appendChild(addSpan("2.5", idToColor(data.id)));
+                container.appendChild(addSpan("5", idToColor(data.id)));
             }
 
             if (['cone', 'cylinder'].includes(data.equations.type)) {
@@ -234,7 +241,7 @@
             xSlider.style.width = "250px";
             xSlider.type = "range";
             xSlider.min = "1";
-            xSlider.max = "10";
+            xSlider.max = "5";
             xSlider.classList.add('slider');
             xSlider.value = denoms[0];
             xSlider.id = "sliderRX" + data.id;
@@ -262,7 +269,7 @@
             ySlider.style.width = "250px";
             ySlider.type = "range";
             ySlider.min = "1";
-            ySlider.max = "10";
+            ySlider.max = "5";
             ySlider.classList.add('slider');
             ySlider.value = denoms[1];
             ySlider.id = "sliderRY" + data.id;
@@ -290,7 +297,7 @@
             zSlider.style.width = "250px";
             zSlider.type = "range";
             zSlider.min = "1";
-            zSlider.max = "10";
+            zSlider.max = "5";
             zSlider.classList.add('slider');
             zSlider.value = denoms[2];
             zSlider.id = "sliderRZ" + data.id;
@@ -300,9 +307,9 @@
                 resizeRadiusEllipsoid(data, [0, 0, deltaZ]);
             });
 
-            return [xPara, xValueDisplay, addSpan("1", idToColor(data.id)), xSlider, addSpan("10", idToColor(data.id)), 
-                    yPara, yValueDisplay, addSpan("1", idToColor(data.id)), ySlider, addSpan("10", idToColor(data.id)),
-                    zPara, zValueDisplay, addSpan("1", idToColor(data.id)), zSlider, addSpan("10", idToColor(data.id))];
+            return [xPara, xValueDisplay, addSpan("1", idToColor(data.id)), xSlider, addSpan("5", idToColor(data.id)), 
+                    yPara, yValueDisplay, addSpan("1", idToColor(data.id)), ySlider, addSpan("5", idToColor(data.id)),
+                    zPara, zValueDisplay, addSpan("1", idToColor(data.id)), zSlider, addSpan("5", idToColor(data.id))];
         }
 
         function createHeightSlider(data) {
@@ -324,7 +331,7 @@
             newSlider.style.width = "250px";
             newSlider.type = "range";
             newSlider.min = "1";
-            newSlider.max = "10";
+            newSlider.max = "5";
             newSlider.classList.add('slider');
             newSlider.value = data.equations.height;
             newSlider.id = "sliderH" + data.id;
@@ -333,7 +340,7 @@
                 resizeHeight(data, newSlider.value);
             });
 
-            return [para, valueDisplay, addSpan("1", idToColor(data.id)), newSlider, addSpan("10", idToColor(data.id))];
+            return [para, valueDisplay, addSpan("1", idToColor(data.id)), newSlider, addSpan("5", idToColor(data.id))];
         }
 
         function createMoveBtns(shapeId, equations) {
@@ -517,7 +524,7 @@
         }
 
         function idToColor(id) {
-            color = ['orange', 'lightblue', 'red', 'green', 'yellow', 'blue'];
+            color = ['palegreen', 'cyan', 'yellow'];
             return color[id % color.length];
         }
 
