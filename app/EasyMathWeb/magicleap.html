@@ -7,51 +7,10 @@
     <title></title>
     <script src="https://unpkg.com/@magicleap/prismatic"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
-    <!-- <style>
-        .slider {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 25px;
-            background: blue;
-            outline: none;
-            opacity: 0.7;
-            -webkit-transition: .2s;
-            transition: opacity .2s;
-        }
-
-        .slider:hover {
-            opacity: 1;
-        }
-
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 25px;
-            height: 25px;
-            background: white;
-            cursor: pointer;
-        }
-
-        .slider::-moz-range-thumb {
-            width: 25px;
-            height: 25px;
-            background: white;
-            cursor: pointer;
-        }
-    </style> -->
     <link rel="stylesheet" href="magicleap.css">
 </head>
 <body style="background-color: transparent;">
     <div id = "shapeContainer">
-
-        <!-- <ml-model src="cone.fbx"
-            style="width: 500px; height: 500px; position: absolute; left: 300px; top: 300px;"
-            model-scale="1, 1, 1"
-            prism-rotation="90deg 0 0"
-            materials="
-                textures:
-                    texture.png;">
-        </ml-model> -->
 
     </div>
 
@@ -80,28 +39,6 @@
         color="green"
         prism-rotation="0 0 90deg">
     </ml-model>
-
-    <ml-model src="tick.fbx"
-        style="width: 75px; height: 75px; position: absolute; left: 1000px; top: 300px;"
-        model-scale="1, 1, 1"
-        color="white"
-        prism-rotation="0 0 90deg">
-    </ml-model>
-
-    <!-- <ml-model src="cone.fbx"
-        style='width: 500px; height: 500px; position: absolute; left: 300px; top: 225px;',
-        z-offset='150px'
-        model-scale='0.2, 0.3, 0.2'
-        prism-rotation= '0 0 270deg',
-        color='yellow'>
-    </ml-model> -->
-
-    <!-- <ml-model src="cone.glb"
-        style='width: 300px; height: 300px; position: absolute; left: 1000px; top: 500px;',
-        z-offset='150px'
-        model-scale='1, 1, 1'
-        color='yellow'>
-    </ml-model> -->
 
     <script>
         var shapeC = document.getElementById("shapeContainer");
@@ -193,6 +130,58 @@
             // add container with slider and text to shape container
             shapeC.appendChild(container);
         });
+
+        // numTicksPerAxes is the number of ticks on each axes for positive and negative sections of axes
+        function addTicks(numTicksPerAxes) {
+            var container = document.createElement("div");
+            // y axis
+            for (var i = 0; i < numTicksPerAxes; i++) {
+                var posAxisTickPosition = 510 - (i+1) * 50;
+                var negAxisTickPosition = 510 + (i+1) * 50;
+                container.innerHTML += `<ml-model src="tick.fbx" style="width: 80px; height: 80px; position: absolute; left: 1210px; top: ${posAxisTickPosition}px;" model-scale="1, 1, 1" color="white" prism-rotation="0 0 90deg"></ml-model>`
+                container.innerHTML += `<ml-model src="tick.fbx" style="width: 80px; height: 80px; position: absolute; left: 1210px; top: ${negAxisTickPosition}px;" model-scale="1, 1, 1" color="white" prism-rotation="0 0 90deg"></ml-model>`
+            }
+
+            // x axis
+            for (var i = 0; i < numTicksPerAxes; i++) {
+                var posAxisTickPosition = 1210 + (i+1) * 50;
+                var negAxisTickPosition = 1210 - (i+1) * 50;
+                container.innerHTML += `<ml-model src="tick.fbx"
+                    style="width: 80px; height: 80px; position: absolute; left: ${posAxisTickPosition}px; top: 510px;"
+                    model-scale="1, 1, 1"
+                    color="white"
+                    prism-rotation="0 90deg 0">
+                </ml-model>`;
+                container.innerHTML += `<ml-model src="tick.fbx"
+                    style="width: 80px; height: 80px; position: absolute; left: ${negAxisTickPosition}px; top: 510px;"
+                    model-scale="1, 1, 1"
+                    color="white"
+                    prism-rotation="0 90deg 0">
+                </ml-model>`;
+            }
+
+            // z axis
+            for (var i = 0; i < numTicksPerAxes; i++) {
+                var posAxisTickPosition = 150 + (i+1) * 50;
+                var negAxisTickPosition = 150 - (i+1) * 50;
+                container.innerHTML += `<ml-model src="tick.fbx"
+                    style="width: 80px; height: 80px; position: absolute; left: 1210px; top: 510px;"
+                    model-scale="1, 1, 1"
+                    color="white"
+                    prism-rotation="0 0 0"
+                    z-offset="${posAxisTickPosition}px">
+                </ml-model>`;
+                container.innerHTML += `<ml-model src="tick.fbx"
+                    style="width: 80px; height: 80px; position: absolute; left: 1210px; top: 510px;"
+                    model-scale="1, 1, 1"
+                    color="white"
+                    prism-rotation="0 0 0"
+                    z-offset="${negAxisTickPosition}px">
+                </ml-model>`;
+            }
+
+            document.body.appendChild(container);
+        }
 
         function addSpan(text, color) {
             var s = document.createElement("span");
@@ -603,134 +592,10 @@
             equations.position = ["" + position2D[0], "" + position2D[1]];
 
         }
+
+
+        // ADD TICKS
+        addTicks(3);
     </script>
 </body>
 </html>
-
-<!-- W = 2H, center -->
-<!-- <ml-model src="cylinder.fbx"
-    style='width: 400px; height: 200px; position: absolute; left: 350px; top: 350px;',
-    z-offset='150px'
-    model-scale='1, 1, 1'
-    prism-rotation= '0 0 90deg',
-    color='red'>
-</ml-model> -->
-
-<!-- W = H, center -->
-<!-- <ml-model src="sphere.16.gltf"
-    style='width: 400px; height: 400px; position: absolute; left: 350px; top: 150px;',
-    z-offset='150px'
-    model-scale='1, 1, 1'
-    prism-rotation= '0 0 0',
-    color='red'
-    environment-lighting='color-intensity: 1;'>
-</ml-model> -->
-
-<!-- W = H, XZ, (3, 3) -->
-<!-- <ml-model src="cylinder.fbx"
-    style='width: 400px; height: 400px; position: absolute; left: 650px; top: 150px;',
-    z-offset='450px'
-    model-scale='1, 1, 1'
-    prism-rotation= '0 0 0',
-    color='red'>
-</ml-model> -->
-
-<!-- W = H, XZ, (-3, -3) -->
-<!-- <ml-model src="cylinder.fbx"
-    style='width: 400px; height: 400px; position: absolute; left: 50px; top: 150px;',
-    z-offset='-150px'
-    model-scale='1, 1, 1'
-    prism-rotation= '0 0 0',
-    color='red'>
-</ml-model> -->
-
-<!-- W = H, XZ, (3, -3) -->
-<!-- <ml-model src="cylinder.fbx"
-    style='width: 400px; height: 400px; position: absolute; left: 650px; top: 150px;',
-    z-offset='-150px'
-    model-scale='1, 1, 1'
-    prism-rotation= '0 0 0',
-    color='red'>
-</ml-model> -->
-
-<!-- W = H, XZ, (-3, 3) -->
-<!-- <ml-model src="cylinder.fbx"
-    style='width: 400px; height: 400px; position: absolute; left: 50px; top: 150px;',
-    z-offset='450px'
-    model-scale='1, 1, 1'
-    prism-rotation= '0 0 0',
-    color='red'
-    environment-lighting='color-intensity: 1;'>
-</ml-model> -->
-
-<!-- W = H, XZ, (3, 0) -->
-<!-- <ml-model src="cylinder.fbx"
-    style='width: 400px; height: 400px; position: absolute; left: 650px; top: 150px;',
-    z-offset='150px'
-    model-scale='1, 1, 1'
-    prism-rotation= '0 0 0',
-    color='red'>
-</ml-model> -->
-
-<!-- W = H, XZ, (0, -3) -->
-<!-- <ml-model src="cylinder.fbx"
-    style='width: 400px; height: 400px; position: absolute; left: 350px; top: 150px;',
-    z-offset='-150px'
-    model-scale='1, 1, 1'
-    prism-rotation= '0 0 0',
-    color='red'>
-</ml-model> -->
-
-<!-- 4W = H, XZ, (0, 0), bottom = 0 -->
-<!-- <ml-model src="cylinder.fbx"
-    style='width: 200px; height: 800px; position: absolute; left: 450px; top: -250px;',
-    z-offset='150px'
-    model-scale='1, 4, 1'
-    prism-rotation= '0 0 0',
-    color='red'>
-</ml-model> -->
-
-<!-- 4W = H, YZ, (0, 0), bottom = 0 -->
-<!-- <ml-model src="cylinder.fbx"
-    style='width: 200px; height: 800px; position: absolute; left: 450px; top: -250px;',
-    z-offset='150px'
-    model-scale='1, 4, 1'
-    prism-rotation= '0 0 90deg',
-    color='red'>
-</ml-model> -->
-
-<!-- Half the height on YX-->
-<!-- 4W = H, YZ, (0, 0), bottom = 0 -->
-<!-- <ml-model src="cylinder.fbx"
-    style='width: 200px; height: 800px; position: absolute; left: 850px; top: 150px;',
-    z-offset='150px'
-    model-scale='1, 4, 1'
-    prism-rotation= '0 0 90deg',
-    color='red'>
-</ml-model> -->
-
-<!-- 4W = H, XY, (0, 0), bottom = 0 -->
-<!-- <ml-model src="cylinder.fbx"
-    style='width: 200px; height: 800px; position: absolute; left: 450px; top: -250px;',
-    z-offset='150px'
-    model-scale='1, 4, 1'
-    prism-rotation= '90deg 0 0',
-    color='yellow'>
-</ml-model> -->
-
-<!-- Half the height on YZ-->
-<!-- 4W = H, XY, (0, 0), bottom = 0 -->
-<!-- <ml-model src="cylinder.fbx"
-    style='width: 1000px; height: 1000px; position: absolute; left: 50px; top: 50px;',
-    z-offset='650px'
-    model-scale='0.25, 1, 0.25'
-    prism-rotation= '90deg 0 0',
-    color='yellow'>
-</ml-model> -->
-
-<!--
-    (width, height, left, top, x, y, z, z-offset)
-    (1600, 1600, 550 - 1600 / 2, 550 - 1600 / 2, 0.25, 1, 0.25, 550)
-    (1000, 1000, 550 - 1000 / 2, 550 - 1000 / 2, 0.25, 1, 0.25, 550)
-    (1000, 1000, 550 - 1000 / 2, 550 - 1000 / 2, 1, 0.25, 1, 550)
--->
