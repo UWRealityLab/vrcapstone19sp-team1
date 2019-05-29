@@ -118,7 +118,7 @@ function updateSphereEq() {
         }
 
         var sphereEq = {
-            id: 2,
+            id: "2",
             type: 'sphere',
             coef: "1",
             position: ["0", "0", "0"],
@@ -137,13 +137,18 @@ function updateSphereEq() {
     } else if (currStepNum == 3) {
         var values = C("sphere-field");
 
+        if (!values[0].value || !values[1].value || !values[2].value || !values[3].value) {
+            alert("Please Enter all values");
+            return;
+        } 
+
         if (values[3].value == 0) {
             alert("radius cannot be zero");
             return;
         }
 
         var sphereEq = {
-            id: 3,
+            id: "3",
             type: 'sphere',
             coef: "1",
             position: [values[0].value, values[1].value, values[2].value],
@@ -162,15 +167,20 @@ function updateSphereEq() {
     } else if (currStepNum == 5) {
         var values = C("sphere-field");
 
+        if (!values[0].value || !values[1].value || !values[2].value || !values[3].value) {
+            alert("Please Enter all values");
+            return;
+        }
+
         if (values[3].value == 0) {
             alert("radius cannot be zero");
             return;
         }
 
         var sphereEq = {
-            id: 5,
+            id: "5",
             type: 'sphere',
-            coef: 1,
+            coef: "1",
             position: [values[0].value, values[1].value, values[2].value],
             radius: values[3].value,
             text: "Sphere Tutorial: Step 5",
@@ -194,22 +204,38 @@ function updateCylinderEq() {
             return;
         }
 
+        if (radius[0].value > 5) {
+            alert("Maximum radius allowed is 5");
+            return;
+        }
+
+        if (!range[0].value) {
+            alert("Enter height");
+            return;
+        }
+
         if (parseInt(range[0]).value >= 3) {
             alert("Inequality m < z < n should hold");
             return;
         }
 
+        if (parseInt(range[0]).value < -2) {
+            alert("Maximum height allowed is 5");
+            return;
+        }
+
         var cylinderEq = {
-            id: 7,
+            id: "7",
             type: 'cylinder',
-            coef: 1,
-            position: [0, 0],
+            coef: "1",
+            position: ["0", "0"],
             radius: radius[0].value,
             bottom: range[0].value,
-            top: 3,
+            top: "3",
             height: 3 - range[0].value,
             rotationAxes: ['90deg', '0', '0'],
             text: "Cylinder Tutorial: Step 7",
+            order: ["x", "y", "z"]
         };
 
         console.log("sent to server: " + cylinderEq);
@@ -223,8 +249,18 @@ function updateCylinderEq() {
     } else if (currStepNum == 9) {
         var values = C("cylinder-field");
 
+        if (!values[0].value || !values[1].value || !values[2].value || !values[3].value || !values[4].value) {
+            alert("Please Enter all values");
+            return;
+        }
+
         if (values[2].value == 0) {
             alert("radius cannot be zero");
+            return;
+        }
+
+        if (values[0].value > 5) {
+            alert("Maximum radius allowed is 5");
             return;
         }
 
@@ -233,10 +269,20 @@ function updateCylinderEq() {
             return;
         }
 
+        if (!values[3].value || !values[4].value) {
+            alert("Enter height");
+            return;
+        }
+
+        if (parseInt(values[4].value) - parseInt(values[3].value) > 5) {
+            alert("Maximum height allowed is 5");
+            return;
+        }
+
         var cylinderEq = {
-            id: 9,
+            id: "9",
             type: 'cylinder',
-            coef: 1,
+            coef: "1",
             position: [values[0].value, values[1].value],
             radius: values[2].value,
             bottom: values[3].value,
@@ -244,6 +290,7 @@ function updateCylinderEq() {
             height: values[4].value - values[3].value,
             rotationAxes: ['90deg', '0', '0'],
             text: "Cylinder Tutorial: Step 9",
+            order: ["x", "y", "z"]
         };
 
         console.log("sent to server: " + cylinderEq);
@@ -255,11 +302,11 @@ function updateCylinderEq() {
 
 function startStep4() {
     var sphereEq = {
-        id: 4,
+        id: "4",
         type: 'sphere',
-        coef: 1,
-        position: [0, 0, 0],
-        radius: 1,
+        coef: "1",
+        position: ["0", "0", "0"],
+        radius: "1",
         text: "Sphere Tutorial: Step 4",
     };
 
@@ -279,16 +326,17 @@ function startStep4() {
 
 function startStep8() {
     var cylinderEq = {
-        id: 8,
+        id: "8",
         type: 'cylinder',
-        coef: 1,
-        position: [0, 0],
+        coef: "1",
+        position: ["0", "0"],
         radius: 1,
-        bottom: 0,
-        top: 3,
+        bottom: "0",
+        top: "3",
         height: 3,
         rotationAxes: ['90deg', '0', '0'],
         text: "Cylinder Tutorial: Step 8",
+        order: ["x", "y", "z"]
     };
 
     console.log("sent to server: " + cylinderEq);
@@ -308,7 +356,7 @@ function startStep8() {
 }
 
 function updateEquation(data) {
-    if (data.type == 'sphere') {
+    if (data.type == 'sphere' && data.id > 3) {
         var sphereFields = document.getElementsByClassName("sphere-field");
 
         sphereFields[0].value = data.position[0];
@@ -322,7 +370,7 @@ function updateEquation(data) {
                 alert("You got it right");
             }
         }
-    } else if (data.type == 'cylinder') {
+    } else if (data.type == 'cylinder' && data.id > 7) {
         var cylinderFields = document.getElementsByClassName("cylinder-field");
 
         cylinderFields[0].value = data.position[0];

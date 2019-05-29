@@ -136,6 +136,11 @@ function updateSphereEq(id) {
 function getSphereEquations(id) {
     var sphereFields = document.getElementsByClassName("sphere-field-" + id);
 
+    if (!sphereFields[0].value || !sphereFields[1].value || !sphereFields[2].value || !sphereFields[3].value) {
+        alert("Please enter all values");
+        return null;
+    }
+
     if (sphereFields[3].value == 0) {
         alert("Sphere radius cannot be zero");
         return null;
@@ -217,6 +222,11 @@ function updateCylinderEq(id) {
 
 function getCylinderEquations(id) {
     var cylinderFields = document.getElementsByClassName("cylinder-field-" + id);
+
+    if (!cylinderFields[0].value || !cylinderFields[1].value || !cylinderFields[2].value || !cylinderFields[3].value || !cylinderFields[4].value) {
+        alert("Please enter all values");
+        return null;
+    }
 
     var orientation = checkXYZ(id);
     if (!orientation) {
@@ -342,6 +352,11 @@ function updateConeEq(id) {
 // PLEASE CHECK HEIGHT
 function getConeEquations(id) {
     var coneFields = document.getElementsByClassName("cone-field-" + id);
+
+    if (!coneFields[0].value || !coneFields[1].value || !coneFields[2].value || !coneFields[3].value || !coneFields[4].value || !coneFields[5].value) {
+        alert("Please enter all values");
+        return null;
+    }
 
     var orientation = checkXYZ(id);
     if (!orientation) {
@@ -474,6 +489,11 @@ function updateEllipsoidEq(id) {
 
 function getEllipsoidEquations(id) {
     var ellipsoidFields = document.getElementsByClassName("ellipsoid-field-" + id);
+
+    if (!ellipsoidFields[0].value || !ellipsoidFields[1].value || !ellipsoidFields[2].value || !ellipsoidFields[3].value || !ellipsoidFields[4].value || !ellipsoidFields[5].value) {
+        alert("Please enter all values");
+        return null;
+    }
 
     if (ellipsoidFields[1].value == 0 ||
         ellipsoidFields[3].value == 0 ||

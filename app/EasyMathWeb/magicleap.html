@@ -150,9 +150,10 @@
             newSlider.type = "range";
             newSlider.min = "1";
             newSlider.max = "5";
+            newSlider.step = "0.5";
             newSlider.classList.add('slider');
             newSlider.id = "slider" + data.id;
-            newSlider.value = data.equations.radius * 2.0;
+            newSlider.value = data.equations.radius;
             
             newSlider.style.background = idToColor(data.id);
             newSlider.addEventListener("change", function() {
@@ -242,6 +243,7 @@
             xSlider.type = "range";
             xSlider.min = "1";
             xSlider.max = "5";
+            xSlider.step = "0.5";            
             xSlider.classList.add('slider');
             xSlider.value = denoms[0];
             xSlider.id = "sliderRX" + data.id;
@@ -270,6 +272,7 @@
             ySlider.type = "range";
             ySlider.min = "1";
             ySlider.max = "5";
+            ySlider.step = "0.5";
             ySlider.classList.add('slider');
             ySlider.value = denoms[1];
             ySlider.id = "sliderRY" + data.id;
@@ -298,6 +301,7 @@
             zSlider.type = "range";
             zSlider.min = "1";
             zSlider.max = "5";
+            zSlider.step = "0.5";
             zSlider.classList.add('slider');
             zSlider.value = denoms[2];
             zSlider.id = "sliderRZ" + data.id;
@@ -332,6 +336,7 @@
             newSlider.type = "range";
             newSlider.min = "1";
             newSlider.max = "5";
+            newSlider.step = "0.5";
             newSlider.classList.add('slider');
             newSlider.value = data.equations.height;
             newSlider.id = "sliderH" + data.id;
@@ -532,7 +537,7 @@
             var container = document.getElementById(data.id);
             container.parentNode.removeChild(container);
             delete shapesMap[data.id];
-            data.equations.radius = sliderVal / 2.0;
+            data.equations.radius = sliderVal;
             socket.emit('updateFromML', data.equations);
         };
 
