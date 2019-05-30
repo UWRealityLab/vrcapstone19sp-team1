@@ -78,6 +78,8 @@ function deleteEq(id) {
 
     numOfShapes--;
 
+    delete idEquationMap[id];
+
     console.log("sent to server: " + id + " for delete");
     socket.emit('deleteEqs', id);
 }
@@ -559,6 +561,23 @@ function updateEquation(data) {
         sphereFields[2].value = data.position[2];
 
         sphereFields[3].value = data.radius;
+
+        var oldData = idEquationMap[data.id];
+        var oldValues = [oldData.position[0], oldData.position[1], oldData.position[2], oldData.radius];
+    
+        var newValues = [data.position[0], data.position[1], data.position[2], data.radius];
+
+        var changedIndexes = changeHelper(oldValues, newValues);
+
+        for (var i = 0; i < sphereFields.length; i++) {
+            sphereFields[i].classList.remove("changedValues");
+            
+            if (changedIndexes.includes(i)) {
+                sphereFields[i].classList.add("changedValues");
+            }
+        }
+
+        idEquationMap[data.id] = data;
     } else if (data.type == 'cylinder') {
         var cylinderFields = document.getElementsByClassName("cylinder-field-" + data.id);
 
@@ -574,6 +593,22 @@ function updateEquation(data) {
         $("first-" + data.id).value = data.order[0];
         $("second-" + data.id).value = data.order[1];
         $("third-" + data.id).value = data.order[2];
+
+        var oldData = idEquationMap[data.id];
+        var oldValues = [oldData.position[0], oldData.position[1], oldData.radius, oldData.bottom, oldData.top];
+    
+        var newValues = [data.position[0], data.position[1], data.radius, data.bottom, data.top];
+        var changedIndexes = changeHelper(oldValues, newValues);
+
+        for (var i = 0; i < cylinderFields.length; i++) {
+            cylinderFields[i].classList.remove("changedValues");
+            
+            if (changedIndexes.includes(i)) {
+                cylinderFields[i].classList.add("changedValues");
+            }
+        }
+
+        idEquationMap[data.id] = data;
     } else if (data.type == 'cone') {
         var coneFields = document.getElementsByClassName("cone-field-" + data.id);
 
@@ -582,7 +617,8 @@ function updateEquation(data) {
 
         coneFields[2].value = data.radius;
 
-        coneFields[3].value = parseInt(data.radius) / (parseInt(data.top) - parseInt(data.bottom));
+        var cNew = parseInt(data.radius) / (parseInt(data.top) - parseInt(data.bottom));
+        coneFields[3].value = cNew;
 
         coneFields[4].value = data.bottom;
         coneFields[5].value = data.top;
@@ -591,6 +627,23 @@ function updateEquation(data) {
         $("first-" + data.id).value = data.order[0];
         $("second-" + data.id).value = data.order[1];
         $("third-" + data.id).value = data.order[2];
+
+        var oldData = idEquationMap[data.id];
+        var cOld = parseInt(oldData.radius) / (parseInt(oldData.top) - parseInt(oldData.bottom));
+        var oldValues = [oldData.position[0], oldData.position[1], oldData.radius, cOld, oldData.bottom, oldData.top];
+    
+        var newValues = [data.position[0], data.position[1], data.radius, cNew, data.bottom, data.top];
+        var changedIndexes = changeHelper(oldValues, newValues);
+
+        for (var i = 0; i < coneFields.length; i++) {
+            coneFields[i].classList.remove("changedValues");
+            
+            if (changedIndexes.includes(i)) {
+                coneFields[i].classList.add("changedValues");
+            }
+        }
+
+        idEquationMap[data.id] = data;
     } else if (data.type == 'ellipsoid') {
         var ellipsoidFields = document.getElementsByClassName("ellipsoid-field-" + data.id);
 
@@ -601,5 +654,33 @@ function updateEquation(data) {
         ellipsoidFields[1].value = data.denoms[0];
         ellipsoidFields[3].value = data.denoms[1];
         ellipsoidFields[5].value = data.denoms[2];
+
+        var oldData = idEquationMap[data.id];
+        var oldValues = [oldData.position[0], oldData.denoms[0], oldData.position[1], oldData.denoms[1], oldData.position[2], oldData.denoms[2]];
+    
+        var newValues = [data.position[0], data.denoms[0], data.position[1], data.denoms[1], data.position[2], data.denoms[2]];
+        var changedIndexes = changeHelper(oldValues, newValues);
+
+        for (var i = 0; i < ellipsoidFields.length; i++) {
+            ellipsoidFields[i].classList.remove("changedValues");
+            
+            if (changedIndexes.includes(i)) {
+                ellipsoidFields[i].classList.add("changedValues");
+            }
+        }
+
+        idEquationMap[data.id] = data;
     }
+}
+
+function changeHelper(oldValues, newValues) {
+    var changedIndexes = [];
+
+    for (var i = 0; i < oldValues.length; i++) {
+        if (oldValues[i] != newValues[i]) {
+            changedIndexes.push(i);
+        }
+    }
+
+    return changedIndexes;
 }

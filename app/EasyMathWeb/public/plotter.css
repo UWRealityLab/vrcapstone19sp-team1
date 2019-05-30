@@ -65,3 +65,8 @@ select {
     color: white;
     font-size: 30px;
 }
+
+.changedValues {
+    background-color: orange;
+    color: white;
+}

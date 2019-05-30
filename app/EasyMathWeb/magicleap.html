@@ -10,6 +10,24 @@
     <link rel="stylesheet" href="magicleap.css">
 </head>
 <body style="background-color: transparent;">
+    <div id = "legend">
+        <ul style="font-size: 40px">
+            <li style="color: green">
+                X-axis
+            </li>
+            <li style="color: red">
+                Y-axis
+            </li>
+            <li style="color: blue">
+                Z-axis
+            </li>
+        </ul>
+    </div>
+
+    <div id = "currentEquations"> 
+
+    </div>
+
     <div id = "shapeContainer">
 
     </div>
@@ -129,6 +147,9 @@
 
             // add container with slider and text to shape container
             shapeC.appendChild(container);
+
+            // update displayed equations
+            updateText();
         });
 
         // numTicksPerAxes is the number of ticks on each axes for positive and negative sections of axes
@@ -541,7 +562,12 @@
 
         socket.on('deleteShape', function (id) {
             var container = document.getElementById(id);
-            container.parentNode.removeChild(container);
+            if (container) {
+                container.parentNode.removeChild(container);
+
+                delete shapesMap[id];
+                updateText();
+            }
         });
 
         function convertToThreePoints(position, bottom, order) {
@@ -596,6 +622,66 @@
 
         // ADD TICKS
         addTicks(3);
+
+        function updateText() {
+            var equationContainer = document.getElementById("currentEquations");
+            equationContainer.innerHTML = "";
+
+            var ul = document.createElement("ul");
+
+            for (var key in shapesMap) {
+                var data = shapesMap[key].equations;
+
+                var text = "";
+                if (data.type == "sphere") {
+                    var a = data.position[0];
+                    var b = data.position[1];
+                    var c = data.position[2];
+                    var r = data.radius;
+
+                    text = "(x - " + a + ")^2 + (y - " + b + ")^2 + (z - " + c + ")^2 = " + r + "^2";
+                } else if (data.type == "cylinder") {
+                    var a = data.position[0];
+                    var b = data.position[1];
+
+                    var r = data.radius;
+
+                    var m = data.bottom;
+                    var n = data.top;
+
+                    text =  "(x - " + a + ")^2 + (y - " + b + ")^2 = " + r + "^2 where " + m + " < z < " + n;
+                } else if (data.type == "cone") {
+                    var a = data.position[0];
+                    var b = data.position[1];
+
+                    var r = data.radius;
+
+                    var c = parseInt(data.radius) / (parseInt(data.top) - parseInt(data.bottom));
+
+                    var m = data.bottom;
+                    var n = data.top;
+
+                    text =  "(x - " + a + ")^2 + (y - " + b + ")^2 = " + r + "^2 / " + c + "^2 where " + m + " < z < " + n;
+                } else if (data.type == "ellipsoid") {
+                    var a = data.position[0];
+                    var b = data.position[1];
+                    var c = data.position[2];
+
+                    var u = data.denoms[0];
+                    var v = data.denoms[1];
+                    var w = data.denoms[2];
+
+                    text = "(x - " + a + ")^2 / " + u + "^2 + (y - " + b + ")^2 / + " + v + "^2 + (z - " + c + ")^2 / " + w + "^2 = 1";
+                }
+
+                var li = document.createElement("li");
+                li.innerHTML = text;
+                li.style.color = idToColor(data.id); 
+                ul.appendChild(li);
+            }
+
+            equationContainer.appendChild(ul);
+        }
     </script>
 </body>
 </html>
