@@ -134,10 +134,10 @@ function ellipsoidPlayGroundEquation() {
 
 function updateConeEq() {
     if (currStepNum == 2) {
-        var values = C("step2C");
+        var values = C("step2");
 
         if (values[0].value == 0) {
-            alert("cannot divide by zero");
+            alert("Enter a value");
             return;
         }
 
@@ -148,8 +148,8 @@ function updateConeEq() {
             position: ["0", "0"],
             radius: "2",
             bottom: "1", // lower bound
-            top: "5", // higher bound
-            height: 2 / parseFloat(values[0].value), //  top - bottom
+            top: values[0].value, // higher bound
+            height: values[0].value -  1, //  top - bottom
             rotationAxes: ['90deg', '0', '0'],
             order: ["x", "y", "z"],
             text: "Cone Tutorial: Step 2",
@@ -160,7 +160,7 @@ function updateConeEq() {
 
         console.log(coneEq);
 
-        if (values[0].value == 0.5) {
+        if (values[0].value == 5) {
             alert("You got it right");
         }
     } else if (currStepNum == 4) {
@@ -417,9 +417,8 @@ function getStep2() {
     container.appendChild(getBody("Height determines how long the cone is i.e. how far the pointed end is from the circular base."));
     container.appendChild(getSubTitle("Exercise: "));
     container.appendChild(getBody("Consider a cone which is centered at (0, 0) with radius 2 and height 4. Complete the cone equation below and check on the magic leap to see your cone."));
-    container.appendChild(getSpan("(x - 0)^2 + (y - 0)^2 = 4^2 / "));
-    container.appendChild(getInput("step2C"));
-    container.appendChild(getSpan("^2"));
+    container.appendChild(getSpan("(x - 0)^2 + (y - 0)^2 = 4 / 0.5 where 1 < z <  "));
+    container.appendChild(getInput("step2"));
     container.appendChild(document.createElement("br"));
     container.appendChild(document.createElement("br"));
     container.appendChild(getButton("Check Cone", updateConeEq));
