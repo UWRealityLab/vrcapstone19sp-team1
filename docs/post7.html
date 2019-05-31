@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>VR Capstone Team 1 - EasyMath</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+  <!-- Custom styles for this template -->
+  <link href="css/clean-blog.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">VR Capstone Team 1</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="docs.html">Documents</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('img/post-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="post-heading">
+            <h1>Blog Post for Week 8 (5/18-5/24)</h1>
+            <h2 class="subheading"><!-- subheading here --></h2>
+            <span class="meta">Posted by
+              <a href="#">VR Capstone Team 1</a>
+              on 5/24/19</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Post Content -->
+  <article>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <h2>Update on code, links to relevant code added this week</h2>
+            <p>
+                There are three key components of our project.
+                <ol>
+                    <li>Server</li>
+                    <li>Webpage on the computer</li>
+                    <li>Magic Leap page</li>
+                </ol>
+
+            </p>
+
+            <h3>Server (app.js)</h3>
+            <p>
+                On the server we completed the following components:
+                <ul>
+                    <li>
+                        Finished testing the positioning and resizing on the backend for the cone and the ellipsoid.
+                    </li>
+                    <li>
+                        We fixed a lingering cylinder bug where the height wasn't adjustable if the cylinder was rotated. This required refactoring significant code and took a while to fix and ensure it is correct now.
+                    </li>
+                    <li>
+                        We tested to ensure the backend can update equations properly when interactions are done on the magic leap.
+                    </li>
+                </ul>
+            </p>
+
+            <h3>Webpage on the computer (index.html and index.js)</h3>
+            <p>
+                We made the following changes to the web interface:
+                <ul>
+                    <li>Added the cone lesson plan.</li>
+                    <li>For cone, we can plot it on different orientations. Before we did not make sure that the updates sent from the server updates the right variables based on the orientation. So with orientation, we also send the server the order of the variables and when the server
+                    sends us the update, we use the order of the variables to update the right values.</li>
+                    <li>Based on last week's feedback, tried better combinations of colors so the equations and values are more visible.</li>
+                </ul>
+            </p>
+
+            <h3>Magic Leap page (magicleap.html)</h3>
+            <p>
+                We made the following changes to the magic leap page:
+                <ul>
+                    <li>
+                        Added interactions for the cone. This means that the user can use sliders to increase the height and radius of the cone.
+                    </li>
+                    <li>
+                      We added more professional features to allow the user to see current state of the various variables like radius, height, and position so the user doesn't need to keep looking at the computer screen for updated values.
+                    </li>
+                    <li>
+                        Added interactions for the ellipsoid. This means that the user can use sliders to increase the radius on the x, y, and z axis. We also make sure to remove the radius slider used for the sphere. We also like the ellipsoid add the state to the magicleap page so they can see what the current radius and position are.
+                    </li>
+                    <li>
+                      We tested to ensure that our current code within magicleap.html supports the creation and deletion of ellipsoid and cone.
+                    </li>
+                </ul>
+            </p>
+
+            <h2>Demo</h2>
+
+            <p>Below is the video of our current progress.</p>
+
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/LcSu0fdWLmk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+            <h2>Plan for next week</h2>
+            <p>
+                Our plan for next week is to finish:
+                <ol>
+                    <li>Fix the problem where the ellipsoid is cutoff and move origin axis so its not covering the window.</li>
+                    <li>Test the backend and magic leap page.</li>
+                    <li>Prepare for the demo by creating the math quiz and the survey at the end of the demo.</li>
+                    <li>Add animations to indicate on the index page that the equation was updated on the magic leap</li>
+                    <li>Testing the magic leap page and index page</li>
+                    <li>Lesson plan for the ellpisoid.</li>
+                </ol>
+            </p>
+
+
+            <h2>What every member did this week and will do next week</h2>
+            <p>
+                Our team believes we work more efficiently in pairs. Therefore, we paired into the following pairs:
+                <ol>
+                    <li>
+                        Matthew and Simon
+                    </li>
+                    <li>
+                        Esteban and Tanuj
+                    </li>
+                </ol>
+            </p>
+            <p>
+                Since we are in pairs each person completed the work together. Matthew and Tanuj wrote the blog. Simon and Esteban provided content to the blog as well. Esteban did the voice over for the weekly demo video. Matthew wrote the Demo Plan document with the help of Tanuj, Simon, and Esteban. Tanuj filled out the assignes for the demo plan day setup.
+            </p>
+            <p>
+                The first team (Matthew and Simon) worked on the changes to the Magic leap page as described in the previous sections. The first team also made all the changes to indicated in the app.js section above. This next week, team 1 will implement the first three next week's tasks.
+            </p>
+            <p>
+                The second team (Esteban and Tanuj) worked on the changes to the index.html and index.js as described above and the parts of the server to ensure their index changes don't break anything on the server side. The second team will complete the last three tasks from the next week section above.
+            </p>
+            <p>
+                Our overall plan for next week is have a more production ready EasyMath app. This is why we will spend time rigiously testing our app.
+            </p>
+
+            <h2>Blocking Issues</h2>
+            <p>
+                We have no immediate blocking issues.
+            </p>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <hr>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <ul class="list-inline text-center">
+            <li class="list-inline-item">
+              <a href="#">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+          </ul>
+          <p class="copyright text-muted">Copyright &copy; Your Website 2019</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/clean-blog.min.js"></script>
+
+</body>
+
+</html>
