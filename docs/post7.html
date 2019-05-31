@@ -56,11 +56,11 @@
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="post-heading">
-            <h1>Blog Post for Week 8 (5/18-5/24)</h1>
+            <h1>Blog Post for Week 9 (5/27-5/31)</h1>
             <h2 class="subheading"><!-- subheading here --></h2>
             <span class="meta">Posted by
               <a href="#">VR Capstone Team 1</a>
-              on 5/24/19</span>
+              on 5/31/19</span>
           </div>
         </div>
       </div>
@@ -88,13 +88,10 @@
                 On the server we completed the following components:
                 <ul>
                     <li>
-                        Finished testing the positioning and resizing on the backend for the cone and the ellipsoid.
+                        Fixed cone tutorial bug, when click on “check cone”, no shape or buttons appear, had to change the JSON field types from int to string, so that the server can handle it  and send to the magic leap correctly
                     </li>
                     <li>
-                        We fixed a lingering cylinder bug where the height wasn't adjustable if the cylinder was rotated. This required refactoring significant code and took a while to fix and ensure it is correct now.
-                    </li>
-                    <li>
-                        We tested to ensure the backend can update equations properly when interactions are done on the magic leap.
+                        Made sure shapes delete correctly
                     </li>
                 </ul>
             </p>
@@ -103,10 +100,14 @@
             <p>
                 We made the following changes to the web interface:
                 <ul>
-                    <li>Added the cone lesson plan.</li>
-                    <li>For cone, we can plot it on different orientations. Before we did not make sure that the updates sent from the server updates the right variables based on the orientation. So with orientation, we also send the server the order of the variables and when the server
-                    sends us the update, we use the order of the variables to update the right values.</li>
-                    <li>Based on last week's feedback, tried better combinations of colors so the equations and values are more visible.</li>
+                    <li>Added maximum size bound and checking for height and radius inputs on the web side</li>
+                    <li>Removed coefficients so web side is a lot cleaner</li>
+                    <li>
+                        Finished ellipsoid lesson plan
+                    </li>
+                    <li>
+                        UI change (animation change) after receiving update from the magic leap, highlighting on the web which input values are being changed on the magic leap
+                    </li>
                 </ul>
             </p>
 
@@ -115,16 +116,22 @@
                 We made the following changes to the magic leap page:
                 <ul>
                     <li>
-                        Added interactions for the cone. This means that the user can use sliders to increase the height and radius of the cone.
+                        Added legend for X, Y, Z axis with corresponding colors
                     </li>
                     <li>
-                      We added more professional features to allow the user to see current state of the various variables like radius, height, and position so the user doesn't need to keep looking at the computer screen for updated values.
+                        Added current equation for the shape on the magic leap
                     </li>
                     <li>
-                        Added interactions for the ellipsoid. This means that the user can use sliders to increase the radius on the x, y, and z axis. We also make sure to remove the radius slider used for the sphere. We also like the ellipsoid add the state to the magicleap page so they can see what the current radius and position are.
+                        Removed darker colors from our color set so that shapes, buttons, and text will be easier to see
                     </li>
                     <li>
-                      We tested to ensure that our current code within magicleap.html supports the creation and deletion of ellipsoid and cone.
+                      Shifted the coordinate axis to the right of the Helios browser so that it does not cover the interaction buttons
+                    </li>
+                    <li>
+                        Added tick marks to each of the coordinate axis with unit length spacing
+                    </li>
+                    <li>
+                      Added maximum size bound for height and radius range sliders on the magic leap
                     </li>
                 </ul>
             </p>
@@ -133,18 +140,18 @@
 
             <p>Below is the video of our current progress.</p>
 
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/LcSu0fdWLmk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/OGSXTkxcBvk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
             <h2>Plan for next week</h2>
             <p>
                 Our plan for next week is to finish:
                 <ol>
-                    <li>Fix the problem where the ellipsoid is cutoff and move origin axis so its not covering the window.</li>
-                    <li>Test the backend and magic leap page.</li>
-                    <li>Prepare for the demo by creating the math quiz and the survey at the end of the demo.</li>
-                    <li>Add animations to indicate on the index page that the equation was updated on the magic leap</li>
-                    <li>Testing the magic leap page and index page</li>
-                    <li>Lesson plan for the ellpisoid.</li>
+                    <li>Make plus and minus buttons larger</li>
+                    <li>Move the axes closer to the controls</li>
+                    <li>Make 1 minute video.</li>
+                    <li>Make poster</li>
+                    <li>Rehearse for actual demo</li>
+                    <li>Add shape to equation in the lesson plans</li>
                 </ol>
             </p>
 
@@ -162,16 +169,16 @@
                 </ol>
             </p>
             <p>
-                Since we are in pairs each person completed the work together. Matthew and Tanuj wrote the blog. Simon and Esteban provided content to the blog as well. Esteban did the voice over for the weekly demo video. Matthew wrote the Demo Plan document with the help of Tanuj, Simon, and Esteban. Tanuj filled out the assignes for the demo plan day setup.
+                Since we are in pairs each person completed the work together. Matthew and Simon wrote the blog. Simon and Esteban provided content to the blog as well. Esteban did the voice over for the weekly demo video. Matthew wrote the short quiz and review survey google forms during the demo.
             </p>
             <p>
-                The first team (Matthew and Simon) worked on the changes to the Magic leap page as described in the previous sections. The first team also made all the changes to indicated in the app.js section above. This next week, team 1 will implement the first three next week's tasks.
+                The first team (Matthew and Simon) worked on the changes to the Magic leap page as described in the previous sections. The first team also made all the changes to indicated in the app.js section above. This next week, team 1 will implement the first two next week's tasks.
             </p>
             <p>
-                The second team (Esteban and Tanuj) worked on the changes to the index.html and index.js as described above and the parts of the server to ensure their index changes don't break anything on the server side. The second team will complete the last three tasks from the next week section above.
+                The second team (Esteban and Tanuj) worked on the changes to the index.html and index.js as described above and the parts of the server to ensure their index changes don't break anything on the server side. Also helped with the first two changes to the magic leap page. The second team will complete the last task from the next week section above.
             </p>
             <p>
-                Our overall plan for next week is have a more production ready EasyMath app. This is why we will spend time rigiously testing our app.
+                All teammmates will work on the third to fifth next week steps together as they require every member to be there.
             </p>
 
             <h2>Blocking Issues</h2>
