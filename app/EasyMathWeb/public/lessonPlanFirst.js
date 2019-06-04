@@ -17,8 +17,12 @@ function getList(bullets) {
     return list;    
 }
 
-function getInput(id) {
+function getInput(id, isDisabled) {
     var equation = document.createElement("input");
+    equation.disabled = isDisabled;
+    if (isDisabled) {
+        equation.style.backgroundColor = 'lightgrey';
+    }
     equation.style.width = "40px";
     equation.style.height = "34px";
     equation.style.fontSize = "24px";
@@ -51,21 +55,59 @@ function getDisplayEq(eq) {
     return body;
 }
 
+function step4SphereEquation() {
+    var container = document.createElement('div');
+
+    container.appendChild(getSpan(" Equation :"));
+    container.appendChild(getSpan(" (x - "));
+    container.appendChild(getInput("sphere-field", true));
+    container.appendChild(getSpan(" )^2 + "));
+    container.appendChild(getSpan(" (y - "));
+    container.appendChild(getInput("sphere-field", true));
+    container.appendChild(getSpan(" )^2 + "));
+    container.appendChild(getSpan(" (z - "));
+    container.appendChild(getInput("sphere-field", true));
+    container.appendChild(getSpan(" )^2 = "));
+    container.appendChild(getInput("sphere-field", true));
+    container.appendChild(getSpan(" ^2 "));
+    
+    return container;
+}
+
 function spherePlayGroundEquation() {
     var container = document.createElement('div');
 
     container.appendChild(getSpan(" Equation :"));
     container.appendChild(getSpan(" (x - "));
-    container.appendChild(getInput("sphere-field"));
+    container.appendChild(getInput("sphere-field", false));
     container.appendChild(getSpan(" )^2 + "));
     container.appendChild(getSpan(" (y - "));
-    container.appendChild(getInput("sphere-field"));
+    container.appendChild(getInput("sphere-field", false));
     container.appendChild(getSpan(" )^2 + "));
     container.appendChild(getSpan(" (z - "));
-    container.appendChild(getInput("sphere-field"));
+    container.appendChild(getInput("sphere-field", false));
     container.appendChild(getSpan(" )^2 = "));
-    container.appendChild(getInput("sphere-field"));
+    container.appendChild(getInput("sphere-field", false));
     container.appendChild(getSpan(" ^2 "));
+    
+    return container;
+}
+
+function step8CylinderEquation() {
+    var container = document.createElement('div');
+
+    container.appendChild(getSpan(" Equation :"));
+    container.appendChild(getSpan(" (y - "));
+    container.appendChild(getInput("cylinder-field", true));
+    container.appendChild(getSpan(" )^2 + "));
+    container.appendChild(getSpan(" (z - "));
+    container.appendChild(getInput("cylinder-field", true));
+    container.appendChild(getSpan(" )^2 = "));
+    container.appendChild(getInput("cylinder-field", true));
+    container.appendChild(getSpan(" ^2 where "));
+    container.appendChild(getInput("cylinder-field", true));
+    container.appendChild(getSpan(" < x < "));
+    container.appendChild(getInput("cylinder-field", true));
     
     return container;
 }
@@ -74,17 +116,17 @@ function cylinderPlayGroundEquation() {
     var container = document.createElement('div');
 
     container.appendChild(getSpan(" Equation :"));
-    container.appendChild(getSpan(" (x - "));
-    container.appendChild(getInput("cylinder-field"));
-    container.appendChild(getSpan(" )^2 + "));
     container.appendChild(getSpan(" (y - "));
-    container.appendChild(getInput("cylinder-field"));
+    container.appendChild(getInput("cylinder-field", false));
+    container.appendChild(getSpan(" )^2 + "));
+    container.appendChild(getSpan(" (z - "));
+    container.appendChild(getInput("cylinder-field", false));
     container.appendChild(getSpan(" )^2 = "));
-    container.appendChild(getInput("cylinder-field"));
+    container.appendChild(getInput("cylinder-field", false));
     container.appendChild(getSpan(" ^2 where "));
-    container.appendChild(getInput("cylinder-field"));
-    container.appendChild(getSpan(" < z < "));
-    container.appendChild(getInput("cylinder-field"));
+    container.appendChild(getInput("cylinder-field", false));
+    container.appendChild(getSpan(" < x < "));
+    container.appendChild(getInput("cylinder-field", false));
     
     return container;
 }
@@ -233,9 +275,9 @@ function updateCylinderEq() {
             bottom: range[0].value,
             top: "3",
             height: 3 - range[0].value,
-            rotationAxes: ['90deg', '0', '0'],
+            rotationAxes: ['0', '0', '90deg'],
             text: "Cylinder Tutorial: Step 7",
-            order: ["x", "y", "z"]
+            order: ["y", "z", "x"]
         };
 
         console.log("sent to server: " + cylinderEq);
@@ -288,9 +330,9 @@ function updateCylinderEq() {
             bottom: values[3].value,
             top: values[4].value,
             height: values[4].value - values[3].value,
-            rotationAxes: ['90deg', '0', '0'],
+            rotationAxes: ['0', '0', '90deg'],
             text: "Cylinder Tutorial: Step 9",
-            order: ["x", "y", "z"]
+            order: ["y", "z", "x"]
         };
 
         console.log("sent to server: " + cylinderEq);
@@ -307,7 +349,7 @@ function startStep4() {
         coef: "1",
         position: ["0", "0", "0"],
         radius: "1",
-        text: "Sphere Tutorial: Step 4",
+        text: "Final Test Expected: (x - 2)^2 + (y - 1)^2 + (z - 3)^2 = 4",
     };
 
     console.log("sent to server: " + sphereEq);
@@ -334,9 +376,9 @@ function startStep8() {
         bottom: "0",
         top: "3",
         height: 3,
-        rotationAxes: ['90deg', '0', '0'],
-        text: "Cylinder Tutorial: Step 8",
-        order: ["x", "y", "z"]
+        rotationAxes: ['0', '0', '90deg'],
+        text: "Final Test Expected: (y - 2)^2 + (z - 1)^2 = 4 where 2 < x < 5",
+        order: ["y", "z", "x"]
     };
 
     console.log("sent to server: " + cylinderEq);
@@ -414,7 +456,7 @@ function getStep2() {
     container.appendChild(getSubTitle("Exercise: "));
     container.appendChild(getBody("Consider a sphere which is centered at (0, 0, 0) and passes through the point (1, 2 , 1). Complete the sphere equation below and check on the magic leap to see your sphere."));
     container.appendChild(getSpan("(x - 0)^2 + (y - 0)^2 + (z - 0)^2 = "));
-    container.appendChild(getInput("step2Radius"));
+    container.appendChild(getInput("step2Radius", false));
     container.appendChild(document.createElement("br"));
     container.appendChild(document.createElement("br"));
     container.appendChild(getButton("Check Sphere", updateSphereEq));
@@ -444,10 +486,10 @@ function getStep4() {
 
     container.id = "4";
     container.appendChild(getStepTitle("Step 4: Final Test"));
-    container.appendChild(getBody("Check your magic leap, you will see a sphere with radius 1 and centered at the origin. Interact with the sphere and change it until it matches the following equation - "));
+    container.appendChild(getBody("Click on the start button below and check your magic leap, you will see a sphere with radius 1 and centered at the origin. Interact with the sphere and change it until it matches the following equation - "));
     container.appendChild(getSpan("(x - 2)^2 + (y - 1)^2 + (z - 3)^2 = 4"));
     container.appendChild(getBody("As you change the sphere, you can see the updated values on this equation below - "));
-    container.appendChild(spherePlayGroundEquation());
+    container.appendChild(step4SphereEquation());
     container.appendChild(document.createElement("br"));
     container.appendChild(getButton("Start Step 4", startStep4));
     container.appendChild(document.createElement("br"));
@@ -496,11 +538,11 @@ function getStep7() {
     container.appendChild(getBody("Radius of the cylinder determines the radius of the base. The height of the cylinder is the perpendicular distance between the two bases."));
     container.appendChild(getSubTitle("Exercise: "));
     container.appendChild(getBody("Consider a cylinder which is centered at (0, 0) and has a radius 2 and height 2. Complete the cylinder equation below and check on the magic leap to see your cylinder."));
-    container.appendChild(getSpan("(x - 0)^2 + (y - 0)^2 = "));
-    container.appendChild(getInput("step7Radius"));
+    container.appendChild(getSpan("(y - 0)^2 + (z - 0)^2 = "));
+    container.appendChild(getInput("step7Radius", false));
     container.appendChild(getSpan(" ^2 where "));
-    container.appendChild(getInput("step7Range"));
-    container.appendChild(getSpan(" < z < 3"));
+    container.appendChild(getInput("step7Range", false));
+    container.appendChild(getSpan(" < x < 3"));
     container.appendChild(document.createElement("br"));
     container.appendChild(document.createElement("br"));
     container.appendChild(getButton("Check Cylinder", updateCylinderEq));
@@ -514,10 +556,10 @@ function getStep8() {
 
     container.id = "8";
     container.appendChild(getStepTitle("Step 8: Final Test"));
-    container.appendChild(getBody("Check your magic leap, you will see a cylinder with radius 1 and centered at the origin with height 3. Interact with the cylinder and change it until it matches the following equation - "));
-    container.appendChild(getSpan("(x - 2)^2 + (y - 1)^2 = 4 where 2 < z < 5"));
+    container.appendChild(getBody("lick on the start button below and check your magic leap, you will see a cylinder with radius 1 and centered at the origin with height 3. Interact with the cylinder and change it until it matches the following equation - "));
+    container.appendChild(getSpan("(y - 2)^2 + (z - 1)^2 = 4 where 2 < x < 5"));
     container.appendChild(getBody("As you change the cylinder, you can see the updated values on this equation below - "));
-    container.appendChild(cylinderPlayGroundEquation());
+    container.appendChild(step8CylinderEquation());
     container.appendChild(document.createElement("br"));
     container.appendChild(getButton("Start Step 8", startStep8));
     container.appendChild(document.createElement("br"));

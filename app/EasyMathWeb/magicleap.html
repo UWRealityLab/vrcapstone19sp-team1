@@ -60,7 +60,7 @@
 
     <script>
         var shapeC = document.getElementById("shapeContainer");
-        var socket = io.connect('http://10.158.134.74:3000'); // PROD
+        var socket = io.connect('http://10.18.167.27:3000'); // PROD
         // var socket = io.connect('localhost:3000'); // DEBUG
         var shapesMap = {};
         socket.on('equationsML', function (data) {
@@ -649,7 +649,7 @@
                     var m = data.bottom;
                     var n = data.top;
 
-                    text =  "(x - " + a + ")^2 + (y - " + b + ")^2 = " + r + "^2 where " + m + " < z < " + n;
+                    text =  "(" + data.order[0] + " - " + a + ")^2 + (" + data.order[1] + " - " + b + ")^2 = " + r + "^2 where " + m + " < " + data.order[2] + " < " + n;
                 } else if (data.type == "cone") {
                     var a = data.position[0];
                     var b = data.position[1];
@@ -661,7 +661,7 @@
                     var m = data.bottom;
                     var n = data.top;
 
-                    text =  "(x - " + a + ")^2 + (y - " + b + ")^2 = " + r + "^2 / " + c + "^2 where " + m + " < z < " + n;
+                    text =  "(" + data.order[0] + " - " + a + ")^2 + (" + data.order[1] + " - " + b + ")^2 = " + r + "^2 / " + c + "^2 where " + m + " < " + data.order[2] + " < " + n;
                 } else if (data.type == "ellipsoid") {
                     var a = data.position[0];
                     var b = data.position[1];

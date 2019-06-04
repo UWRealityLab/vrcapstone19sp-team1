@@ -17,8 +17,12 @@ function getList(bullets) {
     return list;    
 }
 
-function getInput(id) {
+function getInput(id, isDisabled) {
     var equation = document.createElement("input");
+    equation.disabled = isDisabled;
+    if (isDisabled) {
+        equation.style.backgroundColor = 'lightgrey';
+    }
     equation.style.width = "40px";
     equation.style.height = "34px";
     equation.style.fontSize = "24px";
@@ -75,14 +79,14 @@ function conePlayGroundEquationStep3() {
 
     container.appendChild(getSpan(" Equation :"));
     container.appendChild(getSpan(" (x - "));
-    container.appendChild(getInput("cone-field"));
+    container.appendChild(getInput("cone-field", true));
     container.appendChild(getSpan(" )^2 + "));
-    container.appendChild(getSpan(" (y - "));
-    container.appendChild(getInput("cone-field"));
+    container.appendChild(getSpan(" (z - "));
+    container.appendChild(getInput("cone-field", true));
     container.appendChild(getSpan(" )^2 = "));
-    container.appendChild(getInput("cone-field"));
+    container.appendChild(getInput("cone-field", true));
     container.appendChild(getSpan(" ^2 / "));
-    container.appendChild(getInput("cone-field"));
+    container.appendChild(getInput("cone-field", true));
     container.appendChild(getSpan(" ^2"));
     
     return container;
@@ -93,19 +97,42 @@ function conePlayGroundEquation() {
 
     container.appendChild(getSpan(" Equation :"));
     container.appendChild(getSpan(" (x - "));
-    container.appendChild(getInput("cone-field"));
+    container.appendChild(getInput("cone-field", false));
     container.appendChild(getSpan(" )^2 + "));
-    container.appendChild(getSpan(" (y - "));
-    container.appendChild(getInput("cone-field"));
+    container.appendChild(getSpan(" (z - "));
+    container.appendChild(getInput("cone-field", false));
     container.appendChild(getSpan(" )^2 = "));
-    container.appendChild(getInput("cone-field"));
+    container.appendChild(getInput("cone-field", false));
     container.appendChild(getSpan(" ^2 / "));
-    container.appendChild(getInput("cone-field"));
+    container.appendChild(getInput("cone-field", false));
     container.appendChild(getSpan(" ^2 where "));
-    container.appendChild(getInput("cone-field"));
-    container.appendChild(getSpan(" < z < "));
-    container.appendChild(getInput("cone-field"));
+    container.appendChild(getInput("cone-field", false));
+    container.appendChild(getSpan(" < y < "));
+    container.appendChild(getInput("cone-field", false));
     
+    return container;
+}
+
+function ellipsoidStep7Equation() {
+    var container = document.createElement('div');
+
+    container.appendChild(getSpan(" Equation :"));
+    container.appendChild(getSpan(" (x - "));
+    container.appendChild(getInput("ellipsoid-field", true));
+    container.appendChild(getSpan(" )^2 / "));
+    container.appendChild(getInput("ellipsoid-field", true));
+    container.appendChild(getSpan(" ^ 2 + "));
+    container.appendChild(getSpan(" (y - "));
+    container.appendChild(getInput("ellipsoid-field", true));
+    container.appendChild(getSpan(" )^2 / "));
+    container.appendChild(getInput("ellipsoid-field", true));
+    container.appendChild(getSpan(" ^ 2 + "));
+    container.appendChild(getSpan(" (z - "));
+    container.appendChild(getInput("ellipsoid-field", true));
+    container.appendChild(getSpan(" )^2 / "));
+    container.appendChild(getInput("ellipsoid-field", true));
+    container.appendChild(getSpan(" ^ 2 = 1"));
+
     return container;
 }
 
@@ -114,19 +141,19 @@ function ellipsoidPlayGroundEquation() {
 
     container.appendChild(getSpan(" Equation :"));
     container.appendChild(getSpan(" (x - "));
-    container.appendChild(getInput("ellipsoid-field"));
+    container.appendChild(getInput("ellipsoid-field", false));
     container.appendChild(getSpan(" )^2 / "));
-    container.appendChild(getInput("ellipsoid-field"));
+    container.appendChild(getInput("ellipsoid-field", false));
     container.appendChild(getSpan(" ^ 2 + "));
     container.appendChild(getSpan(" (y - "));
-    container.appendChild(getInput("ellipsoid-field"));
+    container.appendChild(getInput("ellipsoid-field", false));
     container.appendChild(getSpan(" )^2 / "));
-    container.appendChild(getInput("ellipsoid-field"));
+    container.appendChild(getInput("ellipsoid-field", false));
     container.appendChild(getSpan(" ^ 2 + "));
     container.appendChild(getSpan(" (z - "));
-    container.appendChild(getInput("ellipsoid-field"));
+    container.appendChild(getInput("ellipsoid-field", false));
     container.appendChild(getSpan(" )^2 / "));
-    container.appendChild(getInput("ellipsoid-field"));
+    container.appendChild(getInput("ellipsoid-field", false));
     container.appendChild(getSpan(" ^ 2 = 1"));
 
     return container;
@@ -150,8 +177,8 @@ function updateConeEq() {
             bottom: "1", // lower bound
             top: values[0].value, // higher bound
             height: values[0].value -  1, //  top - bottom
-            rotationAxes: ['90deg', '0', '0'],
-            order: ["x", "y", "z"],
+            rotationAxes: ['0', '0', '0'],
+            order: ["x", "z", "y"],
             text: "Cone Tutorial: Step 2",
         };
 
@@ -203,8 +230,8 @@ function updateConeEq() {
             bottom: values[4].value, // lower bound
             top: values[5].value, // higher bound
             height: values[5].value - values[4].value, //  top - bottom
-            rotationAxes: ['90deg', '0', '0'],
-            order: ["x", "y", "z"],
+            rotationAxes: ['0', '0', '0'],
+            order: ["x", "z", "y"],
             text: "Cone Tutorial: Step 4",
         };
 
@@ -310,9 +337,9 @@ function startStep3() {
         bottom: "1", // lower bound
         top: "2", // higher bound
         height: 1, //  top - bottom
-        rotationAxes: ['90deg', '0', '0'],
-        order: ["x", "y", "z"],
-        text: "Cone Tutorial: Step 3",
+        rotationAxes: ['0', '0', '0'],
+        order: ["x", "z", "y"],
+        text: "Final Test Equation: (x - 2)^2 + (z - 1)^2 = 2^2 / 0.5^2",
     };
 
     console.log("sent to server: " + coneEq);
@@ -337,7 +364,7 @@ function startStep7() {
         position: ["0", "0", "0"],
         radius: 1,
         denoms: ["1", "1", "1"],
-        text: "Ellipsoid Tutorial: Step 7",
+        text: "Final Test Equation: (x - 2)^2 / 4 + (y - 1)^2 / 1 + (z - 3)^2 / 9 = 1",
     };
 
     console.log("sent to server: " + ellipsoidEq);
@@ -417,7 +444,7 @@ function getStep2() {
     container.appendChild(getBody("Height determines how long the cone is i.e. how far the pointed end is from the circular base."));
     container.appendChild(getSubTitle("Exercise: "));
     container.appendChild(getBody("Consider a cone which is centered at (0, 0) with radius 2 and height 4. Complete the cone equation below and check on the magic leap to see your cone."));
-    container.appendChild(getSpan("(x - 0)^2 + (y - 0)^2 = 4 / 0.5 where 1 < z <  "));
+    container.appendChild(getSpan("(x - 0)^2 + (z - 0)^2 = 4 / 0.5 where 1 < y <  "));
     container.appendChild(getInput("step2"));
     container.appendChild(document.createElement("br"));
     container.appendChild(document.createElement("br"));
@@ -432,12 +459,12 @@ function getStep3() {
 
     container.id = "3";
     container.appendChild(getStepTitle("Step 3: Final Test"));
-    container.appendChild(getBody("Check your magic leap, you will see a cone with radius 1, height 1 and centered at the origin. Interact with the cone and change it until it matches the following equation - "));
-    container.appendChild(getSpan("(x - 2)^2 + (y - 1)^2 = 2^2 / 0.5^2"));
+    container.appendChild(getBody("Press the start button below and check your magic leap, you will see a cone with radius 1, height 1 and centered at the origin. Interact with the cone and change it until it matches the following equation - "));
+    container.appendChild(getSpan("(x - 2)^2 + (z - 1)^2 = 2^2 / 0.5^2"));
     container.appendChild(getBody("As you change the cone, you can see the updated values on this equation below - "));
     container.appendChild(conePlayGroundEquationStep3());
     container.appendChild(document.createElement("br"));
-    container.appendChild(getButton("Start Step 4", startStep3));
+    container.appendChild(getButton("Start Step 3", startStep3));
     container.appendChild(document.createElement("br"));
 
     return container;
@@ -503,10 +530,10 @@ function getStep7() {
 
     container.id = "7";
     container.appendChild(getStepTitle("Step 7: Final Test"));
-    container.appendChild(getBody("Check your magic leap, you will see a sphere with radius 1 and centered at the origin. Interact with the sphere and change it until it matches the following equation of the ellipsoid -"));
+    container.appendChild(getBody("Press the start button below and check your magic leap, you will see a sphere with radius 1 and centered at the origin. Interact with the sphere and change it until it matches the following equation of the ellipsoid -"));
     container.appendChild(getSpan("(x - 2)^2 / 4 + (y - 1)^2 / 1 + (z - 3)^2 / 9 = 1"));
     container.appendChild(getBody("As you change the ellipsoid, you can see the updated values on this equation below - "));
-    container.appendChild(ellipsoidPlayGroundEquation());
+    container.appendChild(ellipsoidStep7Equation());
     container.appendChild(document.createElement("br"));
     container.appendChild(getButton("Start Step 7", startStep7));
     container.appendChild(document.createElement("br"));
