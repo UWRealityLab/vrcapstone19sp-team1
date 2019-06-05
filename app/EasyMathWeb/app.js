@@ -32,7 +32,7 @@ var equationsField = [];
 /// --------------------------
 /// SERVER <--> CLIENT WEBSITE
 io.on('connection', function (socket) {
-    console.log("comnmnected" + socket.id);
+    console.log("connected: " + socket.id);
     socket.on('sphereEqs', msg => {
         handleUpdatedEquations(socket, msg, true);
     });
@@ -86,7 +86,7 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
         var radiusMLSize = convertToMLSize(radius);
         var diameterMLSize = 2 * radiusMLSize;
         var offsets = convertToMLPosSphere(radius, equations.position);
-        var leftOffset = offsets[0] + 700;
+        var leftOffset = offsets[0];
         var topOffset = offsets[1];
         var zOffset = offsets[2];
 
@@ -94,7 +94,7 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
             src: 'sphere1.glb',
             style: 'width: ' + diameterMLSize + 'px; '
                 + 'height: ' + diameterMLSize + 'px; '
-                + 'position: absolute; '
+                + 'position: fixed; '
                 + 'left: ' + leftOffset + 'px; '
                 + 'top: ' + topOffset + 'px;',
             "z-offset": zOffset + 'px',
@@ -118,7 +118,7 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
         var radius = Math.sqrt(r_squared / equations.coef);
         var height = equations.height;
         var offsetsAndRatios = convertToMLPosCylinder(radius, equations.bottom, height, equations.position, equations.rotationAxes);
-        var leftOffset = offsetsAndRatios[0] + 700;
+        var leftOffset = offsetsAndRatios[0];
         var topOffset = offsetsAndRatios[1];
         var zOffset = offsetsAndRatios[2];
         var radiusRatio = offsetsAndRatios[3];
@@ -131,7 +131,7 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
             src: 'cylinder.glb',
             style: 'width: ' + 500 + 'px; '
             + 'height: ' + 500 + 'px; '
-            + 'position: absolute; '
+            + 'position: fixed; '
             + 'left: ' + leftOffset + 'px; '
             + 'top: ' + topOffset + 'px;',
             "z-offset": zOffset + 'px',
@@ -154,7 +154,7 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
         // TODO: test if correct
         var denoms = equations.denoms;
         var offsetsAndRatios = convertToMLPosEllipsoid(denoms[0], denoms[1], denoms[2], equations.position);
-        var leftOffset = offsetsAndRatios[0] + 700;
+        var leftOffset = offsetsAndRatios[0];
         var topOffset = offsetsAndRatios[1];
         var zOffset = offsetsAndRatios[2];
 
@@ -173,7 +173,7 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
             src: 'sphere1.glb',
             style: 'width: ' + 500 + 'px; '
                 + 'height: ' + 500 + 'px; '
-                + 'position: absolute; '
+                + 'position: fixed; '
                 + 'left: ' + leftOffset + 'px; '
                 + 'top: ' + topOffset + 'px;',
             "z-offset": zOffset + 'px',
@@ -197,7 +197,7 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
         var radius = Math.sqrt(r_squared / equations.coef);
         var height = equations.height;
         var offsetsAndRatios = convertToMLPosCylinder(radius, equations.bottom, height, equations.position, equations.rotationAxes);
-        var leftOffset = offsetsAndRatios[0] + 700;
+        var leftOffset = offsetsAndRatios[0];
         var topOffset = offsetsAndRatios[1];
         var zOffset = offsetsAndRatios[2];
         var radiusRatio = offsetsAndRatios[3];
@@ -212,7 +212,7 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
             src: 'cone.glb',
             style: 'width: ' + 500 + 'px; '
             + 'height: ' + 500 + 'px; '
-            + 'position: absolute; '
+            + 'position: fixed; '
             + 'left: ' + leftOffset + 'px; '
             + 'top: ' + topOffset + 'px;',
             "z-offset": zOffset + 'px',
@@ -232,8 +232,6 @@ function handleUpdatedEquations(socket, equations, shouldEmit) {
             });
         }
     }
-
-
 
     console.log(equations);
     equationsField = equations;

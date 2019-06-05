@@ -3,6 +3,9 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <meta name="viewport" content="transparent-background">
     <title></title>
     <script src="https://unpkg.com/@magicleap/prismatic"></script>
@@ -36,7 +39,7 @@
 
     <!-- Z Axis (blue) -->
     <ml-model src="arrow.fbx"
-        style="width: 500px; height: 500px; position: absolute; left: 1000px; top: 300px;"
+        style="width: 500px; height: 500px; position: fixed; left: 300px; top: 300px;"
         model-scale="1, 1, 1"
         color="blue"
         prism-rotation="90deg 0 0">
@@ -44,7 +47,7 @@
 
     <!-- Y Axis (Red) -->
     <ml-model src="arrow.fbx"
-        style="width: 500px; height: 500px; position: absolute; left: 1000px; top: 300px;"
+        style="width: 500px; height: 500px; position: fixed; left: 300px; top: 300px;"
         model-scale="1, 1, 1"
         color="red"
         prism-rotation="0 90deg 0">
@@ -52,11 +55,13 @@
 
     <!-- X Axis (Green) -->
     <ml-model src="arrow.fbx"
-        style="width: 500px; height: 500px; position: absolute; left: 1000px; top: 300px;"
+        style="width: 500px; height: 500px; position: fixed; left: 300px; top: 300px;"
         model-scale="1, 1, 1"
         color="green"
         prism-rotation="0 0 90deg">
     </ml-model>
+
+    <ml-model src='cylinder.glb' style='width: 500px; height: 500px; position: fixed; left: 300px; top: 300px;' z-offset='225px' model-scale='0.4, 0.3, 0.4' prism-rotation='90deg 0 0' color='red' > </ml-model>
 
     <script>
         var shapeC = document.getElementById("shapeContainer");
@@ -73,6 +78,7 @@
 
             var container = document.createElement('div');
             container.id = data.id;
+            container.classList.add("shapeContainer");
 
             if (data.equations.text) {
                 var p = document.createElement("h3");
@@ -87,12 +93,12 @@
             newShape.innerHTML = data.html;
 
             container.appendChild(newShape);
+
+            // add slider value display
             var newPara = document.createElement("p");
             newPara.style.color = idToColor(data.id);
             newPara.style.fontSize = "32px";
             newPara.innerHTML = idToColor(data.id) + " shape radius slider: ";
-
-            // add slider value display
             var radiusDisplay = document.createElement("p");
             radiusDisplay.innerHTML = "Current Radius: " + data.equations.radius;
             radiusDisplay.style.color = idToColor(data.id);
@@ -159,8 +165,8 @@
             for (var i = 0; i < numTicksPerAxes; i++) {
                 var posAxisTickPosition = 510 - (i+1) * 50;
                 var negAxisTickPosition = 510 + (i+1) * 50;
-                container.innerHTML += `<ml-model src="tick.fbx" style="width: 80px; height: 80px; position: absolute; left: 1210px; top: ${posAxisTickPosition}px;" model-scale="1, 1, 1" color="white" prism-rotation="0 0 90deg"></ml-model>`
-                container.innerHTML += `<ml-model src="tick.fbx" style="width: 80px; height: 80px; position: absolute; left: 1210px; top: ${negAxisTickPosition}px;" model-scale="1, 1, 1" color="white" prism-rotation="0 0 90deg"></ml-model>`
+                container.innerHTML += `<ml-model src="tick.fbx" style="width: 80px; height: 80px; position: fixed; left: 1210px; top: ${posAxisTickPosition}px;" model-scale="1, 1, 1" color="white" prism-rotation="0 0 90deg"></ml-model>`
+                container.innerHTML += `<ml-model src="tick.fbx" style="width: 80px; height: 80px; position: fixed; left: 1210px; top: ${negAxisTickPosition}px;" model-scale="1, 1, 1" color="white" prism-rotation="0 0 90deg"></ml-model>`
             }
 
             // x axis
@@ -168,13 +174,13 @@
                 var posAxisTickPosition = 1210 + (i+1) * 50;
                 var negAxisTickPosition = 1210 - (i+1) * 50;
                 container.innerHTML += `<ml-model src="tick.fbx"
-                    style="width: 80px; height: 80px; position: absolute; left: ${posAxisTickPosition}px; top: 510px;"
+                    style="width: 80px; height: 80px; position: fixed; left: ${posAxisTickPosition}px; top: 510px;"
                     model-scale="1, 1, 1"
                     color="white"
                     prism-rotation="0 90deg 0">
                 </ml-model>`;
                 container.innerHTML += `<ml-model src="tick.fbx"
-                    style="width: 80px; height: 80px; position: absolute; left: ${negAxisTickPosition}px; top: 510px;"
+                    style="width: 80px; height: 80px; position: fixed; left: ${negAxisTickPosition}px; top: 510px;"
                     model-scale="1, 1, 1"
                     color="white"
                     prism-rotation="0 90deg 0">
@@ -186,14 +192,14 @@
                 var posAxisTickPosition = 150 + (i+1) * 50;
                 var negAxisTickPosition = 150 - (i+1) * 50;
                 container.innerHTML += `<ml-model src="tick.fbx"
-                    style="width: 80px; height: 80px; position: absolute; left: 1210px; top: 510px;"
+                    style="width: 80px; height: 80px; position: fixed; left: 1210px; top: 510px;"
                     model-scale="1, 1, 1"
                     color="white"
                     prism-rotation="0 0 0"
                     z-offset="${posAxisTickPosition}px">
                 </ml-model>`;
                 container.innerHTML += `<ml-model src="tick.fbx"
-                    style="width: 80px; height: 80px; position: absolute; left: 1210px; top: 510px;"
+                    style="width: 80px; height: 80px; position: fixed; left: 1210px; top: 510px;"
                     model-scale="1, 1, 1"
                     color="white"
                     prism-rotation="0 0 0"

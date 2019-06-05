@@ -30,4 +30,7 @@
     font-size: 28px;
 }
   
-  
+.shapeContainer {
+    margin: 0;
+    padding: 0;
+}
