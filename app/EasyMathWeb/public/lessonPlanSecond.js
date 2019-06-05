@@ -444,7 +444,7 @@ function getStep2() {
     container.appendChild(getBody("Height determines how long the cone is i.e. how far the pointed end is from the circular base."));
     container.appendChild(getSubTitle("Exercise: "));
     container.appendChild(getBody("Consider a cone which is centered at (0, 0) with radius 2 and height 4. Complete the cone equation below and check on the magic leap to see your cone."));
-    container.appendChild(getSpan("(x - 0)^2 + (z - 0)^2 = 4 / 0.5 where 1 < y <  "));
+    container.appendChild(getSpan("(x - 0)^2 + (y - 0)^2 = 4 / 0.5 where 1 < z < "));
     container.appendChild(getInput("step2"));
     container.appendChild(document.createElement("br"));
     container.appendChild(document.createElement("br"));
