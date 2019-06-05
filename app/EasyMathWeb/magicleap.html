@@ -61,11 +61,10 @@
         prism-rotation="0 0 90deg">
     </ml-model>
 
-    <ml-model src='cylinder.glb' style='width: 500px; height: 500px; position: fixed; left: 300px; top: 300px;' z-offset='225px' model-scale='0.4, 0.3, 0.4' prism-rotation='90deg 0 0' color='red' > </ml-model>
-
     <script>
         var shapeC = document.getElementById("shapeContainer");
-        var socket = io.connect('http://10.18.167.27:3000'); // PROD
+        // var socket = io.connect('http://10.18.167.27:3000'); // PROD
+        var socket = io.connect('http://10.158.134.74:3000'); // PROD
         // var socket = io.connect('localhost:3000'); // DEBUG
         var shapesMap = {};
         socket.on('equationsML', function (data) {
@@ -165,14 +164,14 @@
             for (var i = 0; i < numTicksPerAxes; i++) {
                 var posAxisTickPosition = 510 - (i+1) * 50;
                 var negAxisTickPosition = 510 + (i+1) * 50;
-                container.innerHTML += `<ml-model src="tick.fbx" style="width: 80px; height: 80px; position: fixed; left: 1210px; top: ${posAxisTickPosition}px;" model-scale="1, 1, 1" color="white" prism-rotation="0 0 90deg"></ml-model>`
-                container.innerHTML += `<ml-model src="tick.fbx" style="width: 80px; height: 80px; position: fixed; left: 1210px; top: ${negAxisTickPosition}px;" model-scale="1, 1, 1" color="white" prism-rotation="0 0 90deg"></ml-model>`
+                container.innerHTML += `<ml-model src="tick.fbx" style="width: 80px; height: 80px; position: fixed; left: 510px; top: ${posAxisTickPosition}px;" model-scale="1, 1, 1" color="white" prism-rotation="0 0 90deg"></ml-model>`
+                container.innerHTML += `<ml-model src="tick.fbx" style="width: 80px; height: 80px; position: fixed; left: 510px; top: ${negAxisTickPosition}px;" model-scale="1, 1, 1" color="white" prism-rotation="0 0 90deg"></ml-model>`
             }
 
             // x axis
             for (var i = 0; i < numTicksPerAxes; i++) {
-                var posAxisTickPosition = 1210 + (i+1) * 50;
-                var negAxisTickPosition = 1210 - (i+1) * 50;
+                var posAxisTickPosition = 510 + (i+1) * 50;
+                var negAxisTickPosition = 510 - (i+1) * 50;
                 container.innerHTML += `<ml-model src="tick.fbx"
                     style="width: 80px; height: 80px; position: fixed; left: ${posAxisTickPosition}px; top: 510px;"
                     model-scale="1, 1, 1"
@@ -192,14 +191,14 @@
                 var posAxisTickPosition = 150 + (i+1) * 50;
                 var negAxisTickPosition = 150 - (i+1) * 50;
                 container.innerHTML += `<ml-model src="tick.fbx"
-                    style="width: 80px; height: 80px; position: fixed; left: 1210px; top: 510px;"
+                    style="width: 80px; height: 80px; position: fixed; left: 510px; top: 510px;"
                     model-scale="1, 1, 1"
                     color="white"
                     prism-rotation="0 0 0"
                     z-offset="${posAxisTickPosition}px">
                 </ml-model>`;
                 container.innerHTML += `<ml-model src="tick.fbx"
-                    style="width: 80px; height: 80px; position: fixed; left: 1210px; top: 510px;"
+                    style="width: 80px; height: 80px; position: fixed; left: 510px; top: 510px;"
                     model-scale="1, 1, 1"
                     color="white"
                     prism-rotation="0 0 0"
@@ -209,6 +208,9 @@
 
             document.body.appendChild(container);
         }
+
+        // ADD TICKS
+        addTicks(3);
 
         function addSpan(text, color) {
             var s = document.createElement("span");
@@ -624,10 +626,6 @@
             equations.position = ["" + position2D[0], "" + position2D[1]];
 
         }
-
-
-        // ADD TICKS
-        addTicks(3);
 
         function updateText() {
             var equationContainer = document.getElementById("currentEquations");
