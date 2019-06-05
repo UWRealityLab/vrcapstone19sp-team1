@@ -95,6 +95,7 @@
 
             // add slider value display
             var newPara = document.createElement("p");
+            newPara.classList.add("shapeText")
             newPara.style.color = idToColor(data.id);
             newPara.style.fontSize = "32px";
             newPara.innerHTML = idToColor(data.id) + " shape radius slider: ";
@@ -102,6 +103,7 @@
             radiusDisplay.innerHTML = "Current Radius: " + data.equations.radius;
             radiusDisplay.style.color = idToColor(data.id);
             radiusDisplay.style.fontSize = "28px";
+            radiusDisplay.classList.add("shapeText")
             
             // add slider
             var newSlider = document.createElement("input");
@@ -247,12 +249,14 @@
             xPara.style.color = idToColor(data.id);
             xPara.style.fontSize = "32px";
             xPara.innerHTML = idToColor(data.id) + " shape radius x slider: ";
+            xPara.classList.add("shapeText");
 
             // add x value display
             var xValueDisplay = document.createElement("p");
             xValueDisplay.innerHTML = "Current X Radius: " + denoms[0];
             xValueDisplay.style.color = idToColor(data.id);
             xValueDisplay.style.fontSize = "28px";
+            xValueDisplay.classList.add("shapeText");
 
             // x axis slider
             var xSlider = document.createElement("input");
@@ -276,12 +280,14 @@
             yPara.style.color = idToColor(data.id);
             yPara.style.fontSize = "32px";
             yPara.innerHTML = idToColor(data.id) + " shape radius y slider: ";
+            yPara.classList.add("shapeText");
 
             // add y value display
             var yValueDisplay = document.createElement("p");
             yValueDisplay.innerHTML = "Current Y Radius: " + denoms[1];
             yValueDisplay.style.color = idToColor(data.id);
             yValueDisplay.style.fontSize = "28px";
+            yValueDisplay.classList.add("shapeText");
 
             // y axis slider
             var ySlider = document.createElement("input");
@@ -305,12 +311,14 @@
             zPara.style.color = idToColor(data.id);
             zPara.style.fontSize = "32px";
             zPara.innerHTML = idToColor(data.id) + " shape radius z slider: ";
+            zPara.classList.add("shapeText");
 
             // add z value display
             var zValueDisplay = document.createElement("p");
             zValueDisplay.innerHTML = "Current Z Radius: " + denoms[2];
             zValueDisplay.style.color = idToColor(data.id);
             zValueDisplay.style.fontSize = "28px";
+            zValueDisplay.classList.add("shapeText");
 
             // z axis slider
             var zSlider = document.createElement("input");
@@ -340,12 +348,14 @@
             para.style.color = idToColor(data.id);
             para.style.fontSize = "32px";
             para.innerHTML = idToColor(data.id) + " shape height slider: ";
+            para.classList.add("shapeText");
 
             // add value display
             var valueDisplay = document.createElement("p");
             valueDisplay.innerHTML = "Current Height: " + data.equations.height;
             valueDisplay.style.color = idToColor(data.id);
             valueDisplay.style.fontSize = "28px";
+            valueDisplay.classList.add("shapeText");
 
             // add slider
             var newSlider = document.createElement("input");
@@ -375,6 +385,7 @@
             newPara.style.color = idToColor(equations.id);
             newPara.style.fontSize = "32px";
             newPara.innerHTML = idToColor(equations.id) + " shape position buttons: ";
+            newPara.classList.add("shapeText")
 
             btnContainer.appendChild(newPara);
 
