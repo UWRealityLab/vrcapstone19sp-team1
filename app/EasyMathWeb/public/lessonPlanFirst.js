@@ -55,6 +55,25 @@ function getDisplayEq(eq) {
     return body;
 }
 
+function spherePlayGroundEquation() {
+    var container = document.createElement('div');
+
+    container.appendChild(getSpan(" Equation :"));
+    container.appendChild(getSpan(" (x - "));
+    container.appendChild(getInput("sphere-field", false));
+    container.appendChild(getSpan(" )^2 + "));
+    container.appendChild(getSpan(" (y - "));
+    container.appendChild(getInput("sphere-field", false));
+    container.appendChild(getSpan(" )^2 + "));
+    container.appendChild(getSpan(" (z - "));
+    container.appendChild(getInput("sphere-field", false));
+    container.appendChild(getSpan(" )^2 = "));
+    container.appendChild(getInput("sphere-field", false));
+    container.appendChild(getSpan(" ^2 "));
+    
+    return container;
+}
+
 function step4SphereEquation() {
     var container = document.createElement('div');
 
@@ -74,7 +93,7 @@ function step4SphereEquation() {
     return container;
 }
 
-function spherePlayGroundEquation() {
+function step5SphereEquation() {
     var container = document.createElement('div');
 
     container.appendChild(getSpan(" Equation :"));
@@ -112,7 +131,7 @@ function step8CylinderEquation() {
     return container;
 }
 
-function cylinderPlayGroundEquation() {
+function step9CylinderEquation() {
     var container = document.createElement('div');
 
     container.appendChild(getSpan(" Equation :"));
@@ -232,6 +251,10 @@ function updateSphereEq() {
         socket.emit('sphereEqs', sphereEq);
 
         console.log(sphereEq);
+
+        if (values[0].value == 1 && values[1].value == 2 && values[2].value == -1 && values[3].value == 2) {
+            alert("You got it right");
+        }
     }
 }
 
@@ -339,6 +362,10 @@ function updateCylinderEq() {
         socket.emit('sphereEqs', cylinderEq);
 
         console.log(cylinderEq);
+
+        if (values[0].value == 1 && values[1].value == -1 && values[2].value == 2 && values[3].value == -2 && values[4].value == 1) {
+            alert("You got it right");
+        }
     }
 }
 
@@ -364,6 +391,22 @@ function startStep4() {
     sphereFields[2].value = 0;
 
     sphereFields[3].value = 1;
+}
+
+function startStep5() {
+    var sphereEq = {
+        id: "5",
+        type: 'sphere',
+        coef: "1",
+        position: ["1", "2", "-1"],
+        radius: "2",
+        text: "Final Test 2: Guess the equation!",
+    };
+
+    console.log("sent to server: " + sphereEq);
+    socket.emit('sphereEqs', sphereEq);
+
+    console.log(sphereEq);
 }
 
 function startStep8() {
@@ -397,8 +440,29 @@ function startStep8() {
     cylinderFields[4].value = 3;
 }
 
+function startStep9() {
+    var cylinderEq = {
+        id: "9",
+        type: 'cylinder',
+        coef: "1",
+        position: ["1", "-1"],
+        radius: 2,
+        bottom: "-2",
+        top: "1",
+        height: 3,
+        rotationAxes: ['0', '0', '90deg'],
+        order: ["y", "z", "x"],
+        text: "Final Test 2: Guess the equation!"
+    };
+
+    console.log("sent to server: " + cylinderEq);
+    socket.emit('cylinderEqs', cylinderEq);
+
+    console.log(cylinderEq);
+}
+
 function updateEquation(data) {
-    if (data.type == 'sphere' && data.id > 3) {
+    if (data.type == 'sphere' && data.id == 4) {
         var sphereFields = document.getElementsByClassName("sphere-field");
 
         sphereFields[0].value = data.position[0];
@@ -412,7 +476,7 @@ function updateEquation(data) {
                 alert("You got it right");
             }
         }
-    } else if (data.type == 'cylinder' && data.id > 7) {
+    } else if (data.type == 'cylinder' && data.id == 8) {
         var cylinderFields = document.getElementsByClassName("cylinder-field");
 
         cylinderFields[0].value = data.position[0];
@@ -454,7 +518,7 @@ function getStep2() {
     container.appendChild(getStepTitle("Step 2: Understand Radius:"));
     container.appendChild(getBody("Radius determines the size of the sphere. If we know the center of the sphere and one of the point it passes through, we can solve the sphere equation to find the radius of the sphere."));
     container.appendChild(getSubTitle("Exercise: "));
-    container.appendChild(getBody("Consider a sphere which is centered at (0, 0, 0) and passes through the point (1, 2 , 1). Complete the sphere equation below and check on the magic leap to see your sphere."));
+    container.appendChild(getBody("Consider a sphere which is centered at (0, 0, 0) and passes through the point (1, 2 , 1). Complete the sphere equation below and check on the magic leap to see your sphere. If you get it right this browser will inform you."));
     container.appendChild(getSpan("(x - 0)^2 + (y - 0)^2 + (z - 0)^2 = "));
     container.appendChild(getInput("step2Radius", false));
     container.appendChild(document.createElement("br"));
@@ -472,7 +536,7 @@ function getStep3() {
     container.appendChild(getStepTitle("Step 3: Understand the Position"));
     container.appendChild(getBody("The coordinate (a , b, c) tells us where the center of the sphere is. So, if the sphere is centered on the origin, a = b = c = 0."));
     container.appendChild(getSubTitle("Exercise: "));
-    container.appendChild(getBody("Complete the equation of the sphere below so that it is centered on coordinate (1, 3, 1) and has radius 3."));
+    container.appendChild(getBody("Complete the equation of the sphere below so that it is centered on coordinate (1, 3, 1) and has radius 3. If you get it right this browser will inform you."));
     container.appendChild(spherePlayGroundEquation());
     container.appendChild(document.createElement("br"));
     container.appendChild(getButton("Check Sphere", updateSphereEq));
@@ -485,10 +549,10 @@ function getStep4() {
     var container = document.createElement("div");
 
     container.id = "4";
-    container.appendChild(getStepTitle("Step 4: Final Test"));
+    container.appendChild(getStepTitle("Step 4: Final Test 1"));
     container.appendChild(getBody("Click on the start button below and check your magic leap, you will see a sphere with radius 1 and centered at the origin. Interact with the sphere and change it until it matches the following equation - "));
     container.appendChild(getSpan("(x - 2)^2 + (y - 1)^2 + (z - 3)^2 = 4"));
-    container.appendChild(getBody("As you change the sphere, you can see the updated values on this equation below - "));
+    container.appendChild(getBody("As you change the sphere, you can see the updated values on this equation below. If you get it right this browser will inform you."));
     container.appendChild(step4SphereEquation());
     container.appendChild(document.createElement("br"));
     container.appendChild(getButton("Start Step 4", startStep4));
@@ -501,11 +565,12 @@ function getStep5() {
     var container = document.createElement("div");
 
     container.id = "5";
-    container.appendChild(getStepTitle("Step 5: Playground"));
-    container.appendChild(getBody("Now that you understand all the parts of the sphere,  here is a template of a sphere equation. Just play around with the values and check on the magic leap how is it getting plotted."));
-    container.appendChild(spherePlayGroundEquation());
+    container.appendChild(getStepTitle("Step 5: Final Test 2"));
+    container.appendChild(getBody("Click on the start button below and check your magic leap, you will see a sphere with random values. Guess the equation of the sphere and enter the values in the equation below and press the check button and if you get it right this browser will inform you."));
+    container.appendChild(step5SphereEquation());
     container.appendChild(document.createElement("br"));
-    container.appendChild(getButton("Graph Sphere", updateSphereEq));
+    container.appendChild(getButton("Start Step 5", startStep5));
+    container.appendChild(getButton("Check Equation", updateSphereEq));
     container.appendChild(document.createElement("br"));
 
     return container;
@@ -537,7 +602,7 @@ function getStep7() {
     container.appendChild(getStepTitle("Step 7: Understand Radius and Height:"));
     container.appendChild(getBody("Radius of the cylinder determines the radius of the base. The height of the cylinder is the perpendicular distance between the two bases."));
     container.appendChild(getSubTitle("Exercise: "));
-    container.appendChild(getBody("Consider a cylinder which is centered at (0, 0) and has a radius 2 and height 2. Complete the cylinder equation below and check on the magic leap to see your cylinder."));
+    container.appendChild(getBody("Consider a cylinder which is centered at (0, 0) and has a radius 2 and height 2. Complete the cylinder equation below and check on the magic leap to see your cylinder. If you get it right this browser will inform you."));
     container.appendChild(getSpan("(y - 0)^2 + (z - 0)^2 = "));
     container.appendChild(getInput("step7Radius", false));
     container.appendChild(getSpan(" ^2 where "));
@@ -555,10 +620,10 @@ function getStep8() {
     var container = document.createElement("div");
 
     container.id = "8";
-    container.appendChild(getStepTitle("Step 8: Final Test"));
+    container.appendChild(getStepTitle("Step 8: Final Test 1"));
     container.appendChild(getBody("lick on the start button below and check your magic leap, you will see a cylinder with radius 1 and centered at the origin with height 3. Interact with the cylinder and change it until it matches the following equation - "));
     container.appendChild(getSpan("(y - 2)^2 + (z - 1)^2 = 4 where 2 < x < 5"));
-    container.appendChild(getBody("As you change the cylinder, you can see the updated values on this equation below - "));
+    container.appendChild(getBody("As you change the cylinder, you can see the updated values on this equation below. If you get it right this browser will inform you."));
     container.appendChild(step8CylinderEquation());
     container.appendChild(document.createElement("br"));
     container.appendChild(getButton("Start Step 8", startStep8));
@@ -571,11 +636,12 @@ function getStep9() {
     var container = document.createElement("div");
 
     container.id = "9";
-    container.appendChild(getStepTitle("Step 9: Playground"));
-    container.appendChild(getBody("Now that you understand all the parts of the cylinder,  here is a template of a cylinder equation. Just play around with the values and check on the magic leap how is it getting plotted."));
-    container.appendChild(cylinderPlayGroundEquation());
+    container.appendChild(getStepTitle("Step 9: Final Test 2"));
+    container.appendChild(getBody("Click on the start button below and check your magic leap, you will see a cylinder with random values. Guess the equation of the cylinder and enter the values in the equation below and press the check button and if you get it right this browser will inform you."));
+    container.appendChild(step9CylinderEquation());
     container.appendChild(document.createElement("br"));
-    container.appendChild(getButton("Graph Cylinder", updateCylinderEq));
+    container.appendChild(getButton("Start Step 9", startStep9));
+    container.appendChild(getButton("Check Equation", updateCylinderEq));
     container.appendChild(document.createElement("br"));
 
     return container;

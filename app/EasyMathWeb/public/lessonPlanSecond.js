@@ -74,7 +74,7 @@ function getButton(name, handler) {
     return button;
 }
 
-function conePlayGroundEquationStep3() {
+function coneStep3Equation() {
     var container = document.createElement('div');
 
     container.appendChild(getSpan(" Equation :"));
@@ -92,7 +92,7 @@ function conePlayGroundEquationStep3() {
     return container;
 }
 
-function conePlayGroundEquation() {
+function coneStep4Equation() {
     var container = document.createElement('div');
 
     container.appendChild(getSpan(" Equation :"));
@@ -136,7 +136,7 @@ function ellipsoidStep7Equation() {
     return container;
 }
 
-function ellipsoidPlayGroundEquation() {
+function ellipsoidStep8Equation() {
     var container = document.createElement('div');
 
     container.appendChild(getSpan(" Equation :"));
@@ -239,6 +239,10 @@ function updateConeEq() {
         socket.emit('sphereEqs', coneEq);
 
         console.log(coneEq);
+
+        if (values[0].value == 2 && values[1].value == 3 && values[2].value == 3 && values[3].value == 1 && values[4].value == 0 && values[5].value == 3) {
+            alert("You got it right");
+        }
     }
 }
 
@@ -324,6 +328,10 @@ function updateEllipsoidEq() {
         socket.emit('sphereEqs', ellipsoidEq);
 
         console.log(ellipsoidEq);
+
+        if (values[0].value == 2 && values[1].value == 2 && values[2].value == -1 && values[3].value == 1 && values[4].value == 0 && values[5].value == 1) {
+            alert("You got it right");
+        }
     }
 }
 
@@ -356,6 +364,27 @@ function startStep3() {
     coneFields[3].value = 1;
 }
 
+function startStep4() {
+    var coneEq = {
+        id: "4",
+        type: 'cone',
+        coef: "1",
+        position: ["2", "3"],
+        radius: "3",
+        bottom: "0", // lower bound
+        top: "3", // higher bound
+        height: 3, //  top - bottom
+        rotationAxes: ['0', '0', '0'],
+        order: ["x", "z", "y"],
+        text: "Final Test 2: Guess the equation!",
+    };
+
+    console.log("sent to server: " + coneEq);
+    socket.emit('sphereEqs', coneEq);
+
+    console.log(coneEq);
+}
+
 function startStep7() {
     var ellipsoidEq = {
         id: "7",
@@ -383,8 +412,25 @@ function startStep7() {
     ellipsoidFields[5].value = 1;
 }
 
+function startStep8() {
+    var ellipsoidEq = {
+        id: "8",
+        type: 'ellipsoid',
+        coef: "1",
+        position: ["2", "-1", "0"],
+        radius: 1,
+        denoms: ["2", "1", "1"],
+        text: "Final Test 2: Guess the equation!",
+    };
+
+    console.log("sent to server: " + ellipsoidEq);
+    socket.emit('sphereEqs', ellipsoidEq);
+
+    console.log(ellipsoidEq);
+}
+
 function updateEquation(data) {
-    if (data.type == 'cone' && data.id > 2) {
+    if (data.type == 'cone' && data.id == 3) {
         var coneFields = document.getElementsByClassName("cone-field");
 
         coneFields[0].value = data.position[0];
@@ -398,7 +444,7 @@ function updateEquation(data) {
                 alert("You got it right");
             }
         }
-    } else if (data.type == 'ellipsoid' && data.id > 6) {
+    } else if (data.type == 'ellipsoid' && data.id == 7) {
         var ellipsoidFields = document.getElementsByClassName("ellipsoid-field");
 
         ellipsoidFields[0].value = data.position[0];
@@ -443,7 +489,7 @@ function getStep2() {
     container.appendChild(getStepTitle("Step 2: Understand Height:"));
     container.appendChild(getBody("Height determines how long the cone is i.e. how far the pointed end is from the circular base."));
     container.appendChild(getSubTitle("Exercise: "));
-    container.appendChild(getBody("Consider a cone which is centered at (0, 0) with radius 2 and height 4. Complete the cone equation below and check on the magic leap to see your cone."));
+    container.appendChild(getBody("Consider a cone which is centered at (0, 0) with radius 2 and height 4. Complete the cone equation below and check on the magic leap to see your cone. If you get it right this browser will inform you."));
     container.appendChild(getSpan("(x - 0)^2 + (y - 0)^2 = 4 / 0.5 where 1 < z < "));
     container.appendChild(getInput("step2"));
     container.appendChild(document.createElement("br"));
@@ -458,11 +504,11 @@ function getStep3() {
     var container = document.createElement("div");
 
     container.id = "3";
-    container.appendChild(getStepTitle("Step 3: Final Test"));
+    container.appendChild(getStepTitle("Step 3: Final Test 1"));
     container.appendChild(getBody("Press the start button below and check your magic leap, you will see a cone with radius 1, height 1 and centered at the origin. Interact with the cone and change it until it matches the following equation - "));
     container.appendChild(getSpan("(x - 2)^2 + (z - 1)^2 = 2^2 / 0.5^2"));
-    container.appendChild(getBody("As you change the cone, you can see the updated values on this equation below - "));
-    container.appendChild(conePlayGroundEquationStep3());
+    container.appendChild(getBody("As you change the cone, you can see the updated values on this equation below and if you get it right this browser will inform you."));
+    container.appendChild(coneStep3Equation());
     container.appendChild(document.createElement("br"));
     container.appendChild(getButton("Start Step 3", startStep3));
     container.appendChild(document.createElement("br"));
@@ -474,11 +520,12 @@ function getStep4() {
     var container = document.createElement("div");
 
     container.id = "4";
-    container.appendChild(getStepTitle("Step 4: Playground"));
-    container.appendChild(getBody("Now that you understand all the parts of the cone,  here is a template of a cone equation. Just play around with the values and check on the magic leap how is it getting plotted."));
-    container.appendChild(conePlayGroundEquation());
+    container.appendChild(getStepTitle("Step 4: Final Test 2"));
+    container.appendChild(getBody("Click on the start button below and check your magic leap, you will see a cone with random values. Guess the equation of the cone and enter the values in the equation below and press the check button and if you get it right this browser will inform you."));
+    container.appendChild(coneStep4Equation());
     container.appendChild(document.createElement("br"));
-    container.appendChild(getButton("Graph Cone", updateConeEq));
+    container.appendChild(getButton("Start Step 4", startStep4));
+    container.appendChild(getButton("Check Equation", updateConeEq));
     container.appendChild(document.createElement("br"));
 
     return container;
@@ -529,7 +576,7 @@ function getStep7() {
     var container = document.createElement("div");
 
     container.id = "7";
-    container.appendChild(getStepTitle("Step 7: Final Test"));
+    container.appendChild(getStepTitle("Step 7: Final Test 1"));
     container.appendChild(getBody("Press the start button below and check your magic leap, you will see a sphere with radius 1 and centered at the origin. Interact with the sphere and change it until it matches the following equation of the ellipsoid -"));
     container.appendChild(getSpan("(x - 2)^2 / 4 + (y - 1)^2 / 1 + (z - 3)^2 / 9 = 1"));
     container.appendChild(getBody("As you change the ellipsoid, you can see the updated values on this equation below - "));
@@ -545,11 +592,12 @@ function getStep8() {
     var container = document.createElement("div");
 
     container.id = "8";
-    container.appendChild(getStepTitle("Step 8: Playground"));
-    container.appendChild(getBody("Now that you understand all the parts of the ellipsoid,  here is a template of a ellipsoid equation. Just play around with the values and check on the magic leap how is it getting plotted."));
-    container.appendChild(ellipsoidPlayGroundEquation());
+    container.appendChild(getStepTitle("Step 8: Final Test 2"));
+    container.appendChild(getBody("Click on the start button below and check your magic leap, you will see a ellipsoid with random values. Guess the equation of the ellipsoid and enter the values in the equation below and press the check button and if you get it right this browser will inform you."));
+    container.appendChild(ellipsoidStep8Equation());
     container.appendChild(document.createElement("br"));
-    container.appendChild(getButton("Graph Ellipsoid", updateEllipsoidEq));
+    container.appendChild(getButton("Start Step 8", startStep8));
+    container.appendChild(getButton("Check Equation", updateEllipsoidEq));
     container.appendChild(document.createElement("br"));
 
     return container;
