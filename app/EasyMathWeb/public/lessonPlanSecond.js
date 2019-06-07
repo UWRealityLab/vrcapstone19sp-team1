@@ -366,7 +366,7 @@ function startStep3() {
 
 function startStep4() {
     var coneEq = {
-        id: "4",
+        id: "100",
         type: 'cone',
         coef: "1",
         position: ["2", "3"],
@@ -414,7 +414,7 @@ function startStep7() {
 
 function startStep8() {
     var ellipsoidEq = {
-        id: "8",
+        id: "100",
         type: 'ellipsoid',
         coef: "1",
         position: ["2", "-1", "0"],
@@ -604,6 +604,10 @@ function getStep8() {
 }
 
 function nextStep() {
+    if (currStepNum == 4 || currStepNum == 8) {
+        deleteEq(100);
+    }
+
     while ($("stepContainer").firstChild) {
         $("stepContainer").removeChild($("stepContainer").firstChild);
     }
@@ -630,6 +634,10 @@ function deleteEq(id) {
 }
 
 function prevStep() {
+    if (currStepNum == 4 || currStepNum == 8) {
+        deleteEq(100);
+    }
+
     while ($("stepContainer").firstChild) {
         $("stepContainer").removeChild($("stepContainer").firstChild);
     }

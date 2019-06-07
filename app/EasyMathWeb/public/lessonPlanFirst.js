@@ -395,7 +395,7 @@ function startStep4() {
 
 function startStep5() {
     var sphereEq = {
-        id: "5",
+        id: "100",
         type: 'sphere',
         coef: "1",
         position: ["1", "2", "-1"],
@@ -442,7 +442,7 @@ function startStep8() {
 
 function startStep9() {
     var cylinderEq = {
-        id: "9",
+        id: "100",
         type: 'cylinder',
         coef: "1",
         position: ["1", "-1"],
@@ -648,6 +648,10 @@ function getStep9() {
 }
 
 function nextStep() {
+    if (currStepNum == 5 || currStepNum == 9) {
+        deleteEq(100);
+    }
+
     while ($("stepContainer").firstChild) {
         $("stepContainer").removeChild($("stepContainer").firstChild);
     }
@@ -674,6 +678,10 @@ function deleteEq(id) {
 }
 
 function prevStep() {
+    if (currStepNum == 5 || currStepNum == 9) {
+        deleteEq(100);
+    }
+    
     while ($("stepContainer").firstChild) {
         $("stepContainer").removeChild($("stepContainer").firstChild);
     }
